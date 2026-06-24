@@ -1,0 +1,270 @@
+/**
+ * 档2 PR-2D · 零碎硬编码色扫尾
+ * 真源：design-tokens.css · 覆盖 mvp.css 中未迁移的 hex
+ */
+
+/* ── 海星 / 课次通关 ── */
+.sea-star--gold,
+.lesson-row.is-lesson-cleared .sea-star--gold,
+.lesson-row.is-lesson-cleared .lesson-row-stars {
+  color: var(--hy-star-gold);
+}
+
+.sea-star--gold {
+  text-shadow: 0 0 1px var(--hy-star-gold-halo);
+}
+
+.sea-star--tried {
+  color: transparent;
+  -webkit-text-stroke: 0.6px var(--hy-star-tried);
+}
+
+.sea-star--ghost {
+  color: var(--hy-star-ghost);
+}
+
+.lesson-row.is-lesson-cleared {
+  border-color: var(--hy-star-gold-ring);
+  background: var(--hy-star-gold-surface);
+  box-shadow: inset 3px 0 0 var(--hy-star-gold-ring);
+}
+
+.lesson-row.is-lesson-cleared .lesson-row-status {
+  color: var(--hy-star-gold);
+}
+
+.lesson-row.is-lesson-stub .lesson-row-status,
+.lesson-row.is-lesson-idle .lesson-row-status {
+  color: var(--c-text3);
+}
+
+.lesson-row-badge {
+  background: var(--c-border-light);
+  color: var(--c-text);
+}
+
+/* ── 会話 ABC · 对齐五关色 ── */
+.dg-reply-block--abc {
+  border-left-color: var(--gate-1-border);
+}
+
+.dg-reply-block--abc[data-abc="A"] {
+  border-left-color: var(--gate-1-accent);
+  background: var(--gate-1-bg);
+}
+
+.dg-reply-block--abc[data-abc="B"] {
+  border-left-color: var(--gate-0-accent);
+}
+
+.dg-reply-block--abc[data-abc="C"] {
+  border-left-color: var(--gate-2-accent);
+}
+
+.dg-abc-label {
+  background: var(--gate-1-accent);
+}
+
+.dg-reply-block--abc[data-abc="B"] .dg-abc-label {
+  background: var(--gate-0-accent);
+}
+
+.dg-reply-block--abc[data-abc="C"] .dg-abc-label {
+  background: var(--gate-2-accent);
+}
+
+/* ── 课内链式底栏按钮 · 五关 ── */
+.l1-chain-footer[data-l1-chain-gate="3"] .l1-chain-node.is-current {
+  color: var(--gate-3-active-fg);
+}
+
+.l1-chain-footer[data-l1-chain-gate="0"] .l1-chain-btn:not(:disabled) {
+  background: var(--gate-0-accent);
+  border-color: var(--gate-0-active-fg);
+}
+
+.l1-chain-footer[data-l1-chain-gate="2"] .l1-chain-btn:not(:disabled) {
+  background: var(--gate-2-accent);
+  border-color: var(--gate-2-active-fg);
+}
+
+.l1-chain-footer[data-l1-chain-gate="1"] .l1-chain-btn:not(:disabled) {
+  background: var(--gate-1-accent);
+  border-color: var(--gate-1-active-fg);
+}
+
+.l1-chain-footer[data-l1-chain-gate="3"] .l1-chain-btn:not(:disabled) {
+  background: var(--gate-3-accent);
+  border-color: var(--gate-3-active-fg);
+}
+
+.l1-chain-footer[data-l1-chain-gate="4"] .l1-chain-btn:not(:disabled) {
+  background: var(--gate-4-accent);
+  border-color: var(--gate-4-active-fg);
+}
+
+/* ── 四维评分条标签 ── */
+.score-dim--kw .score-dim-label {
+  color: var(--gate-0-accent);
+}
+
+.score-dim--cl .score-dim-label {
+  color: var(--gate-4-accent);
+}
+
+.score-dim--ma .score-dim-label {
+  color: var(--gate-1-accent);
+}
+
+.score-dim--pr .score-dim-label {
+  color: var(--gate-3-accent);
+}
+
+/* ── 文法链 / 知识链接 ── */
+.gn-link-contrast {
+  color: var(--hy-recording-dark);
+}
+
+.gn-mistake,
+.feedback.err,
+.dg-pair .bad {
+  color: var(--hy-recording-dark);
+}
+
+/* ── 录音态 ── */
+.dg-record-panel[data-state="recording"],
+.dg-rec-stop {
+  border-color: var(--hy-recording) !important;
+}
+
+.dg-record-panel[data-state="recording"] {
+  background: var(--hy-recording-surface);
+  box-shadow: 0 0 0 2px var(--hy-recording-surface);
+}
+
+.dg-rec-stop {
+  background: var(--hy-recording) !important;
+  border-color: var(--hy-recording-dark) !important;
+}
+
+.dg-rec-timer {
+  color: var(--hy-recording);
+}
+
+.dg-record-panel[data-state="done"] {
+  border-color: var(--hy-success-ui);
+  background: var(--hy-success-surface);
+}
+
+.dg-dtab.done {
+  border-color: var(--gate-2-border);
+}
+
+/* ── 笔记 · 老师块角标（与 gate / 中性色对齐） ── */
+.me-kp-音 {
+  background: var(--c-text3);
+}
+
+.me-kp-源 {
+  background: var(--mvp-muted);
+}
+
+.me-kp-予 {
+  background: var(--gate-1-accent);
+}
+
+.me-kp-敬 {
+  background: var(--hy-brand-coral-dark);
+}
+
+.me-kp-誤 {
+  background: var(--gate-1-border);
+  color: var(--gate-1-active-fg);
+}
+
+.me-kp-話 {
+  background: var(--gate-2-accent);
+  color: var(--hy-surface-white);
+}
+
+.me-kp-補,
+.me-kp-模,
+.me-kp-総,
+.me-kp-試 {
+  background: var(--c-text3);
+  color: var(--hy-surface-white);
+}
+
+.notes-kp-text,
+.notes-scholar-text {
+  color: var(--c-text);
+}
+
+/* L0 顶栏 · 转发与二维码成对（海军蓝线性 · 同底同描边，见 design-tokens --hy-brand-navy） */
+body.mvp-app .top-bar .icon-btn--share .ui-icon--share-forward {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+
+body.mvp-app .btn--with-forward-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+body.mvp-app .btn--with-forward-icon .btn-forward-icon .ui-icon--share-forward {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  display: block;
+  color: inherit;
+}
+
+body.mvp-app .btn.primary.btn--with-forward-icon .ui-icon--share-forward {
+  color: #fff;
+}
+
+.notes-settings-summary,
+.notes-timer-label {
+  color: var(--c-text2);
+}
+
+.notes-guide-summary,
+.notes-guide-body {
+  color: var(--c-text2);
+}
+
+/* ── 地图 · 通关金边（保留语义 token） ── */
+.unit-station.is-unit-cleared .unit-station-ring {
+  border-color: var(--hy-star-gold-ring);
+}
+
+.journey-unit-star--on {
+  color: var(--hy-star-gold-ring);
+}
+
+/* ── 入門分类轨（紫系独立 · 仅对齐令牌饱和度） ── */
+.intro-cat--dakuon .intro-cat-rail {
+  background: var(--gate-3-bg);
+  color: var(--gate-3-accent);
+}
+
+.intro-cat--youon .intro-cat-rail {
+  background: var(--gate-4-bg);
+  color: var(--gate-4-accent);
+}
+
+/* ── l1 默认序号灰 ── */
+.l1-lesson-scope {
+  --l1-zh-color: var(--c-text2);
+  --l1-seq-border: var(--c-border);
+  --l1-seq-color: var(--c-text2);
+  --l1-open-border: var(--c-text3);
+  --l1-accent: var(--c-text2);
+}
+
+.l1-tip-btn:hover {
+  background: var(--gate-1-bg);
+}

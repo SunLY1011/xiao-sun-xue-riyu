@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>小程序真机尺寸 · 390×844</title>
+  <script>
+    (function () {
+      if (location.protocol === "file:") {
+        location.replace(
+          "http://127.0.0.1:8765/cursor-miniapp-phone.html" + (location.search || "")
+        );
+      }
+    })();
+  </script>
+  <style>
+    /* iPhone 14 / 微信开发者工具 · 逻辑像素（与真机一致） */
+    :root {
+      --phone-w: 390px;
+      --phone-h: 844px;
+      --status-h: 47px;
+      --nav-h: 44px;
+      --webview-h: calc(var(--phone-h) - var(--status-h) - var(--nav-h));
+      --shell-pad: 14px;
+      --shell-radius: 44px;
+      --screen-radius: 38px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: #0d1117;
+      color: #c9d1d9;
+      font-family: system-ui, "Segoe UI", "Microsoft YaHei", sans-serif;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px 12px 20px;
+    }
+
+    .top-bar {
+      width: min(100%, 440px);
+      margin-bottom: 10px;
+      font-size: 0.75rem;
+      line-height: 1.45;
+      color: #8b949e;
+      text-align: center;
+    }
+
+    .top-bar code {
+      font-size: 0.7rem;
+      color: #79c0ff;
+      word-break: break-all;
+    }
+
+    .top-bar strong { color: #ff8a80; }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 12px;
+      max-width: 440px;
+    }
+
+    .top-actions button,
+    .top-actions a,
+    .top-actions select {
+      font-size: 0.78rem;
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid #30363d;
+      background: #21262d;
+      color: #f0f6fc;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .top-actions select {
+      max-width: 9rem;
+    }
+
+    .top-actions button.is-primary {
+      background: #ff8a80;
+      border-color: #e57373;
+      color: #3e2723;
+    }
+
+    .top-actions .live-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.78rem;
+      color: #8b949e;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .live-pill {
+      display: none;
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #238636;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .live-pill.is-on {
+      display: inline-block;
+      animation: live-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes live-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.65; }
+    }
+
+    .phone-stage {
+      transform-origin: top center;
+      flex: 0 0 auto;
+    }
+
+    .phone-shell {
+      padding: var(--shell-pad);
+      border-radius: var(--shell-radius);
+      background: linear-gradient(160deg, #3d4f5f 0%, #1c2530 100%);
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.08),
+        0 24px 64px rgba(0, 0, 0, 0.55);
+    }
+
+    .phone-device {
+      width: var(--phone-w);
+      height: var(--phone-h);
+      border-radius: var(--screen-radius);
+      overflow: hidden;
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .wx-status {
+      flex: 0 0 var(--status-h);
+      height: var(--status-h);
+      padding: 14px 20px 0;
+      background: #ff8a80;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .wx-status .time { font-variant-numeric: tabular-nums; }
+
+    .wx-status .icons {
+      display: flex;
+      gap: 5px;
+      font-size: 11px;
+      opacity: 0.95;
+    }
+
+    .wx-nav {
+      flex: 0 0 var(--nav-h);
+      height: var(--nav-h);
+      background: #ff8a80;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      font-weight: 500;
+      position: relative;
+    }
+
+    .wx-nav::after {
+      content: "";
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 72px;
+      height: 28px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      background: rgba(0, 0, 0, 0.12);
+      pointer-events: none;
+    }
+
+    .webview-wrap {
+      flex: 1 1 auto;
+      width: var(--phone-w);
+      height: var(--webview-h);
+      min-height: var(--webview-h);
+      max-height: var(--webview-h);
+      background: #fff8e1;
+      position: relative;
+      overflow: hidden;
+      touch-action: pan-x pan-y pinch-zoom;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .webview-size-badge {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      z-index: 3;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.55);
+      color: #fff;
+      pointer-events: none;
+      font-variant-numeric: tabular-nums;
+    }
+
+    #app-frame {
+      display: block;
+      width: var(--phone-w);
+      height: var(--webview-h);
+      border: none;
+      margin: 0;
+      padding: 0;
+      touch-action: auto;
+    }
+
+    .phone-shell.is-refreshing .webview-wrap {
+      outline: 2px solid #3fb950;
+      outline-offset: -2px;
+    }
+
+    .frame-error {
+      display: none;
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      padding: 16px 14px;
+      background: rgba(255, 248, 225, 0.97);
+      color: #3e2723;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      text-align: center;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .frame-error.is-show {
+      display: flex;
+    }
+
+    .frame-error strong {
+      font-size: 1.1rem;
+      color: #c62828;
+    }
+
+    .frame-error button {
+      font-size: 0.8rem;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: none;
+      background: #ff8a80;
+      color: #3e2723;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .home-indicator {
+      position: absolute;
+      left: 50%;
+      bottom: 8px;
+      transform: translateX(-50%);
+      width: 134px;
+      height: 5px;
+      border-radius: 3px;
+      background: rgba(0, 0, 0, 0.22);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .spec {
+      margin-top: 14px;
+      font-size: 0.72rem;
+      color: #6e7681;
+      text-align: center;
+      line-height: 1.5;
+      max-width: 420px;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <p class="top-bar">
+      <strong>小程序真实显示区</strong>：外壳 390×844（含微信状态栏 47 + 导航 44）<br />
+      web-view 内容区 <strong id="webview-px">753</strong>×390，与真机一致 · H5 带 <code>miniappPreview=1</code><br />
+      壳内实测：<span id="live-size">加载中…</span>
+      <span class="live-pill" id="live-pill">改码即刷</span>
+    </p>
+
+    <div class="top-actions">
+      <button type="button" class="is-primary" id="btn-reload">刷新 WebView</button>
+      <label class="live-toggle" title="保存 css/js/html 后自动刷新 web-view 一次（须 重启本地服务.bat 的 watch 服务）">
+        <input type="checkbox" id="live-toggle" checked /> 改码即刷
+      </label>
+      <select id="h5-page" title="切换 H5 页面">
+        <option value="index.html">学习首页</option>
+        <option value="intro.html">00 入門</option>
+      </select>
+      <label style="font-size:0.78rem;color:#8b949e">
+        <input type="radio" name="src" value="local" checked /> 本机 8765
+      </label>
+      <label style="font-size:0.78rem;color:#8b949e">
+        <input type="radio" name="src" value="public" /> 公网
+      </label>
+      <a id="link-open" href="#" target="_blank" rel="noopener">新标签</a>
+    </div>
+
+    <div class="phone-stage" id="phone-stage">
+      <div class="phone-shell">
+        <div class="phone-device" id="phone-device">
+          <div class="wx-status" aria-hidden="true">
+            <span class="time">9:41</span>
+            <span class="icons">▮▮▮ WiFi 🔋</span>
+          </div>
+          <div class="wx-nav">日语初级课后练习</div>
+          <div class="webview-wrap">
+            <span class="webview-size-badge" id="size-badge">390×753</span>
+            <iframe
+              id="app-frame"
+              title="web-view"
+              src="about:blank"
+              allow="microphone"
+              width="390"
+              height="753"
+            ></iframe>
+            <div class="frame-error" id="frame-error" role="alert">
+              <strong>503 / 页面不可用</strong>
+              <span id="frame-error-msg">公网 GitHub 暂时繁忙，或本机 8765 未启动。</span>
+              <button type="button" id="btn-use-local">改用本机 8765</button>
+            </div>
+            <div class="home-indicator" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="spec">
+      铁律：每次改 UI 须在此框内用手指滚动/点按目视最终态 ·
+      <strong>Cursor真机持续预览.bat</strong> + <code>?live=1</code>（保存即刷，非定时轮询）·
+      Agent 收尾可跑 <code>python scripts/preview-notify-reload.py</code>
+    </p>
+  </div>
+
+  <script src="js/share-wechat.js"></script>
+  <script>
+    (function () {
+      var ORIGIN = "https://saivenwang-byte.github.io/XiaoWangXueRiyu-v2";
+      var v =
+        typeof ShareWechat !== "undefined" ? ShareWechat.CACHE_VER : "292";
+      var WEBVIEW_H = 844 - 47 - 44;
+      /* 本机 H5 固定走 8765，避免壳页从其它端口打开时 iframe 空白 */
+      var LOCAL_ROOT = "http://127.0.0.1:8765/";
+
+      document.getElementById("webview-px").textContent = String(WEBVIEW_H);
+
+      function pickOrigin() {
+        return document.querySelector('input[name="src"]:checked').value ===
+          "public"
+          ? ORIGIN + "/"
+          : LOCAL_ROOT;
+      }
+
+      function showFrameError(msg) {
+        var el = document.getElementById("frame-error");
+        var msgEl = document.getElementById("frame-error-msg");
+        if (msgEl && msg) msgEl.textContent = msg;
+        if (el) el.classList.add("is-show");
+      }
+
+      function hideFrameError() {
+        var el = document.getElementById("frame-error");
+        if (el) el.classList.remove("is-show");
+      }
+
+      function useLocalSource() {
+        var local = document.querySelector('input[name="src"][value="local"]');
+        if (local) local.checked = true;
+        hideFrameError();
+        loadFrame(true);
+      }
+
+      function detectFrameError() {
+        var frame = document.getElementById("app-frame");
+        var isLocal =
+          document.querySelector('input[name="src"]:checked').value ===
+          "local";
+        try {
+          var doc = frame.contentDocument;
+          if (!doc || !doc.body) {
+            if (isLocal) {
+              showFrameError(
+                "WebView 未加载。请先双击 重启本地服务.bat，再点「刷新 WebView」。"
+              );
+            }
+            return;
+          }
+          var innerLen = (doc.body.innerHTML || "").length;
+          var plain = (doc.body.innerText || "").replace(/\s+/g, "");
+          if (isLocal && innerLen < 400 && plain.length < 20) {
+            showFrameError(
+              "WebView 空白：本机 8765 未启动或 index.html 未响应。请 重启本地服务.bat 后刷新。"
+            );
+            return;
+          }
+          var text =
+            (doc.title || "") +
+            " " +
+            (doc.body.innerText || "").slice(0, 400);
+          if (/503|Service Unavailable|temporarily busy/i.test(text)) {
+            showFrameError(
+              "当前页返回 503。开发预览请用「本机 8765」，并双击 重启本地服务.bat。"
+            );
+          } else if (innerLen >= 400 || plain.length >= 20) {
+            hideFrameError();
+          }
+        } catch (e) {
+          /* 公网跨域无法读正文，见 pickOrigin 提示 */
+        }
+      }
+
+      function probeLocalServer() {
+        var isLocal =
+          document.querySelector('input[name="src"]:checked').value ===
+          "local";
+        if (!isLocal) return;
+        fetch(LOCAL_ROOT + "index.html", { cache: "no-store" })
+          .then(function (r) {
+            if (!r.ok) throw new Error("bad status");
+            hideFrameError();
+          })
+          .catch(function () {
+            showFrameError(
+              "本机 8765 未启动。请双击 重启本地服务.bat，再打开本页或点「刷新 WebView」。"
+            );
+          });
+      }
+
+      function buildH5Url(bust) {
+        var file =
+          document.getElementById("h5-page").value || "index.html";
+        var url =
+          pickOrigin() +
+          file +
+          "?v=" +
+          encodeURIComponent(v) +
+          "&miniappPreview=1";
+        if (bust) url += "&_mp=" + Date.now();
+        return url;
+      }
+
+      function updateLiveSize() {
+        var frame = document.getElementById("app-frame");
+        var live = document.getElementById("live-size");
+        var badge = document.getElementById("size-badge");
+        try {
+          var doc = frame.contentDocument;
+          if (!doc) return;
+          var w = doc.documentElement.clientWidth;
+          var h = doc.documentElement.clientHeight;
+          var txt = w + "×" + h;
+          live.textContent = txt + (doc.documentElement.classList.contains("hyouga-miniapp-webview") ? " · 已锁 web-view 视口" : "");
+          badge.textContent = txt;
+        } catch (e) {
+          live.textContent = "（跨域或未加载）";
+        }
+      }
+
+      function fitPhoneScale() {
+        var stage = document.getElementById("phone-stage");
+        var shell = stage.querySelector(".phone-shell");
+        var rect = shell.getBoundingClientRect();
+        var totalW = rect.width;
+        var totalH = rect.height;
+        var padW = 24;
+        var padH = 100;
+        var sx = (window.innerWidth - padW) / totalW;
+        var sy = (window.innerHeight - padH) / totalH;
+        var scale = Math.min(1, sx, sy);
+        stage.style.transform = "scale(" + scale + ")";
+        stage.style.marginBottom = totalH * (scale - 1) + "px";
+      }
+
+      function loadFrame(bust) {
+        if (!pageActive) return;
+        hideFrameError();
+        var isPublic =
+          document.querySelector('input[name="src"]:checked').value ===
+          "public";
+        if (isPublic) {
+          document.getElementById("live-size").textContent =
+            "公网加载中…若见 503 请点「改用本机 8765」";
+        }
+        var url = buildH5Url(bust);
+        var frame = document.getElementById("app-frame");
+        frame.src = "about:blank";
+        document.getElementById("link-open").href = url;
+        setTimeout(function () {
+          frame.src = url;
+        }, 50);
+      }
+
+      document.getElementById("btn-use-local")?.addEventListener(
+        "click",
+        useLocalSource
+      );
+
+      document.querySelectorAll('input[name="src"]').forEach(function (el) {
+        el.addEventListener("change", function () {
+          loadFrame(true);
+        });
+      });
+      document.getElementById("h5-page").addEventListener("change", function () {
+        loadFrame(true);
+      });
+      document.getElementById("btn-reload").onclick = function () {
+        loadFrame(true);
+      };
+
+      document.getElementById("app-frame").addEventListener("load", function () {
+        updateLiveSize();
+        detectFrameError();
+        setTimeout(detectFrameError, 1200);
+      });
+
+      var RELOAD_URL =
+        location.protocol + "//" + location.host + "/__preview_reload";
+      var POLL_MS = 700;
+      var FALLBACK_MS = 8000;
+      var lastReloadN = 0;
+      var watchTimer = null;
+      var fallbackTimer = null;
+      var syncMode = "";
+      var pageActive = true;
+
+      function liveEnabled() {
+        var q = new URLSearchParams(location.search);
+        if (q.get("live") === "0") return false;
+        if (q.get("live") === "1") return true;
+        var box = document.getElementById("live-toggle");
+        return box ? box.checked : true;
+      }
+
+      function syncLiveUi() {
+        var on = liveEnabled();
+        var pill = document.getElementById("live-pill");
+        var box = document.getElementById("live-toggle");
+        if (box) box.checked = on;
+        if (pill) {
+          pill.classList.toggle("is-on", on);
+          if (on) {
+            pill.textContent =
+              syncMode === "watch"
+                ? "改码即刷"
+                : syncMode === "fallback"
+                  ? "定时兜底"
+                  : "改码即刷";
+          }
+        }
+      }
+
+      function flashRefresh() {
+        var shell = document.querySelector(".phone-shell");
+        if (!shell) return;
+        shell.classList.add("is-refreshing");
+        setTimeout(function () {
+          shell.classList.remove("is-refreshing");
+        }, 450);
+      }
+
+      function stopLiveSync() {
+        if (watchTimer) clearInterval(watchTimer);
+        watchTimer = null;
+        if (fallbackTimer) clearInterval(fallbackTimer);
+        fallbackTimer = null;
+        syncMode = "";
+      }
+
+      function startFallbackLoop() {
+        if (fallbackTimer) clearInterval(fallbackTimer);
+        syncMode = "fallback";
+        syncLiveUi();
+        fallbackTimer = setInterval(function () {
+          if (document.hidden || !liveEnabled()) return;
+          loadFrame(true);
+          flashRefresh();
+        }, FALLBACK_MS);
+      }
+
+      function onReloadTick(data) {
+        if (!pageActive || document.hidden) return;
+        var n = data && data.n ? data.n : 0;
+        if (lastReloadN === 0) {
+          lastReloadN = n;
+          return;
+        }
+        if (n !== lastReloadN) {
+          lastReloadN = n;
+          loadFrame(true);
+          flashRefresh();
+        }
+      }
+
+      function pollReload() {
+        if (!pageActive || document.hidden || !liveEnabled()) return;
+        fetch(RELOAD_URL, { cache: "no-store" })
+          .then(function (r) {
+            if (!r.ok) throw new Error("no reload api");
+            return r.json();
+          })
+          .then(function (data) {
+            if (syncMode !== "watch") {
+              syncMode = "watch";
+              if (fallbackTimer) {
+                clearInterval(fallbackTimer);
+                fallbackTimer = null;
+              }
+              syncLiveUi();
+            }
+            onReloadTick(data);
+          })
+          .catch(function () {
+            if (syncMode !== "fallback") {
+              syncMode = "fallback";
+              syncLiveUi();
+              startFallbackLoop();
+            }
+          });
+      }
+
+      function startLiveSync() {
+        stopLiveSync();
+        syncLiveUi();
+        if (!liveEnabled()) return;
+        lastReloadN = 0;
+        pollReload();
+        watchTimer = setInterval(pollReload, POLL_MS);
+      }
+
+      document.getElementById("live-toggle")?.addEventListener("change", function () {
+        var q = new URLSearchParams(location.search);
+        if (this.checked) q.delete("live");
+        else q.set("live", "0");
+        var next =
+          location.pathname +
+          (q.toString() ? "?" + q.toString() : "") +
+          location.hash;
+        history.replaceState(null, "", next);
+        startLiveSync();
+      });
+
+      window.addEventListener("resize", fitPhoneScale);
+      window.addEventListener("pagehide", function () {
+        pageActive = false;
+        stopLiveSync();
+      });
+      window.addEventListener("beforeunload", function () {
+        pageActive = false;
+        stopLiveSync();
+      });
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) {
+          stopLiveSync();
+        } else if (pageActive && liveEnabled()) {
+          startLiveSync();
+        }
+      });
+      fitPhoneScale();
+      probeLocalServer();
+      loadFrame(false);
+      startLiveSync();
+
+      var q = new URLSearchParams(location.search);
+      if (q.get("src") === "public") {
+        document.querySelector('input[value="public"]').checked = true;
+      }
+      if (q.get("src") === "local") {
+        document.querySelector('input[value="local"]').checked = true;
+      }
+      if (q.get("live") === "0") {
+        document.getElementById("live-toggle").checked = false;
+        syncLiveUi();
+      }
+      if (q.get("page") === "intro") {
+        document.getElementById("h5-page").value = "intro.html";
+        loadFrame(true);
+      }
+    })();
+  </script>
+</body>
+</html>

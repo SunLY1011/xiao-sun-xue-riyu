@@ -1,0 +1,257 @@
+/**
+ * 笔记（マイ）· UI 全局对齐 design-tokens + 平面轻量
+ * 真源：过程讨论内容/19-笔记板块规范.md · docs/产品设计规范-平面轻量UI.md
+ */
+
+/* ── 页面壳 ── */
+#view-me.view.active {
+  padding: 0;
+  background: var(--mvp-bg);
+}
+
+.notes-me-shell {
+  min-height: 0;
+}
+
+.notes-panel-scroll {
+  padding: 0;
+}
+
+.notes-panel-root {
+  margin: 0;
+}
+
+.notes-panel {
+  padding: 0 var(--space-sm) var(--space-sm);
+}
+
+.notes-me-dock .notes-settings-fold > .notes-settings-summary {
+  color: var(--hy-brand-navy-muted);
+}
+
+/* ── 计时条 · 海军字强调数字 ── */
+.notes-timer-bar {
+  margin: var(--space-sm) var(--space-md) var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border-color: var(--hy-border-soft);
+  background: var(--hy-surface-white);
+}
+
+.notes-timer-label {
+  font-size: 11px;
+  color: var(--hy-zh-muted);
+}
+
+.notes-timer-val {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--hy-brand-navy);
+}
+
+.notes-timer-unit {
+  font-size: 10px;
+  color: var(--hy-text-muted);
+}
+
+.notes-timer-sep {
+  background: var(--hy-border-soft);
+}
+
+/* ── 用法折叠 · 浅底无阴影 ── */
+.notes-guide {
+  margin: 0 var(--space-md) var(--space-sm);
+  border-color: var(--hy-border-soft);
+  background: var(--hy-surface-white);
+}
+
+.notes-guide-summary {
+  padding: var(--space-sm) var(--space-md);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--hy-brand-navy-muted);
+}
+
+.notes-guide-body {
+  font-size: 11px;
+  color: var(--hy-text-muted);
+}
+
+/* ── 单元头 · 压高 ── */
+.notes-unit-head {
+  margin: var(--space-sm) var(--space-md) 2px;
+  padding: 2px 0;
+}
+
+.notes-unit-head.hyouga-unit-head-symbol {
+  padding: 3px var(--space-sm) 3px 0;
+  background: color-mix(in srgb, var(--hy-surface-cream) 70%, transparent);
+}
+
+.notes-unit-head-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--hy-brand-navy);
+}
+
+.notes-unit-weak-pill {
+  font-size: 9px;
+  padding: 1px 6px;
+  background: var(--gate-1-bg);
+  color: var(--gate-1-active-fg);
+  border: 1px solid var(--gate-1-border);
+}
+
+.hyouga-unit-head-end .journey-unit-stars,
+.notes-lesson-stars-wrap .lesson-sea-stars {
+  font-size: 10px;
+  letter-spacing: 0;
+}
+
+/* ── 课次列表 · 压缩高度（折叠态一屏多课） ── */
+.notes-lesson-accordion {
+  gap: 4px;
+  padding: 0 var(--space-md) var(--space-sm);
+}
+
+.notes-lesson-card {
+  border-radius: var(--radius-md);
+  border-color: var(--hy-border-soft);
+  background: var(--hy-surface-white);
+}
+
+.notes-lesson-card[open] {
+  border-left-width: 4px;
+  box-shadow: none;
+  background: var(--hy-surface-white);
+}
+
+.notes-lesson-card--has-weak .notes-lesson-summary {
+  background: var(--gate-1-bg);
+}
+
+.notes-lesson-summary {
+  padding: 5px 6px 5px 4px;
+  gap: 4px;
+}
+
+.notes-lesson-summary--symbol .lesson-row--notes-summary {
+  grid-template-columns: 24px 1fr;
+  gap: 5px;
+}
+
+.notes-lesson-summary--symbol .lesson-row-badge {
+  width: 22px;
+  height: 22px;
+  font-size: 11px;
+}
+
+.notes-lesson-title {
+  font-size: 12px;
+  line-height: 1.2;
+  color: var(--hy-text-primary);
+}
+
+.notes-lesson-dot {
+  color: var(--notes-dot);
+  font-size: 12px;
+}
+
+.notes-lesson-body {
+  padding: 3px 6px 5px;
+  border-top-color: var(--hy-border-soft);
+}
+
+/* ── 三维色块 · 五关令牌（纯色 · 无渐变） ── */
+.notes-dim--textbook {
+  background: var(--notes-dim-tb-bg);
+  border-color: var(--notes-dim-tb-border);
+  border-left: 3px solid var(--notes-dim-tb-accent);
+}
+
+.notes-dim--textbook > .notes-dim-summary {
+  color: var(--notes-dim-tb-fg);
+}
+
+.notes-dim--teacher {
+  background: var(--notes-dim-tc-bg);
+  border-color: var(--notes-dim-tc-border);
+  border-left: 3px solid var(--notes-dim-tc-accent);
+}
+
+.notes-dim--teacher > .notes-dim-summary {
+  color: var(--notes-dim-tc-fg);
+}
+
+.notes-dim--scholar {
+  background: var(--notes-dim-sc-bg);
+  border-color: var(--notes-dim-sc-border);
+  border-left: 3px solid var(--notes-dim-sc-accent);
+}
+
+.notes-dim--scholar > .notes-dim-summary {
+  color: var(--notes-dim-sc-fg);
+}
+
+.notes-dim--weak {
+  background: var(--notes-dim-wk-bg);
+  border-color: var(--notes-dim-wk-border);
+  border-left: 3px solid var(--notes-dim-wk-accent);
+}
+
+.notes-dim--weak > .notes-dim-summary {
+  color: var(--notes-dim-wk-fg);
+}
+
+.notes-dim--links,
+.notes-dim--mine {
+  background: var(--hy-surface-muted);
+  border-color: var(--hy-border-soft);
+  border-left: 3px solid var(--hy-brand-navy-muted);
+}
+
+.notes-dim--links > .notes-dim-summary,
+.notes-dim--mine > .notes-dim-summary {
+  color: var(--hy-brand-navy);
+}
+
+.notes-dim-summary {
+  font-size: 12px;
+  padding: 4px 7px;
+}
+
+.notes-dim-icon {
+  font-size: 11px;
+}
+
+.notes-dim-count {
+  font-size: 9px;
+  color: var(--hy-zh-muted);
+}
+
+.notes-sub {
+  background: var(--hy-surface-white);
+  border-color: var(--hy-border-soft);
+}
+
+.notes-sub-title {
+  font-size: 11px;
+}
+
+.notes-go-lesson {
+  margin-top: 3px;
+  padding: 5px 8px;
+  font-size: 11px;
+  border-color: var(--gate-0-border);
+  color: var(--gate-0-active-fg);
+  background: var(--gate-0-bg);
+}
+
+/* 中文灰字 · 笔记区内统一 */
+#view-me .zh-annotation {
+  color: var(--hy-zh-muted);
+  font-size: 0.78em;
+}
+
+#view-me .jp {
+  color: var(--hy-text-primary);
+}

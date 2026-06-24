@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>小程序首屏封面 · 1∶1 真机（390×844）</title>
+  <script>
+    (function () {
+      if (location.protocol !== "file:") return;
+      location.replace(
+        "http://127.0.0.1:8765/splash-phone-preview.html" + (location.search || "")
+      );
+    })();
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      background: #263238;
+      color: #eceff1;
+      font-family: system-ui, "Segoe UI", "Microsoft YaHei", sans-serif;
+      padding: 12px 16px 24px;
+    }
+    h1 { margin: 0 0 6px; font-size: 1rem; font-weight: 700; }
+    .lead {
+      margin: 0 0 12px;
+      max-width: 42rem;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      color: #b0bec5;
+    }
+    .lead code { color: #80cbc4; font-size: 0.78rem; }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .toolbar a,
+    .toolbar button {
+      font-size: 0.8rem;
+      padding: 7px 11px;
+      border-radius: 8px;
+      border: 1px solid #546e7a;
+      background: #455a64;
+      color: #fff;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .toolbar button.is-on,
+    .toolbar a.is-primary {
+      background: #00897b;
+      border-color: #00695c;
+    }
+    .stage-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .scale-label {
+      margin: 10px 0 0;
+      font-size: 11px;
+      color: #90a4ae;
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+    .scale-wrap {
+      transform-origin: top center;
+      position: relative;
+    }
+    /* 逻辑屏边界（橙）= 小程序可视区 390×844 */
+    .phone-bezel {
+      position: relative;
+      padding: 14px 10px 18px;
+      border-radius: 40px;
+      background: linear-gradient(160deg, #78909c 0%, #455a64 45%, #263238 100%);
+      box-shadow:
+        0 24px 56px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+    .phone-bezel::before {
+      content: "";
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 108px;
+      height: 28px;
+      border-radius: 0 0 18px 18px;
+      background: #263238;
+      z-index: 3;
+      pointer-events: none;
+    }
+    .phone-dim-tag {
+      position: absolute;
+      top: 6px;
+      right: 14px;
+      font-size: 9px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.55);
+      z-index: 4;
+      pointer-events: none;
+    }
+    .screen-boundary {
+      position: relative;
+      width: 390px;
+      height: 844px;
+      outline: 2px solid #ff7043;
+      outline-offset: 0;
+      border-radius: 24px;
+      overflow: hidden;
+      background: #fff8e1;
+    }
+    .screen-boundary::after {
+      content: "390 × 844 · 逻辑像素 1∶1";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 2;
+      padding: 3px 8px;
+      font-size: 9px;
+      font-weight: 700;
+      text-align: center;
+      color: #bf360c;
+      background: rgba(255, 243, 224, 0.92);
+      pointer-events: none;
+    }
+    .phone-screen {
+      display: block;
+      width: 390px;
+      height: 844px;
+      border: none;
+      margin: 0;
+      background: #fff8e1;
+    }
+    .home-indicator {
+      position: absolute;
+      left: 50%;
+      bottom: 8px;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(0, 0, 0, 0.22);
+      z-index: 3;
+      pointer-events: none;
+    }
+    .dim-ruler {
+      position: absolute;
+      font-size: 10px;
+      font-weight: 700;
+      color: #ffab91;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .dim-ruler--top {
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .dim-ruler--left {
+      left: -52px;
+      top: 50%;
+      transform: translateY(-50%) rotate(-90deg);
+    }
+    .warn {
+      display: none;
+      margin-bottom: 10px;
+      padding: 8px 10px;
+      background: #ff8a80;
+      color: #3e2723;
+      border-radius: 8px;
+      font-size: 0.82rem;
+    }
+    .warn.is-show { display: block; }
+  </style>
+</head>
+<body>
+  <div class="warn" id="file-warn">
+    请用 <code>http://127.0.0.1:8765/splash-phone-preview.html</code> 打开（先运行本地服务）。
+  </div>
+
+  <h1>小程序首屏封面 · 1∶1 真机框</h1>
+  <p class="lead">
+    橙框内为 <strong>390×844 逻辑像素</strong>（iPhone 14 竖屏），内嵌真实
+    <code>index.html</code> 开机封面（与微信打开 H5 首屏一致，<strong>非</strong> testcard）。
+    框外灰边为手机外壳示意。
+  </p>
+
+  <div class="toolbar">
+    <button type="button" class="is-on" id="btn-1x1">1∶1 原始尺寸</button>
+    <button type="button" id="btn-fit">适应窗口</button>
+    <button type="button" id="btn-reload">刷新 iframe</button>
+    <a class="is-primary" id="link-live" href="splash-cover-live-preview.html">封面 2.0 实时预览（推荐）</a>
+    <a id="link-app" href="#" target="_blank">iframe · 完整 App</a>
+  </div>
+
+  <div class="stage-center">
+    <div class="scale-wrap" id="scale-wrap">
+      <span class="dim-ruler dim-ruler--top" aria-hidden="true">← 390px →</span>
+      <span class="dim-ruler dim-ruler--left" aria-hidden="true">844px</span>
+      <div class="phone-bezel">
+        <span class="phone-dim-tag">390×844</span>
+        <div class="screen-boundary">
+          <iframe
+            class="phone-screen"
+            id="app-frame"
+            title="日语初级课后练习 · 开机封面"
+            src="about:blank"
+          ></iframe>
+          <div class="home-indicator" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+    <p class="scale-label" id="scale-label">测量中…</p>
+  </div>
+
+  <script src="js/share-wechat.js"></script>
+  <script>
+    (function () {
+      if (location.protocol === "file:") {
+        document.getElementById("file-warn").classList.add("is-show");
+      }
+
+      var PHONE_W = 390;
+      var PHONE_H = 844;
+      var BEZEL_EXTRA_W = 20;
+      var BEZEL_EXTRA_H = 32;
+      var v = typeof ShareWechat !== "undefined" ? ShareWechat.CACHE_VER : "280";
+      var appPath = "index.html?v=" + encodeURIComponent(v) + "&nosplash=0";
+      var scaleWrap = document.getElementById("scale-wrap");
+      var scaleLabel = document.getElementById("scale-label");
+      var mode = "1x1";
+
+      document.getElementById("app-frame").src = appPath;
+      document.getElementById("link-app").href = appPath;
+
+      function totalW() {
+        return PHONE_W + BEZEL_EXTRA_W;
+      }
+      function totalH() {
+        return PHONE_H + BEZEL_EXTRA_H + 24;
+      }
+
+      function applyScale(s) {
+        scaleWrap.style.transform = "scale(" + s + ")";
+        scaleLabel.textContent =
+          "iPhone 14 · 390 × 844 · 显示缩放 " +
+          (s * 100).toFixed(0) +
+          "% · 橙框内 = 小程序逻辑屏 1∶1" +
+          (s >= 0.999 ? "（原始像素）" : "（窗口放不下时自动缩小）");
+      }
+
+      function fitScale() {
+        var pad = 40;
+        var maxW = window.innerWidth - pad;
+        var maxH = window.innerHeight - 160;
+        var s = Math.min(1, maxW / totalW(), maxH / totalH());
+        applyScale(s);
+      }
+
+      function setMode(next) {
+        mode = next;
+        document.getElementById("btn-1x1").classList.toggle("is-on", mode === "1x1");
+        document.getElementById("btn-fit").classList.toggle("is-on", mode === "fit");
+        if (mode === "1x1") applyScale(1);
+        else fitScale();
+      }
+
+      document.getElementById("btn-1x1").onclick = function () {
+        setMode("1x1");
+      };
+      document.getElementById("btn-fit").onclick = function () {
+        setMode("fit");
+      };
+      window.addEventListener("resize", function () {
+        if (mode === "fit") fitScale();
+      });
+
+      document.getElementById("btn-reload").onclick = function () {
+        var f = document.getElementById("app-frame");
+        f.src = "about:blank";
+        setTimeout(function () {
+          f.src = appPath + "&_=" + Date.now();
+        }, 60);
+      };
+
+      document.getElementById("link-live").href =
+        "splash-cover-live-preview.html?_=" + Date.now();
+
+      setMode("1x1");
+    })();
+  </script>
+</body>
+</html>

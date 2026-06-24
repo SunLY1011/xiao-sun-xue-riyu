@@ -1,0 +1,16 @@
+{
+  "units": {
+    "1": {
+      "locked": "2026-05-22",
+      "doc": "docs/story-unit-1-LOCKED.md",
+      "strip": "assets/story/unit-1-strip.webp",
+      "panels": [
+        "assets/story/unit-1-panel-1-clean.png",
+        "assets/story/unit-1-panel-2-clean.png",
+        "assets/story/unit-1-panel-3-clean.png",
+        "assets/story/unit-1-panel-4-clean.png"
+      ],
+      "archive": "assets/story/locked/unit-1/"
+    }
+  }
+}

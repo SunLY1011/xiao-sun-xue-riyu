@@ -1,0 +1,28 @@
+{
+  "schema": "deploy-target-v1",
+  "active": "github",
+  "wechatPrimary": "github",
+  "channels": {
+    "github": {
+      "label": "GitHub Pages（备份·开发对照）",
+      "publicOrigin": "https://saivenwang-byte.github.io/XiaoWangXueRiyu-v2",
+      "ttsOrigin": ""
+    },
+    "gitee": {
+      "label": "Gitee Pages（国内过渡 A）",
+      "giteeUser": "saivenwang-byte",
+      "repo": "xiao-wang-xue-riyu-v2",
+      "publicOrigin": "https://saivenwang-byte.gitee.io/xiao-wang-xue-riyu-v2",
+      "ttsOrigin": "",
+      "pagesBranch": "main"
+    },
+    "cos": {
+      "label": "腾讯云 COS+CDN（正式国内 B）",
+      "publicOrigin": "https://REPLACE.learn.example.com",
+      "ttsOrigin": "https://REPLACE.learn.example.com",
+      "bucket": "REPLACE-bucket-1250000000",
+      "region": "ap-guangzhou",
+      "prefix": ""
+    }
+  }
+}

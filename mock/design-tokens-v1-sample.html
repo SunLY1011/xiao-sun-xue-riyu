@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>全域视觉令牌 v1 · 样张</title>
+  <link rel="stylesheet" href="../css/design-tokens.css?v=286" />
+  <style>
+    * { box-sizing: border-box; margin: 0; }
+    body {
+      font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans JP", sans-serif;
+      background: var(--hy-surface-cream);
+      color: var(--hy-text-primary);
+      padding: 16px;
+      line-height: 1.5;
+    }
+    h1 { font-size: 18px; color: var(--hy-brand-navy); margin-bottom: 4px; }
+    .sub { font-size: 12px; color: var(--hy-zh-muted); margin-bottom: 20px; }
+    section { margin-bottom: 24px; }
+    h2 { font-size: 14px; color: var(--hy-brand-navy); margin-bottom: 10px; border-bottom: 1px solid var(--hy-border-soft); padding-bottom: 6px; }
+    .swatches { display: flex; flex-wrap: wrap; gap: 10px; }
+    .sw {
+      width: 88px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--hy-border-soft);
+      background: var(--hy-surface-white);
+    }
+    .sw-chip { height: 48px; }
+    .sw-label { font-size: 10px; padding: 6px; color: var(--hy-text-muted); word-break: break-all; }
+    .top-mock {
+      height: var(--hy-top-h);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      background: var(--hy-top-bg);
+      border-bottom: 1px solid var(--hy-top-border);
+      color: var(--hy-brand-navy);
+      font-weight: 700;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+    .btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn {
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      cursor: default;
+    }
+    .btn-primary { background: var(--mvp-primary); color: #fff; }
+    .btn-secondary { background: var(--hy-surface-white); border: 1px solid var(--mvp-border); color: var(--mvp-text); }
+    .gates { display: flex; flex-wrap: wrap; gap: 8px; }
+    .gate {
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      border-left-width: 4px;
+    }
+    .g0 { background: var(--gate-0-bg); color: var(--gate-0-accent); border-color: var(--gate-0-border); border-left-color: var(--gate-0-accent); }
+    .g1 { background: var(--gate-1-bg); color: var(--gate-1-accent); border-color: var(--gate-1-border); border-left-color: var(--gate-1-accent); }
+    .g2 { background: var(--gate-2-bg); color: var(--gate-2-accent); border-color: var(--gate-2-border); border-left-color: var(--gate-2-accent); }
+    .g3 { background: var(--gate-3-bg); color: var(--gate-3-accent); border-color: var(--gate-3-border); border-left-color: var(--gate-3-accent); }
+    .g4 { background: var(--gate-4-bg); color: var(--gate-4-accent); border-color: var(--gate-4-border); border-left-color: var(--gate-4-accent); }
+    .unit-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      background: #ffebee;
+      border-left: 5px solid #e57373;
+      border-radius: 12px;
+      margin-bottom: 8px;
+    }
+    .unit-row .title { flex: 1; }
+    .unit-row .jp { font-size: 15px; font-weight: 800; color: #263238; }
+    .unit-row .zh { font-size: 11px; color: var(--hy-zh-muted); }
+    .stars { color: #ffc107; letter-spacing: 1px; }
+  </style>
+</head>
+<body>
+  <h1>全域视觉令牌 v1</h1>
+  <p class="sub">真源 css/design-tokens.css · 档 2 拍板 2026-05-25</p>
+
+  <section>
+    <h2>顶栏 · 米黄 + 海军（48px）</h2>
+    <div class="top-mock">日语初级课后练习</div>
+  </section>
+
+  <section>
+    <h2>主行动色 · 珊瑚（Q1）</h2>
+    <div class="btn-row">
+      <button type="button" class="btn btn-primary">开始学习</button>
+      <button type="button" class="btn btn-secondary">次要</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>品牌 / 面</h2>
+    <div class="swatches">
+      <div class="sw"><div class="sw-chip" style="background:#1e3a5f"></div><div class="sw-label">navy</div></div>
+      <div class="sw"><div class="sw-chip" style="background:#4a6fa5"></div><div class="sw-label">path blue</div></div>
+      <div class="sw"><div class="sw-chip" style="background:#ff8a80"></div><div class="sw-label">coral</div></div>
+      <div class="sw"><div class="sw-chip" style="background:#fff8e1"></div><div class="sw-label">cream</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>五关 · 降饱和功能色（Q3）</h2>
+    <div class="gates">
+      <span class="gate g0">単語</span>
+      <span class="gate g1">文法</span>
+      <span class="gate g2">会話</span>
+      <span class="gate g3">作業</span>
+      <span class="gate g4">拡張</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>P1 单元行 · 两行 + 四星（Q4）</h2>
+    <div class="unit-row">
+      <div class="title">
+        <div class="jp">第1单元</div>
+        <div class="zh">小李赴日</div>
+      </div>
+      <span class="stars" aria-hidden="true">★★★★</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>入門 · 紫系独立（Q6 · 示意）</h2>
+    <div class="swatches">
+      <div class="sw"><div class="sw-chip" style="background:#8e6ec0"></div><div class="sw-label">00 accent</div></div>
+      <div class="sw"><div class="sw-chip" style="background:#f6f0fc"></div><div class="sw-label">00 pageBg</div></div>
+    </div>
+  </section>
+</body>
+</html>

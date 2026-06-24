@@ -1,0 +1,150 @@
+<view class="wrap">
+  <view class="titleBlock">
+    <view class="h1">日语学习小程序</view>
+    <view class="sub">支持卡片/复习/导入导出；导出后复制文本发给别人即可</view>
+    <view class="statsRow">
+      <view class="pill">{{totalCount}} 张</view>
+      <view class="pill">今日待复习 {{dueCount}}</view>
+    </view>
+  </view>
+
+  <view class="panel">
+    <view class="panelHeader">
+      <view class="panelTitle">1) 添加/编辑卡片</view>
+      <view class="pill">{{modeText}}</view>
+    </view>
+    <view class="panelBody">
+      <view class="grid2">
+        <view>
+          <view class="label">日语（例：食べる）</view>
+          <input class="input" value="{{form.jp}}" placeholder="输入日语词/句" bindinput="onJpInput" />
+        </view>
+        <view>
+          <view class="label">假名/读音（可选，例：たべる）</view>
+          <input class="input" value="{{form.reading}}" placeholder="可不填" bindinput="onReadingInput" />
+        </view>
+      </view>
+
+      <view style="margin-top: 10px">
+        <view class="label">中文/解释</view>
+        <textarea class="textarea" value="{{form.cn}}" placeholder="输入中文解释、例句、备注均可" bindinput="onCnInput"></textarea>
+      </view>
+
+      <view class="grid2" style="margin-top: 10px">
+        <view>
+          <view class="label">标签（可选，逗号分隔）</view>
+          <input class="input" value="{{form.tags}}" placeholder="N5, 动词" bindinput="onTagsInput" />
+        </view>
+        <view>
+          <view class="label">分组</view>
+          <picker mode="selector" range="{{decks}}" value="{{deckSelectIndex}}" bindchange="onDeckPick">
+            <view class="picker">{{form.deck}}</view>
+          </picker>
+        </view>
+      </view>
+
+      <view class="btnRow">
+        <button class="btn btnPrimary" bindtap="onSaveTap">保存</button>
+        <button class="btn" bindtap="onClearTap">清空输入</button>
+        <button class="btn btnDanger" wx:if="{{isEditMode}}" bindtap="onCancelEditTap">退出编辑</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="panel">
+    <view class="panelHeader">
+      <view class="panelTitle">2) 复习（抽卡）</view>
+      <view class="pill">{{quizPill}}</view>
+    </view>
+    <view class="panelBody">
+      <view class="grid2">
+        <view>
+          <view class="label">复习范围</view>
+          <picker mode="selector" range="{{quizRangeLabels}}" value="{{quizRangeIndex}}" bindchange="onQuizRangePick">
+            <view class="picker">{{quiz.rangeLabel}}</view>
+          </picker>
+        </view>
+        <view>
+          <view class="label">分组过滤</view>
+          <picker mode="selector" range="{{quizDeckLabels}}" value="{{quizDeckIndex}}" bindchange="onQuizDeckPick">
+            <view class="picker">{{quiz.deckLabel}}</view>
+          </picker>
+        </view>
+      </view>
+
+      <view class="quizCard" bindtap="onFlipTap">
+        <view class="quizFront">{{quiz.front}}</view>
+        <view class="quizBack" wx:if="{{quiz.showBack}}">{{quiz.back}}</view>
+        <view class="hint">{{quiz.tip}}</view>
+      </view>
+
+      <view class="btnRow">
+        <button class="btn btnPrimary" bindtap="onStartQuizTap">开始</button>
+        <button class="btn btnWarn" wx:if="{{quiz.running}}" bindtap="onFlipTap">翻面</button>
+        <button class="btn btnOk" wx:if="{{quiz.running}}" bindtap="onCorrectTap">我会了</button>
+        <button class="btn btnDanger" wx:if="{{quiz.running}}" bindtap="onWrongTap">还不会</button>
+      </view>
+      <view class="hint">{{quiz.hint}}</view>
+    </view>
+  </view>
+
+  <view class="panel">
+    <view class="panelHeader">
+      <view class="panelTitle">3) 列表 / 搜索 / 导入导出</view>
+      <view class="pill">显示 {{filteredCount}}</view>
+    </view>
+    <view class="panelBody">
+      <view class="listTop">
+        <view class="searchRow">
+          <input class="input" value="{{searchQuery}}" placeholder="搜索：日语/假名/中文/标签/分组" bindinput="onSearchInput" />
+          <picker mode="selector" range="{{filterDeckLabels}}" value="{{filterDeckIndex}}" bindchange="onFilterDeckPick">
+            <view class="picker">{{filterDeckLabel}}</view>
+          </picker>
+        </view>
+        <view class="btnRow" style="margin-top: 0">
+          <button class="btn" bindtap="onExportTap">导出</button>
+          <button class="btn" bindtap="onImportTap">导入</button>
+          <button class="btn btnDanger" bindtap="onWipeTap">清空全部</button>
+        </view>
+      </view>
+
+      <view class="exportBox" wx:if="{{showExport}}">
+        <view class="hint">导出文本（复制后发给对方；对方点“导入”粘贴即可）</view>
+        <textarea class="textarea mono" value="{{exportText}}" disabled="true"></textarea>
+        <view class="btnRow" style="margin-top: 0">
+          <button class="btn btnPrimary" bindtap="onCopyExportTap">复制导出</button>
+          <button class="btn" bindtap="onCloseExportTap">关闭</button>
+        </view>
+      </view>
+
+      <view class="exportBox" wx:if="{{showImport}}">
+        <view class="hint">把别人发给你的导出文本粘贴到这里，然后点“确认导入”</view>
+        <textarea class="textarea mono" value="{{importText}}" placeholder="粘贴 JSON 文本" bindinput="onImportTextInput"></textarea>
+        <view class="btnRow" style="margin-top: 0">
+          <button class="btn btnPrimary" bindtap="onConfirmImportTap">确认导入</button>
+          <button class="btn" bindtap="onCloseImportTap">关闭</button>
+        </view>
+      </view>
+
+      <view class="cards">
+        <view class="cardItem" wx:for="{{cardsView}}" wx:key="id">
+          <view class="cardTop">
+            <view style="flex: 1">
+              <view class="jp">{{item.jp}}</view>
+              <view class="cn">{{item.cnLine}}</view>
+            </view>
+            <view style="display: flex; gap: 8px">
+              <button class="btn" size="mini" data-id="{{item.id}}" bindtap="onEditTap">编辑</button>
+              <button class="btn btnDanger" size="mini" data-id="{{item.id}}" bindtap="onDeleteTap">删除</button>
+            </view>
+          </view>
+          <view class="metaRow">
+            <view class="pill">{{item.deck}}</view>
+            <view class="metaSmall">下次复习：{{item.dueText}}</view>
+            <view class="metaSmall" wx:if="{{item.tagsText}}">标签：{{item.tagsText}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

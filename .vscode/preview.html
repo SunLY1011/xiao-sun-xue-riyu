@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>日语初级24课 · 成品预览</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: system-ui, -apple-system, sans-serif; background:#f5f5f5; color:#333; padding:16px; }
+h1 { text-align:center; padding:16px 0; color:#d32f2f; border-bottom:2px solid #d32f2f; margin-bottom:16px; }
+.lesson { background:#fff; border-radius:8px; margin-bottom:12px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,.1); }
+.lesson-header { background:#d32f2f; color:#fff; padding:10px 14px; cursor:pointer; display:flex; justify-content:space-between; align-items:center; }
+.lesson-header h3 { font-size:16px; }
+.lesson-header .meta { font-size:12px; opacity:.8; }
+.lesson-body { display:none; padding:14px; border-top:1px solid #eee; }
+.lesson.open .lesson-body { display:block; }
+.section { margin-bottom:12px; }
+.section-title { font-weight:bold; color:#666; font-size:13px; margin-bottom:4px; border-left:4px solid #d32f2f; padding-left:8px; }
+.vocab-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap:4px; font-size:12px; }
+.vocab-item { display:flex; gap:4px; padding:2px 6px; background:#fafafa; border-radius:4px; }
+.vocab-item .jp { font-weight:bold; }
+.vocab-item .zh { color:#999; }
+.vocab-item .pos { color:#d32f2f; font-size:10px; }
+.grammar-item { padding:8px; margin:4px 0; background:#fff3e0; border-radius:4px; font-size:13px; }
+.grammar-item .g-title { font-weight:bold; color:#e65100; }
+.grammar-item .g-zh { color:#999; font-size:12px; }
+.grammar-item .g-example { color:#555; font-size:12px; margin-top:2px; }
+.quiz-item { padding:4px 8px; font-size:12px; border-bottom:1px dotted #eee; }
+.quiz-item .q-type { color:#d32f2f; font-weight:bold; }
+.stats { display:flex; gap:8px; flex-wrap:wrap; margin:8px 0; }
+.stat { background:#fff3e0; padding:2px 8px; border-radius:12px; font-size:11px; }
+.summary { background:#e8f5e9; padding:16px; border-radius:8px; margin-bottom:16px; text-align:center; }
+.summary p { font-size:14px; }
+</style>
+</head>
+<body>
+
+<h1>日语初级上册 · 24课完整预览</h1>
+<div id="summary" class="summary"></div>
+<div id="app"></div>
+
+<script src="js/data/lessons-data.js?v=109"></script>
+<script>
+function escapeHtml(s) { const d=document.createElement('div'); d.textContent=s||''; return d.innerHTML; }
+
+function renderAll() {
+  const app = document.getElementById('app');
+  let totalV = 0, totalG = 0, totalQ = 0, totalD = 0;
+
+  const sorted = [...LESSONS_MVP].sort((a,b) => a.lessonId - b.lessonId);
+
+  sorted.forEach(l => {
+    const lid = l.lessonId;
+    const vocab = l.vocab || [];
+    const grammar = l.grammarNodes || [];
+    const quiz = l.quizQuestions || [];
+    const dialogues = l.dialogues || [];
+    totalV += vocab.length; totalG += grammar.length; totalQ += quiz.length; totalD += dialogues.length;
+
+    const vocabHtml = vocab.length ? vocab.slice(0,8).map(v =>
+      `<div class="vocab-item"><span class="jp">${escapeHtml(v.jp)}</span><span class="pos">${escapeHtml(v.pos||'')}</span><span class="zh">${escapeHtml(v.meaningZh||'')}</span></div>`
+    ).join('') + (vocab.length > 8 ? `<div class="vocab-item" style="color:#999">... +${vocab.length-8}</div>` : '') : '';
+
+    const grammarHtml = grammar.map(n =>
+      `<div class="grammar-item">
+        <div class="g-title">${escapeHtml(n.title||'')}</div>
+        <div class="g-zh">${escapeHtml(n.titleZh||'')}</div>
+        ${n.example ? `<div class="g-example">例：${escapeHtml(n.example.substring(0,60))}</div>` : ''}
+      </div>`
+    ).join('');
+
+    const quizHtml = quiz.slice(0,4).map(q =>
+      `<div class="quiz-item"><span class="q-type">${q.type==='choice'?'选择':'填空'}</span> ${escapeHtml(q.question.substring(0,30))}</div>`
+    ).join('') + (quiz.length > 4 ? `<div class="quiz-item">...共${quiz.length}题</div>` : '');
+
+    app.innerHTML += `
+    <div class="lesson" id="l-${lid}">
+      <div class="lesson-header" onclick="document.getElementById('l-${lid}').classList.toggle('open')">
+        <h3>第${lid}课 ${escapeHtml(l.lessonTitle||'')}</h3>
+        <span class="meta">${l.themeZh||''}</span>
+      </div>
+      <div class="lesson-body">
+        <div class="stats">
+          <span class="stat">📝 词汇 ${vocab.length}</span>
+          <span class="stat">📖 语法 ${grammar.length}</span>
+          <span class="stat">✏️ 测验 ${quiz.length}</span>
+          <span class="stat">💬 对话 ${dialogues.length}句</span>
+          <span class="stat">📋 作业 ${(l.homeworkSections||[]).length}节</span>
+          <span class="stat">📄 课文 ${(l.basicText||[]).length}句</span>
+        </div>
+        ${grammarHtml ? '<div class="section"><div class="section-title">语法节点</div>'+grammarHtml+'</div>' : ''}
+        ${vocabHtml ? '<div class="section"><div class="section-title">词汇（前8个）</div><div class="vocab-grid">'+vocabHtml+'</div></div>' : ''}
+        ${quizHtml ? '<div class="section"><div class="section-title">测验题</div>'+quizHtml+'</div>' : ''}
+      </div>
+    </div>`;
+  });
+
+  document.getElementById('summary').innerHTML = `
+    <p>📚 <b>24</b> 课 · 📝 <b>${totalV}</b> 单词 · 📖 <b>${totalG}</b> 语法 · ✏️ <b>${totalQ}</b> 测验 · 💬 <b>${totalD}</b> 对话</p>
+    <p style="font-size:12px;color:#999">数据源：<code>lessons-data.js</code>（834KB）← <code>generate-all-lessons.py</code> ← 【产品PRD】/新增补课文内容</p>
+  `;
+}
+
+renderAll();
+</script>
+</body>
+</html>

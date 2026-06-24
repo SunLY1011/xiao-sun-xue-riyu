@@ -1,0 +1,152 @@
+/**
+ * 课文目录 · 真机/微信/WebKit 一致（单元泡泡内四课完整露出）
+ * 须在 mvp.css 之后加载
+ */
+
+/* WebKit：details 勿 flex，折叠时强制隐藏 body，避免多单元叠在一起 */
+details.journey-unit-details.journey-catalog-unit {
+  display: block;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0 0 6px;
+  background: var(--unit-bg, var(--unit-page-bg, var(--c-surface)));
+}
+
+details.journey-unit-details:not([open]) {
+  overflow: hidden;
+}
+
+details.journey-unit-details:not([open]) .journey-unit-body {
+  display: none !important;
+}
+
+details.journey-unit-details[open] {
+  overflow: visible !important;
+  padding-bottom: 10px;
+  position: relative;
+  z-index: 4;
+  margin-bottom: 12px;
+  isolation: isolate;
+}
+
+details.journey-unit-details:not([open]) {
+  position: relative;
+  z-index: 1;
+}
+
+/* 泡泡框 = 整条 details；概述 + 四课均在框内 */
+.journey-shinkansen--catalog .journey-unit-details[open] .journey-unit-body {
+  padding: 0 6px 10px;
+  box-sizing: border-box;
+}
+
+.journey-shinkansen--catalog .journey-unit-details[open] .journey-unit-overview {
+  margin: 8px 0 6px;
+  padding: 6px 8px;
+}
+
+.journey-shinkansen--catalog .journey-unit-details[open] .journey-lesson-grid {
+  gap: 6px;
+  width: 100%;
+}
+
+.journey-shinkansen--catalog .journey-unit-details[open] .journey-lesson-slot,
+.journey-shinkansen--catalog .journey-unit-details[open] .journey-lesson-row-wrap {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.journey-catalog-scroll--accordion .journey-unit-summary-bar {
+  padding: 5px 6px;
+}
+
+.journey-catalog-scroll--accordion .journey-unit-details[open] .lesson-row {
+  width: 100%;
+  max-width: 100%;
+  padding: 6px 8px;
+  min-height: 44px;
+  gap: 6px;
+  box-sizing: border-box;
+}
+
+.journey-catalog-scroll--accordion .journey-unit-details[open] .lesson-row-badge {
+  width: 26px;
+  height: 26px;
+  font-size: 12px;
+}
+
+.journey-shinkansen--catalog .journey-home-scroll.journey-catalog-scroll--accordion {
+  padding-left: 4px;
+  padding-right: 4px;
+  gap: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 展开单元：第 4 课不被下一单元标题压住（对齐截图「这样是正确的」） */
+.journey-shinkansen--catalog .journey-unit-details[open] .journey-lesson-slot:last-child {
+  margin-bottom: 6px;
+  scroll-margin-bottom: 16px;
+}
+
+.journey-shinkansen--catalog .journey-unit-details[open] .journey-lesson-grid {
+  padding-bottom: 4px;
+}
+
+/* 课内 · 手机宽度吃满（単語 提示/活用 区） */
+@media (max-width: 480px) {
+  .lesson-cockpit-view.active .l1-lesson-scope.l1-flow-wrap {
+    --l1-row-pad-x: 8px;
+    --l1-row-pad-y: 8px;
+  }
+
+  .l1-lesson-scope .l1-kcard-body {
+    padding: 0 8px 8px 10px;
+  }
+
+  .l1-lesson-scope .l1-vocab-extra {
+    padding: 6px 8px 8px;
+    padding-left: calc(8px + var(--l1-seq-size) + 8px);
+  }
+
+  .l1-lesson-scope .l1-vocab-kcard-row {
+    padding: 0 4px 4px;
+  }
+
+  .l1-lesson-scope .l1-vocab-kcard-row .l1-kcard {
+    margin-left: 0;
+  }
+
+  .l1-lesson-scope .l1-vocab-item-main {
+    column-gap: 6px;
+  }
+}
+
+html.hyouga-miniapp-webview details.journey-unit-details.journey-catalog-unit {
+  display: block !important;
+}
+
+html.hyouga-miniapp-webview details.journey-unit-details:not([open]) .journey-unit-body {
+  display: none !important;
+}
+
+html.hyouga-miniapp-webview .journey-shinkansen--catalog .journey-unit-details[open] .journey-lesson-grid {
+  grid-template-columns: 1fr !important;
+}
+
+html.hyouga-miniapp-webview .lesson-cockpit-view.active .l1-lesson-scope.l1-flow-wrap {
+  --l1-row-pad-x: 8px;
+}
+
+html.hyouga-miniapp-webview .l1-lesson-scope .l1-kcard-body {
+  padding: 0 8px 8px 10px;
+}
+
+html.hyouga-miniapp-webview .l1-lesson-scope .l1-vocab-extra {
+  padding-left: calc(8px + var(--l1-seq-size) + 8px);
+}
+
+html.hyouga-miniapp-webview .l1-lesson-scope .l1-vocab-kcard-row .l1-kcard {
+  margin-left: 0;
+}

@@ -1,0 +1,107 @@
+{
+  "workflow_name": "strict_mvp_rollback_pipeline",
+  "schema": "hyouga-workflow/v1",
+  "repo_standard_mvp": {
+    "default_path": ".",
+    "env_override": "MVP_PATH",
+    "lock_doc": "docs/locks/NOTES-PANEL-V1-LOCK-20260525.md",
+    "baseline": "docs/iteration-baseline.json",
+    "note": "本仓库当前标准 MVP = 标日 H5（含笔记板块 V1 定稿锁）；复制脚手架时勿含 tts-cache 全量 mp3 除非映射规则允许"
+  },
+  "stages": [
+    {
+      "id": 1,
+      "name": "明确目标",
+      "artifacts": ["goal.txt"],
+      "check": "goal.txt 存在且含：做什么、为谁、验收标准",
+      "rollback_target": null
+    },
+    {
+      "id": 2,
+      "name": "AGENTS.md",
+      "artifacts": ["AGENTS.md"],
+      "check": "AGENTS.md 含多 Agent 表、交付前工作流链接、文递自归/讨论优先",
+      "rollback_target": 1
+    },
+    {
+      "id": 3,
+      "name": "初始化检查",
+      "artifacts": [],
+      "check": "scripts/init-check.ps1 或 发布前自检.bat 退出码 0",
+      "rollback_target": 2,
+      "commands_win": ["powershell -File scripts/init-check.ps1"],
+      "commands_bat": ["发布前自检.bat"]
+    },
+    {
+      "id": 4,
+      "name": "运行任务",
+      "artifacts": [],
+      "check": "scope 仅用户原话；已读 iteration-baseline confirmed/backlog",
+      "rollback_target": 3
+    },
+    {
+      "id": 5,
+      "name": "代码完成",
+      "artifacts": ["completion_snapshot.txt"],
+      "check": "completion_snapshot.txt 列出变更文件；与 goal.txt 需求点对照无缺失",
+      "rollback_target": 4
+    },
+    {
+      "id": 6,
+      "name": "验证与评审",
+      "artifacts": [],
+      "check": "python scripts/pre-ship-check.py 全 OK；改日文则 audit-ja-text.py",
+      "rollback_target": 5
+    },
+    {
+      "id": 7,
+      "name": "遇到障碍自动修复",
+      "artifacts": [],
+      "check": "重跑上一失败阶段检查通过",
+      "rollback_target": 6
+    },
+    {
+      "id": 8,
+      "name": "Test&QA",
+      "artifacts": [],
+      "check": "四关冒烟或 hyouga-qa 清单；笔记/会話改动本地目检",
+      "rollback_target": 7
+    },
+    {
+      "id": 9,
+      "name": "运行反馈",
+      "artifacts": ["feedback.md"],
+      "check": "feedback.md 含自检结果、cache v、双链接、失败摘要",
+      "rollback_target": 8
+    },
+    {
+      "id": 10,
+      "name": "清理与交接",
+      "artifacts": ["claude-progress.md", "workflow_status.json"],
+      "check": "claude-progress.md 记录每步状态；workflow_status.json 完整",
+      "rollback_target": 9
+    }
+  ],
+  "rollback_policy": {
+    "max_retries_per_stage": 3,
+    "snapshot_method": "git_stash_or_workflow_snapshots_dir",
+    "snapshot_dir": ".workflow_snapshots",
+    "compare_tool": "diff_against_expected",
+    "state_file": "workflow_status.json"
+  },
+  "batch_mvp_config": {
+    "source_mvp_path": "${MVP_PATH:-.}",
+    "target_base_path": "./generated_products",
+    "mapping_rules_file": "./docs/mvp_mapping_rules.json",
+    "manifest_file": "./generated_products/products_manifest.json",
+    "content_placeholder_pattern": "\\{\\{(.*?)\\}\\}",
+    "exclude_globs": [
+      "tts-cache/**",
+      ".git/**",
+      "node_modules/**",
+      "Self Study Japanese/**",
+      ".workflow_snapshots/**",
+      "generated_products/**"
+    ]
+  }
+}

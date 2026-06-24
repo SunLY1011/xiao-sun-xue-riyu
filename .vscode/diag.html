@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>诊断页</title>
+<style>
+body { font-family: monospace; padding:16px; background:#1a1a2e; color:#e0e0e0; }
+h2 { color:#4dd0e1; }
+.ok { color:#81c784; }
+.fail { color:#e57373; }
+.warn { color:#ffb74d; }
+pre { background:#16213e; padding:8px; border-radius:4px; overflow-x:auto; white-space:pre-wrap; word-break:break-all; }
+</style>
+</head>
+<body>
+<h2>诊断 · lessons-data.js v109</h2>
+<div id="out"></div>
+
+<script src="js/data/lessons-data.js?v=109"></script>
+<script src="js/data/lessons-mvp.js?v=109"></script>
+<script>
+const out = document.getElementById('out');
+
+function log(className, msg) {
+  out.innerHTML += `<span class="${className}">${msg}</span><br>`;
+}
+
+function check(name, cond, detail) {
+  if (cond) log('ok', `✓ ${name}`);
+  else log('fail', `✗ ${name} — ${detail || ''}`);
+}
+
+// 1. LESSONS_MVP exists?
+check('LESSONS_MVP defined', typeof LESSONS_MVP !== 'undefined', '缺少 lessons-data.js 加载');
+if (typeof LESSONS_MVP === 'undefined') { out.innerHTML += '<p class="fail">终止：LESSONS_MVP 未加载</p>'; throw new Error(); }
+check('LESSONS_MVP is array', Array.isArray(LESSONS_MVP));
+check('LESSONS_MVP length=24', LESSONS_MVP.length === 24, `实际: ${LESSONS_MVP.length}`);
+
+// 2. Helper functions
+check('getLessonMvp is function', typeof getLessonMvp === 'function');
+check('getLessonVocab is function', typeof getLessonVocab === 'function');
+check('getLessonDialogues is function', typeof getLessonDialogues === 'function');
+check('getLessonCoachSummary is function', typeof getLessonCoachSummary === 'function');
+
+// 3. Lesson 1 data
+const l1 = getLessonMvp(1);
+check('L1 exists', !!l1);
+if (!l1) { out.innerHTML += '<p>没有L1数据！</p>'; } else {
+  check('L1.vocab length=28', (l1.vocab||[]).length === 28, `实际: ${(l1.vocab||[]).length}`);
+  check('L1.grammarNodes length=4', (l1.grammarNodes||[]).length === 4);
+  check('L1.quizQuestions length=12', (l1.quizQuestions||[]).length === 12);
+  check('L1.dialogues length=10', (l1.dialogues||[]).length === 10);
+  check('L1.basicText length=4', (l1.basicText||[]).length === 4);
+  check('L1.homeworkSections length=9', (l1.homeworkSections||[]).length === 9);
+  
+  // Show first 3 vocab items
+  out.innerHTML += '<h2>L1 词汇（前5条）</h2><pre>';
+  (l1.vocab||[]).slice(0,5).forEach(v => {
+    out.innerHTML += `${v.id}: ${v.jp} [${v.pos}] ${v.meaningZh} (from=${v.from})\n`;
+  });
+  out.innerHTML += '</pre>';
+  
+  // Show grammar nodes
+  out.innerHTML += '<h2>L1 语法节点</h2><pre>';
+  (l1.grammarNodes||[]).forEach(n => {
+    out.innerHTML += `${n.id}: ${n.title}\n  titleZh: ${n.titleZh}\n  example: ${(n.example||'').substring(0,40)}\n`;
+  });
+  out.innerHTML += '</pre>';
+}
+
+// 4. getLessonVocab return value
+const vocab = getLessonVocab(1);
+check('getLessonVocab(1) returns array', Array.isArray(vocab));
+check('getLessonVocab(1) length', vocab.length === 28, `实际: ${vocab.length}`);
+if (vocab.length > 0) {
+  out.innerHTML += '<h2>vocabList filter test</h2><pre>';
+  const filtered = vocab.filter((v) => v.from !== "grammar" && !/形$|ください$|ましょう/.test(v.jp || ""));
+  out.innerHTML += `原始: ${vocab.length} → 过滤后: ${filtered.length}\n`;
+  if (filtered.length === 0) out.innerHTML += '⚠ 全部被过滤掉了！检查 v.from 值\n';
+  vocab.forEach(v => {
+    const pass = v.from !== "grammar" && !/形$|ください$|ましょう/.test(v.jp || "");
+    out.innerHTML += `  ${v.id}: from="${v.from}" jp="${v.jp}" → ${pass?'PASS':'FILTERED'}\n`;
+  });
+  out.innerHTML += '</pre>';
+}
+
+// 5. Check all 24 lessons
+out.innerHTML += '<h2>全部24课概览</h2><pre>';
+let ok = 0, ng = 0;
+for (let lid = 1; lid <= 24; lid++) {
+  const l = getLessonMvp(lid);
+  if (!l) { out.innerHTML += `L${lid}: MISSING\n`; ng++; continue; }
+  const v = (l.vocab||[]).length;
+  const g = (l.grammarNodes||[]).length;
+  const q = (l.quizQuestions||[]).length;
+  const d = (l.dialogues||[]).length;
+  const status = (v>0 && g>0) ? '✓' : '✗';
+  if (v>0 && g>0) ok++; else ng++;
+  out.innerHTML += `L${lid} ${status} vocab=${v} grammar=${g} quiz=${q} dlg=${d}\n`;
+}
+out.innerHTML += `\n通过: ${ok} 失败: ${ng}</pre>`;
+
+out.innerHTML += '<h2 class="ok">诊断完成</h2>';
+</script>
+</body>
+</html>

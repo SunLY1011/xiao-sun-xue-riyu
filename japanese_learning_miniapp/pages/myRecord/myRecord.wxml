@@ -1,0 +1,16 @@
+<view class="page">
+  <text class="section">近 7 天</text>
+  <view class="heat">
+    <view class="cell {{item.on ? 'on' : ''}}" wx:for="{{heat}}" wx:key="label">{{item.label}}</view>
+  </view>
+  <text class="section">三关进度</text>
+  <view class="row" wx:for="{{progress}}" wx:key="id">
+    <text>第{{item.id}}课</text><text>{{item.gates}}</text>
+  </view>
+  <text class="section">薄弱 TOP3</text>
+  <view wx:if="{{!weak.length}}" class="hint">暂无错题统计</view>
+  <view class="row" wx:for="{{weak}}" wx:key="id">
+    <text>{{item.id}}</text><text>错 {{item.count}} 次</text>
+  </view>
+  <button class="clear" bindtap="clearData">清空学习记录</button>
+</view>

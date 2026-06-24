@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>开发者 · 竖屏真机验收（满配）</title>
+  <script>
+    (function () {
+      if (location.protocol !== "file:") return;
+      location.replace("http://127.0.0.1:8765/dev-phone-preview.html" + (location.search || ""));
+    })();
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #263238;
+      color: #eceff1;
+      font-family: system-ui, "Segoe UI", "Microsoft YaHei", sans-serif;
+      padding: 12px 16px 24px;
+    }
+    h1 { margin: 0 0 8px; font-size: 1.05rem; }
+    .lead { margin: 0 0 12px; font-size: 0.85rem; line-height: 1.5; color: #b0bec5; max-width: 52rem; }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 14px;
+      max-width: 960px;
+    }
+    .toolbar a, .toolbar button {
+      font-size: 0.82rem;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid #546e7a;
+      background: #37474f;
+      color: #fff;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .toolbar a.is-primary { background: #00897b; border-color: #00695c; }
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      max-width: 960px;
+    }
+    @media (min-width: 900px) {
+      .layout { grid-template-columns: auto 1fr; align-items: start; }
+    }
+    .phone-label { text-align: center; font-size: 11px; color: #90a4ae; margin-bottom: 6px; }
+    .phone-shell {
+      padding: 12px;
+      border-radius: 36px;
+      background: linear-gradient(145deg, #546e7a, #263238);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+      display: inline-block;
+    }
+    .phone-screen {
+      width: 390px;
+      height: 844px;
+      border-radius: 22px;
+      overflow: hidden;
+      background: #fff;
+      border: none;
+    }
+    .side {
+      font-size: 0.82rem;
+      line-height: 1.55;
+      color: #cfd8dc;
+    }
+    .side dt { color: #90a4ae; margin-top: 8px; }
+    .side dd { margin: 4px 0 0; }
+    .side code { font-size: 0.78rem; word-break: break-all; }
+    .warn {
+      max-width: 960px;
+      margin-bottom: 12px;
+      padding: 10px 12px;
+      background: #ff8a80;
+      color: #3e2723;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      display: none;
+    }
+    .warn.is-show { display: block; }
+  </style>
+</head>
+<body>
+  <div class="warn" id="file-warn">
+    请用 <strong>http://127.0.0.1:8765/dev-phone-preview.html</strong> 打开（先运行 <strong>重启本地服务.bat</strong>），不要用 file://。
+  </div>
+
+  <h1>开发者竖屏验收 · 满配全开</h1>
+  <p class="lead">
+    左侧为 <strong>iPhone 14（390×844）</strong> 内嵌真实 <code>index.html</code>，已带
+    <code>testcard=1&amp;developer=1</code>（24 课四金、六单元条带、彩蛋入口全开，不自动连环弹窗）。
+    流程真源：<strong>docs/开发者验收-SOP.md</strong>
+  </p>
+
+  <div class="toolbar">
+    <button type="button" id="btn-reload">刷新 App</button>
+    <a class="is-primary" id="link-full" href="#" target="_blank">新标签打开同款</a>
+    <a id="link-eggs" href="#">彩蛋排版（L1/L2/L3）</a>
+    <a id="link-l3" href="#">直链 L3</a>
+    <a id="link-l2" href="#">直链 L2 U1</a>
+    <a id="link-l1" href="#">直链 L1 第14课</a>
+  </div>
+
+  <div class="layout">
+    <div>
+      <div class="phone-label">iPhone 14 · 390 × 844 · 满配测试卡</div>
+      <div class="phone-shell">
+        <iframe
+          class="phone-screen"
+          id="app-frame"
+          title="日语初级课后练习"
+          src="about:blank"
+          allow="microphone"
+        ></iframe>
+      </div>
+    </div>
+    <dl class="side">
+      <dt>本机 App 地址</dt>
+      <dd><code id="url-app"></code></dd>
+      <dt>手机同 WiFi（复制到微信）</dt>
+      <dd><code id="url-lan">（运行 手机同WiFi预览-满级测试卡.bat 获取 IP）</code></dd>
+      <dt>公网满配（push 后 1～2 分钟）</dt>
+      <dd><code id="url-pub"></code></dd>
+      <dt>验收要点</dt>
+      <dd>标题中文正常 · 底栏「课文/我的/注音」· 六单元均 4/4 · 点课名进四关 · 小图为彩蛋</dd>
+      <dt>关闭满配</dt>
+      <dd>链接加 <code>&amp;testcard=0</code> 或「我的」清除学习数据</dd>
+    </dl>
+  </div>
+
+  <script src="js/share-wechat.js"></script>
+  <script>
+    (function () {
+      if (location.protocol === "file:") {
+        document.getElementById("file-warn").classList.add("is-show");
+      }
+      var v = typeof ShareWechat !== "undefined" ? ShareWechat.CACHE_VER : "94";
+      var qs = "?v=" + v + "&testcard=1&developer=1";
+      var appPath = "index.html" + qs;
+      var base = location.origin + location.pathname.replace(/[^/]+$/, "");
+      var appUrl = base + appPath;
+
+      document.getElementById("app-frame").src = appPath;
+      document.getElementById("url-app").textContent = appUrl;
+      document.getElementById("url-pub").textContent =
+        (typeof ShareWechat !== "undefined" ? ShareWechat.OFFICIAL_ORIGIN : "") +
+        "/index.html" +
+        qs;
+      document.getElementById("link-full").href = appPath;
+      document.getElementById("link-eggs").href = "story-unit-phone-real.html?v=" + v;
+      document.getElementById("link-l3").href = appPath + "&egg=ultimate";
+      document.getElementById("link-l2").href = appPath + "&egg=unit&unitId=1";
+      document.getElementById("link-l1").href = appPath + "&storyEggLesson=14";
+
+      document.getElementById("btn-reload").onclick = function () {
+        var f = document.getElementById("app-frame");
+        f.src = "about:blank";
+        setTimeout(function () {
+          f.src = appPath + "&_=" + Date.now();
+        }, 80);
+      };
+    })();
+  </script>
+</body>
+</html>

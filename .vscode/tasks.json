@@ -1,0 +1,21 @@
+﻿{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "本地服务 · 探测8765",
+      "type": "shell",
+      "command": "python scripts/start-local-server.py --probe",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    },
+    {
+      "label": "小程序 · Cursor 内预览",
+      "dependsOn": ["本地服务 · 探测8765"],
+      "type": "shell",
+      "command": "echo Open: http://127.0.0.1:8765/miniapp-phone-preview.html in Simple Browser (Ctrl+Shift+P)",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "focus": true }
+    }
+  ]
+}

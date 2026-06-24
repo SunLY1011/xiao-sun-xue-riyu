@@ -1,0 +1,291 @@
+/**
+ * 档2 PR-2E · 全域字号 / 图标 / 配色美化（仅 CSS）
+ * 不改动：导航结构、课内形式、文案、JS 行为、布局 display/grid
+ * 真源：design-tokens.css · docs/DESIGN-TOKENS-v1.md · docs/DESIGN-L0-图标与人设全景.md
+ */
+
+body.mvp-app {
+  font-size: var(--hy-type-body);
+  color: var(--mvp-text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+
+  /* 桥接 app.css 遗留变量 → 令牌色（避免珊瑚顶栏与灰字打架） */
+  --bg: var(--mvp-bg);
+  --card: var(--mvp-card);
+  --primary: var(--hy-brand-navy);
+  --primary-light: var(--hy-brand-navy-muted);
+  --accent: var(--mvp-primary);
+  --text: var(--mvp-text);
+  --muted: var(--hy-zh-muted);
+  --border: var(--mvp-border);
+}
+
+/* ── 顶栏 ── */
+body.mvp-app .top-bar h1 {
+  font-size: var(--hy-type-title);
+  font-weight: 700;
+  color: var(--hy-brand-navy);
+}
+
+body.mvp-app .top-bar .icon-btn {
+  font-size: var(--hy-type-body-lg);
+  color: var(--hy-brand-navy);
+}
+
+body.mvp-app .top-bar .icon-btn--share .ui-icon--share-forward {
+  width: var(--hy-icon-l3);
+  height: var(--hy-icon-l3);
+}
+
+/* ── L0 底栏：24px 图标 + 10px 标签 ── */
+body.mvp-app .bottom-nav .nav-item {
+  color: var(--hy-zh-muted);
+  font-size: var(--hy-type-caption);
+}
+
+body.mvp-app .bottom-nav .nav-item.active {
+  color: var(--mvp-primary-dark);
+  font-weight: 600;
+}
+
+body.mvp-app .bottom-nav .nav-item .ui-icon,
+body.mvp-app .bottom-nav .nav-item .nav-icon .ui-icon {
+  width: var(--hy-icon-l0);
+  height: var(--hy-icon-l0);
+  margin: 0 auto 2px;
+}
+
+body.mvp-app .bottom-nav .nav-item .nav-label {
+  font-size: var(--hy-type-caption);
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  font-family: inherit;
+}
+
+body.mvp-app .bottom-nav .nav-item.active .ui-icon,
+body.mvp-app .bottom-nav .nav-item.active .nav-label {
+  color: var(--mvp-primary-dark);
+}
+
+body.mvp-app .nav-badge {
+  font-size: var(--hy-type-caption);
+  background: var(--hy-recording);
+}
+
+/* ── 通用 L1 图标（非底栏） ── */
+body.mvp-app .ui-icon {
+  width: var(--hy-icon-l1);
+  height: var(--hy-icon-l1);
+}
+
+body.mvp-app .journey-part0-icon .ui-icon {
+  width: var(--hy-icon-l2);
+  height: var(--hy-icon-l2);
+}
+
+/* ── 折叠图例 L2 ── */
+body.mvp-app .hyo-fold-toggle .hyo-glyph,
+body.mvp-app .hyo-fold-toggle-static .hyo-glyph,
+body.mvp-app .hyo-fold-slot .hyo-glyph {
+  width: var(--hy-icon-l2);
+  height: var(--hy-icon-l2);
+}
+
+body.mvp-app .hyo-fold-toggle {
+  width: var(--hy-icon-l0);
+  height: var(--hy-icon-l0);
+}
+
+/* ── 中文灰字 / 辅助 ── */
+body.mvp-app .zh-annotation {
+  font-size: 0.8125em;
+  color: var(--hy-zh-muted);
+  line-height: 1.45;
+}
+
+body.mvp-app .hint-ja,
+body.mvp-app .note-ja,
+body.mvp-app .mini-label,
+body.mvp-app .lc-headline-note {
+  font-size: var(--hy-type-label);
+  color: var(--mvp-muted);
+}
+
+body.mvp-app .section-title {
+  font-size: var(--hy-type-body-lg);
+  font-weight: 700;
+  color: var(--hy-brand-navy);
+}
+
+body.mvp-app .settings-toggle {
+  font-size: var(--hy-type-body);
+  color: var(--mvp-text);
+}
+
+/* ── 课内五关 Tab（仅字号/色，不改 min-height） ── */
+body.mvp-app .cockpit-tab {
+  font-size: var(--hy-type-label);
+}
+
+body.mvp-app .cockpit-tab-main {
+  font-size: var(--hy-type-body-sm);
+}
+
+body.mvp-app .cockpit-tab-sub {
+  font-size: var(--hy-type-caption);
+}
+
+body.mvp-app .lesson-cockpit-view .cockpit-tab.done:not(.active) {
+  border-color: var(--gate-2-border);
+}
+
+/* ── 首页课表 / 单元摘要 ── */
+body.mvp-app .journey-unit-summary-main--stacked .journey-stage-unit,
+body.mvp-app .journey-unit-summary-main .journey-stage-theme,
+body.mvp-app .journey-unit-summary-main .journey-stage-unit {
+  font-size: var(--hy-type-body-lg);
+  color: var(--c-text);
+}
+
+body.mvp-app .journey-unit-summary-main .journey-unit-label-zh {
+  font-size: var(--hy-type-body-sm);
+  color: var(--hy-brand-navy-muted);
+}
+
+body.mvp-app .journey-unit-summary-main--stacked .journey-stage-zh,
+body.mvp-app .journey-unit-summary-main .journey-stage-zh {
+  font-size: var(--hy-type-label);
+  color: var(--hy-zh-muted);
+}
+
+body.mvp-app .journey-unit-summary-main .journey-unit-title-sep {
+  font-size: var(--hy-type-body-sm);
+  color: var(--c-text3);
+}
+
+body.mvp-app .journey-unit-state-label {
+  font-size: var(--hy-type-caption);
+  color: var(--hy-brand-navy-muted);
+}
+
+body.mvp-app .journey-unit-status-col.is-unit-start .journey-unit-state-label {
+  color: var(--mvp-primary-dark);
+}
+
+body.mvp-app .journey-unit-status-col.is-unit-cleared .journey-unit-state-label {
+  color: var(--hy-star-gold);
+}
+
+body.mvp-app .journey-unit-status-col.is-unit-dormant .journey-unit-state-label {
+  color: var(--c-text3);
+}
+
+body.mvp-app .journey-unit-star {
+  font-size: var(--hy-type-label);
+}
+
+body.mvp-app .journey-unit-star--on {
+  color: var(--hy-star-gold-ring);
+}
+
+body.mvp-app .journey-unit-star--off {
+  color: var(--hy-star-ghost);
+}
+
+body.mvp-app .journey-map-legend,
+body.mvp-app .journey-map-legend--legacy {
+  font-size: var(--hy-type-caption);
+  color: var(--hy-zh-muted);
+}
+
+body.mvp-app .journey-map-legend .leg--cleared {
+  background: var(--hy-star-gold-ring);
+}
+
+body.mvp-app .lesson-row .lesson-row-title {
+  font-size: var(--hy-type-body-sm);
+  color: var(--c-text);
+}
+
+body.mvp-app .lesson-row .lesson-row-meta,
+body.mvp-app .l1-vocab-meta-inline {
+  font-size: var(--hy-type-label);
+  color: var(--c-text2);
+}
+
+body.mvp-app .sea-star {
+  font-size: var(--hy-type-body-sm);
+}
+
+/* 自由选课：已发布课次始终可点（仅视觉，不改布局） */
+body.mvp-app .lesson-row.is-lesson-playable,
+body.mvp-app .lesson-row.is-lesson-idle,
+body.mvp-app .lesson-row.is-lesson-active {
+  cursor: pointer;
+  opacity: 1;
+}
+
+body.mvp-app .journey-catalog-unit:not(.is-unit-dormant) .lesson-row.is-lesson-playable {
+  opacity: 1;
+}
+
+/* ── 笔记（マイ）字号对齐令牌 ── */
+body.mvp-app .notes-timer-label {
+  font-size: var(--hy-type-label);
+  color: var(--hy-zh-muted);
+}
+
+body.mvp-app .notes-timer-val {
+  font-size: var(--hy-type-title-sm);
+  color: var(--hy-brand-navy);
+}
+
+body.mvp-app .notes-timer-unit {
+  font-size: var(--hy-type-caption);
+  color: var(--mvp-muted);
+}
+
+body.mvp-app .notes-guide-summary {
+  font-size: var(--hy-type-body-sm);
+  color: var(--hy-brand-navy-muted);
+}
+
+body.mvp-app .notes-guide-body {
+  font-size: var(--hy-type-label);
+  color: var(--mvp-muted);
+}
+
+body.mvp-app .notes-unit-head-label {
+  font-size: var(--hy-type-label);
+  color: var(--hy-brand-navy);
+}
+
+body.mvp-app .notes-unit-weak-pill {
+  font-size: var(--hy-type-micro);
+}
+
+/* ── 会話 / 单词行内日文层级（仅 typographic） ── */
+body.mvp-app .l1-lesson-scope .hyo-fold-overview-jp {
+  font-size: var(--hy-type-body-sm);
+  color: var(--c-text);
+}
+
+body.mvp-app .l1-lesson-scope .hyo-fold-overview-zh {
+  font-size: var(--hy-type-label);
+  color: var(--hy-zh-muted);
+}
+
+body.mvp-app .dg-abc-label {
+  font-size: var(--hy-type-caption);
+  font-weight: 700;
+}
+
+body.mvp-app .btn {
+  font-size: var(--hy-type-body);
+}
+
+body.mvp-app .btn.small,
+body.mvp-app .btn--sm {
+  font-size: var(--hy-type-body-sm);
+}

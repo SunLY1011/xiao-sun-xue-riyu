@@ -1,0 +1,21 @@
+---
+description: 标日 H5 六角色流水线路由（PM/Dev/Review/QA/Fix/Release）
+alwaysApply: false
+---
+
+# Agent 流水线路由（合并架构）
+
+总览：**[docs/Agent流水线-多角色分工.md](../../docs/Agent流水线-多角色分工.md)** · [agent-pipeline.json](../../docs/agent-pipeline.json)
+
+| 用户意图 | Skill |
+|----------|-------|
+| PM / 拆任务 / 全流程 | `hyouga-orchestrator` |
+| 开发 / 改课文 / 实现 | `hyouga-author` |
+| 审查 / Review / 对账 | `hyouga-review` |
+| 测试 / QA / 冒烟 | `hyouga-qa` |
+| 修复 / FAIL / 检查并修 | `hyouga-fix` |
+| 发布 / push / 发链接 | `hyouga-shipper` |
+
+默认链：**PM → Dev → Review → QA → Release**；FAIL 插入 **Fix → Review**。
+
+Fix 不得扩 scope；Release 不得未用户要求 push。

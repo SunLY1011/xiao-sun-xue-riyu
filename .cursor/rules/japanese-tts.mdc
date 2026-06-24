@@ -1,0 +1,32 @@
+---
+description: 日语朗读与 tts-cache 语音包约定（禁止中文 TTS 读日文）
+globs:
+  - js/speech-engine.js
+  - js/speak-ui.js
+  - js/shadow-speak.js
+  - js/**/vocab*.js
+  - js/**/dialogue*.js
+  - js/**/quiz*.js
+  - scripts/build-tts-cache.py
+  - tts-cache/**
+---
+
+# 日语 TTS / 语音包
+
+完整说明见项目根目录 **`docs/TTS-语音包说明.md`**。
+
+## 必须遵守
+
+1. **播放顺序**：`tts-cache/*.mp3` → 在线 `tl=ja` → 本机 ja（仅可靠日语包时）
+2. **禁止**：用中文 Windows 默认 `speechSynthesis` 朗读带汉字的日文（已移除宽松本机回退）
+3. **payload**：`data-speak` JSON 优先带 `kana`；测试题用 `questionTts` 完整句，不用带 `＿` 的题干
+4. **哈希**：`ttsCacheKey()` 与 `scripts/build-tts-cache.py` 的 `tts_key()` 一致
+5. **跟读**：单词/会話/测试题干使用 `ShadowSpeak.rowHtml()`（🔊 🎤 ▶）
+6. **改脚本后**：递增 `index.html` 的 `?v=` 与 `share-wechat.js` 的 `CACHE_VER`
+
+## 发布前
+
+```bash
+python scripts/verify-tts-cache.py
+python scripts/build-tts-cache.py
+```

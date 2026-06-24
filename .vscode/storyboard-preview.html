@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>全册24格分镜审阅 · あと学習</title>
+  <link rel="stylesheet" href="css/storyboard-preview.css" />
+</head>
+<body class="storyboard-preview-page">
+  <header class="storyboard-preview-top">
+    <h1>全册 6 页 × 4 格 · 分镜审阅</h1>
+    <p>グルミ＝小李 · 对白泡来自课文会話 · 纵向翻页、每页横滑四格。批 OK 后一次交美工出 <code>unit-{n}-strip.webp</code>。</p>
+    <p id="storyboard-serve-hint" class="storyboard-serve-hint">须用本地服务器打开（勿用 file://）。在项目目录执行：<code>python scripts/serve-storyboard.py</code> → <a id="storyboard-serve-link" href="http://127.0.0.1:8777/storyboard-preview.html">http://127.0.0.1:8777/storyboard-preview.html</a></p>
+    <nav class="storyboard-preview-nav" id="storyboard-jump-nav" aria-label="跳转到单元"></nav>
+    <p style="margin-top:0.4rem"><a href="index.html">← 回学习の道</a></p>
+  </header>
+  <main class="storyboard-preview-main" id="storyboard-scroll-root">
+    <p class="storyboard-load-placeholder">加载分镜数据…</p>
+  </main>
+  <script src="js/data/storyboard-preview-meta.js"></script>
+  <script src="js/data/unit-strip-storyboard.js"></script>
+  <script src="js/storyboard-preview.js"></script>
+</body>
+</html>

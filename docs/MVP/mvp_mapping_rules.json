@@ -1,0 +1,41 @@
+{
+  "workflow": "unit1_lesson_replication",
+  "source_mvp": {
+    "lesson_id": 1,
+    "template_file": "docs/MVP/标准课文模块.md",
+    "code_reference": "js/app.js (isL1FiveGate Path)"
+  },
+  "targets": [
+    { "lesson_id": 2, "product_name": "L2_これは本です", "prd_file": "【产品PRD】/新增补课文内容/第1单元/第1单元第02课.txt" },
+    { "lesson_id": 3, "product_name": "L3_ここはデパートです", "prd_file": "【产品PRD】/新增补课文内容/第1单元/第1单元第03课.txt" },
+    { "lesson_id": 4, "product_name": "L4_部屋に机といすがあります", "prd_file": "【产品PRD】/新增补课文内容/第1单元/第1单元第04课.txt" }
+  ],
+  "mapping_rules": {
+    "rendering": {
+      "vocab_gate": "7-column table (identical to L1 standard template Section 3)",
+      "grammar_gate": "GrammarNetwork.mount (shared, works automatically)",
+      "dialogue_gate": "DialogueGate.mount (shared, works automatically)",
+      "quiz_gate": "QuizGate.mount (shared, works automatically)",
+      "extension_gate": "summaryBlocks foldable list (identical to L1 standard template Section 7)"
+    },
+    "routing": {
+      "condition": "isUnit1Lesson(lessonId)",
+      "scope": "lessonId >= 2 && lessonId <= 4",
+      "excludes": "lessonId === 1 (L1 uses isL1FiveGate)"
+    },
+    "data_source": "auto-generated from PRD via generate-all-lessons.py"
+  },
+  "stages": [
+    { "id": 1, "name": "数据生成", "check": "lessons-data.js contains L2/L3/L4 with vocab/grammar/quiz/dialogue", "rollback": null },
+    { "id": 2, "name": "目录恢复", "check": "curriculum-catalog lessonIds = [1,2,3,4]", "rollback": 1 },
+    { "id": 3, "name": "路由添加", "check": "isUnit1Lesson exists, maxGateIndex/defGate/cockpitTabs/resolveGate all extended", "rollback": 2 },
+    { "id": 4, "name": "渲染添加", "check": "mountGate has L2-L4 vocab table + gate3 quiz + gate4 summary", "rollback": 3 },
+    { "id": 5, "name": "语法验证", "check": "node --check on all modified JS files passes", "rollback": 4 },
+    { "id": 6, "name": "浏览器验收", "check": "L2/L3/L4 each render 5 tabs with correct content", "rollback": 5 }
+  ],
+  "rollback_policy": {
+    "max_retries": 3,
+    "method": "git checkout 179266e -- js/app.js",
+    "compare": "node --check"
+  }
+}

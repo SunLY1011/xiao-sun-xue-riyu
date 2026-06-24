@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>小程序预览 · web-view（Cursor / 开发者工具对照）</title>
+  <script>
+    (function () {
+      if (location.protocol !== "file:") return;
+      location.replace(
+        "http://127.0.0.1:8765/miniapp-phone-preview.html" + (location.search || "")
+      );
+    })();
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #1e272e;
+      color: #ecf0f1;
+      font-family: system-ui, "Segoe UI", "Microsoft YaHei", sans-serif;
+      padding: 12px 16px 24px;
+    }
+    h1 { margin: 0 0 6px; font-size: 1rem; font-weight: 600; }
+    .lead {
+      margin: 0 0 12px;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      color: #95a5a6;
+      max-width: 52rem;
+    }
+    .lead code { font-size: 0.78rem; }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 14px;
+      max-width: 960px;
+    }
+    .toolbar a,
+    .toolbar button {
+      font-size: 0.8rem;
+      padding: 7px 11px;
+      border-radius: 8px;
+      border: 1px solid #4a6278;
+      background: #2c3e50;
+      color: #fff;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .toolbar button.is-primary,
+    .toolbar a.is-primary {
+      background: #ff8a80;
+      border-color: #e57373;
+      color: #3e2723;
+    }
+    .toolbar label {
+      font-size: 0.78rem;
+      color: #bdc3c7;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      max-width: 960px;
+    }
+    @media (min-width: 900px) {
+      .layout {
+        grid-template-columns: auto 1fr;
+        align-items: start;
+      }
+    }
+    .phone-label {
+      text-align: center;
+      font-size: 11px;
+      color: #7f8c8d;
+      margin-bottom: 6px;
+    }
+    .phone-shell {
+      padding: 12px;
+      border-radius: 36px;
+      background: linear-gradient(145deg, #5d6d7e, #1e272e);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+      display: inline-block;
+    }
+    .phone-inner {
+      width: 390px;
+      height: 844px;
+      border-radius: 22px;
+      overflow: hidden;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+    }
+    .wx-status {
+      flex: 0 0 47px;
+      height: 47px;
+      padding: 14px 16px 0;
+      background: #ff8a80;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .wx-nav {
+      flex: 0 0 44px;
+      height: 44px;
+      background: #ff8a80;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+    .wx-nav small {
+      font-size: 10px;
+      opacity: 0.85;
+      margin-left: 6px;
+      font-weight: 400;
+    }
+    .webview-wrap {
+      flex: 1 1 auto;
+      width: 390px;
+      height: 753px;
+      position: relative;
+      background: #fff8e1;
+    }
+    .phone-screen {
+      width: 390px;
+      height: 753px;
+      border: none;
+      display: block;
+      background: #fff8e1;
+    }
+    .side {
+      font-size: 0.8rem;
+      line-height: 1.55;
+      color: #bdc3c7;
+    }
+    .side dt { color: #7f8c8d; margin-top: 8px; }
+    .side dd { margin: 4px 0 0; }
+    .side code { font-size: 0.76rem; word-break: break-all; }
+    .warn {
+      max-width: 960px;
+      margin-bottom: 12px;
+      padding: 10px 12px;
+      background: #ff8a80;
+      color: #3e2723;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      display: none;
+    }
+    .warn.is-show { display: block; }
+    .cursor-hint {
+      max-width: 960px;
+      margin-bottom: 12px;
+      padding: 10px 12px;
+      background: #2d3436;
+      border: 1px solid #4a6278;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      line-height: 1.5;
+    }
+    .cursor-hint strong { color: #ff8a80; }
+  </style>
+</head>
+<body>
+  <div class="warn" id="file-warn">
+    请用 <strong>http://127.0.0.1:8765/miniapp-phone-preview.html</strong> 打开（先运行
+    <strong>重启本地服务.bat</strong>），不要用 file://。
+  </div>
+
+  <div class="cursor-hint" id="cursor-hint">
+    <strong>Cursor 内预览：</strong>
+    <code>Ctrl+Shift+P</code> → 输入
+    <code>Simple Browser: Show</code> → 粘贴
+    <code id="hint-url">http://127.0.0.1:8765/cursor-miniapp-phone.html</code>
+    （或运行任务「小程序 · Cursor 内预览」）
+  </div>
+
+  <h1>微信小程序壳 · web-view 竖屏对照</h1>
+  <p class="lead">
+    模拟 <code>pages/study/study</code>：顶栏「日语初级课后练习」+ 内嵌 H5（与
+    <code>japanese_learning_miniapp/config/h5-url.js</code> 一致）。下拉刷新逻辑在真机/开发者工具内生效。
+  </p>
+
+  <div class="toolbar">
+    <button type="button" class="is-primary" id="btn-reload">刷新（模拟下拉）</button>
+    <label><input type="radio" name="src" value="local" checked /> 本机 H5</label>
+    <label><input type="radio" name="src" value="public" /> 公网（与小程序线上一致）</label>
+    <a id="link-open" href="#" target="_blank" rel="noopener">新标签打开 H5</a>
+  </div>
+
+  <div class="layout">
+    <div>
+      <div class="phone-label">iPhone 14 真机 · 390×844（web-view 753px 高）</div>
+      <div class="phone-shell">
+        <div class="phone-inner">
+          <div class="wx-status"><span>9:41</span><span>▮▮▮ 🔋</span></div>
+          <div class="wx-nav">
+            日语初级课后练习
+            <small>web-view</small>
+          </div>
+          <div class="webview-wrap">
+            <iframe
+              class="phone-screen"
+              id="app-frame"
+              title="小程序 web-view"
+              src="about:blank"
+              allow="microphone"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+    <dl class="side">
+      <dt>当前加载</dt>
+      <dd><code id="url-current"></code></dd>
+      <dt>小程序 config</dt>
+      <dd><code id="url-config"></code></dd>
+      <dt>本机直链</dt>
+      <dd><code id="url-local"></code></dd>
+      <dt>说明</dt>
+      <dd>
+        左侧为 Cursor / 浏览器内对照；真机请用微信开发者工具导入
+        <code>japanese_learning_miniapp</code>。
+      </dd>
+    </dl>
+  </div>
+
+  <script src="js/share-wechat.js"></script>
+  <script>
+    (function () {
+      if (location.protocol === "file:") {
+        document.getElementById("file-warn").classList.add("is-show");
+      }
+
+      var ORIGIN = "https://saivenwang-byte.github.io/XiaoWangXueRiyu";
+      var v =
+        typeof ShareWechat !== "undefined" ? ShareWechat.CACHE_VER : "292";
+      var publicUrl = ORIGIN + "/index.html?v=" + v;
+      var localUrl =
+        location.origin +
+        location.pathname.replace(/[^/]+$/, "") +
+        "index.html?v=" +
+        v;
+
+      document.getElementById("url-config").textContent = publicUrl;
+      document.getElementById("url-local").textContent = localUrl;
+      document.getElementById("hint-url").textContent =
+        location.origin + "/cursor-miniapp-phone.html";
+
+      function pickBase() {
+        var mode = document.querySelector('input[name="src"]:checked').value;
+        return mode === "public" ? publicUrl : localUrl;
+      }
+
+      function loadFrame(bust) {
+        var base = pickBase();
+        var url = bust ? base + (base.indexOf("?") >= 0 ? "&" : "?") + "_mp=" + Date.now() : base;
+        var frame = document.getElementById("app-frame");
+        frame.src = "about:blank";
+        setTimeout(function () {
+          frame.src = url;
+          document.getElementById("url-current").textContent = url;
+          document.getElementById("link-open").href = url;
+        }, 60);
+      }
+
+      document.querySelectorAll('input[name="src"]').forEach(function (el) {
+        el.addEventListener("change", function () {
+          loadFrame(true);
+        });
+      });
+
+      document.getElementById("btn-reload").onclick = function () {
+        loadFrame(true);
+      };
+
+      loadFrame(false);
+    })();
+  </script>
+</body>
+</html>

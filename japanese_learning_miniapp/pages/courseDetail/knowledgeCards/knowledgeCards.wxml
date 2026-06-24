@@ -1,0 +1,24 @@
+<view class="container" wx:if="{{nodes.length}}">
+  <view class="lesson-title">语法卡片 {{index + 1}} / {{nodes.length}}</view>
+  <view class="card-container">
+    <view class="card {{isFlipped ? 'flipped' : ''}}" bindtap="flipCard">
+      <view class="card-front">
+        <view class="card-title">{{nodes[index].title}}</view>
+        <view class="card-hint">点击卡片看详解</view>
+      </view>
+      <view class="card-back">
+        <view class="card-explanation">{{nodes[index].explanation}}</view>
+        <view class="card-example">{{nodes[index].example}}</view>
+        <view class="card-zh">{{nodes[index].exampleTranslation}}</view>
+        <view class="ext" wx:if="{{nodes[index].ext}}">
+          <text class="ext-badge">拓</text> {{nodes[index].ext}}
+        </view>
+        <view class="tags">{{nodes[index].tags}}</view>
+      </view>
+    </view>
+  </view>
+  <view class="card-navigation">
+    <button class="nav-button" disabled="{{index === 0}}" bindtap="prevCard">上一张</button>
+    <button class="nav-button primary" bindtap="nextCard">{{index >= nodes.length - 1 ? '完成第一关' : '下一张'}}</button>
+  </view>
+</view>

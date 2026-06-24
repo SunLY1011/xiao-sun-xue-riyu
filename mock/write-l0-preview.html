@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>书写 L0 · 静态原型</title>
+  <link rel="stylesheet" href="../css/design-tokens.css?v=333" />
+  <link rel="stylesheet" href="../css/app.css?v=333" />
+  <link rel="stylesheet" href="../css/mvp.css?v=333" />
+  <link rel="stylesheet" href="../css/write-l0.css?v=333" />
+  <style>
+    body { margin: 0; background: #f5f0e8; }
+    .preview-frame { max-width: 390px; margin: 0 auto; min-height: 100dvh; background: var(--mvp-bg, #fff8e1); }
+    .preview-tabs { display: flex; gap: 8px; padding: 12px; justify-content: center; }
+    .preview-tabs button { padding: 8px 16px; border-radius: 8px; border: 1px solid #e0d5c8; background: #fff; }
+    .preview-tabs button.is-on { background: rgba(255,183,77,.3); font-weight: 700; }
+  </style>
+</head>
+<body class="mvp-app">
+  <div class="preview-frame">
+    <div class="preview-tabs">
+      <button type="button" class="is-on" id="tab-grid">帧 A · 清音表</button>
+      <button type="button" id="tab-sheet">帧 B · 米字格</button>
+    </div>
+    <div id="write-l0-root" class="write-l0-root"></div>
+  </div>
+  <script src="../js/mvp-storage.js?v=333"></script>
+  <script src="../js/data/intro-content.js?v=333"></script>
+  <script src="../js/write-kana-l0.js?v=333"></script>
+  <script>
+    let state = loadMvpState();
+    const root = document.getElementById("write-l0-root");
+    function paint() {
+      WriteKanaL0.render(root, state, (s) => { state = s; saveMvpState(s); });
+    }
+    paint();
+    document.getElementById("tab-grid").onclick = () => { paint(); };
+    document.getElementById("tab-sheet").onclick = () => {
+      const list = WriteKanaL0.flatKanaList();
+      if (list[0]) {
+        root.innerHTML = "";
+        WriteKanaL0.render(root, state, (s) => { state = s; });
+        const btn = root.querySelector(".write-l0-cell[data-kana]");
+        if (btn) btn.click();
+      }
+    };
+  </script>
+</body>
+</html>

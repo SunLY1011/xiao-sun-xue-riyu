@@ -1,0 +1,6 @@
+.page { padding: 24rpx; background: #fff8e1; min-height: 100vh; }
+.hint { font-size: 24rpx; color: #6d4c41; display: block; margin-bottom: 20rpx; }
+.empty { text-align: center; padding: 80rpx 0; color: #6d4c41; }
+.item { background: #fff; border: 1px solid #ffccbc; border-radius: 16rpx; padding: 24rpx; margin-bottom: 16rpx; }
+.q { font-size: 30rpx; display: block; }
+.meta { font-size: 24rpx; color: #888; display: block; margin: 8rpx 0 12rpx; }

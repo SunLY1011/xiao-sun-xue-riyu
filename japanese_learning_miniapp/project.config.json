@@ -1,0 +1,35 @@
+{
+  "description": "日语初级课后练习 · 打开即学（内嵌 H5 · 非出版社官方产品）",
+  "packOptions": {
+    "ignore": [
+      { "type": "folder", "value": "js" },
+      { "type": "folder", "value": "css" },
+      { "type": "folder", "value": "utils" },
+      { "type": "folder", "value": "h5" },
+      { "type": "folder", "value": "pages/index" },
+      { "type": "folder", "value": "pages/lessonHub" },
+      { "type": "folder", "value": "pages/courseDetail" },
+      { "type": "folder", "value": "pages/review" },
+      { "type": "folder", "value": "pages/myRecord" },
+      { "type": "suffix", "value": ".html" },
+      { "type": "suffix", "value": ".md" }
+    ],
+    "include": []
+  },
+  "setting": {
+    "bundle": false,
+    "userConfirmedBundleSwitch": false,
+    "urlCheck": true,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "coverView": true,
+    "showShadowRootInWxmlPanel": true
+  },
+  "compileType": "miniprogram",
+  "libVersion": "3.5.5",
+  "appid": "touristappid",
+  "projectname": "biaori-gonggu",
+  "condition": {}
+}

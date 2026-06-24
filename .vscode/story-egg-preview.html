@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>三级彩蛋 · 预览导航</title>
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --bg: #14141c;
+      --card: #1e1e2a;
+      --text: #f2ebe3;
+      --muted: #9a9488;
+      --link: #8ec8ff;
+      --l1: #e57373;
+      --l2: #64b5f6;
+      --l3: #ba68c8;
+      --border: #2e2e3a;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", system-ui, sans-serif;
+      line-height: 1.45;
+    }
+    .wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 1.25rem 1rem 2.5rem;
+    }
+    header {
+      margin-bottom: 1.25rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    h1 {
+      margin: 0 0 0.35rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+    .lead {
+      margin: 0;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+    .lead code {
+      font-size: 0.8rem;
+      color: #c5b896;
+    }
+    .lead.warn {
+      color: #ffb74d;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: rgba(255, 183, 77, 0.12);
+      border: 1px solid rgba(255, 183, 77, 0.35);
+    }
+    .lead.warn a {
+      color: #ffe082;
+      word-break: break-all;
+    }
+    .nav-top {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+    }
+    .nav-top a { color: var(--link); }
+    section {
+      margin-top: 1.5rem;
+    }
+    .tier-head {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin-bottom: 0.65rem;
+    }
+    .tier-head h2 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+    .tier-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      letter-spacing: 0.02em;
+    }
+    .tier-badge--l1 { background: rgba(229, 115, 115, 0.2); color: var(--l1); }
+    .tier-badge--l2 { background: rgba(100, 181, 246, 0.2); color: var(--l2); }
+    .tier-badge--l3 { background: rgba(186, 104, 200, 0.2); color: var(--l3); }
+    .tier-desc {
+      margin: 0 0 0.75rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .unit-block {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.75rem 0.85rem;
+      margin-bottom: 0.65rem;
+    }
+    .unit-block h3 {
+      margin: 0 0 0.5rem;
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+    .unit-block h3 .jp {
+      font-weight: 500;
+      opacity: 0.9;
+      font-size: 0.85rem;
+    }
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #252532;
+      color: var(--text);
+      font-size: 0.78rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .btn:hover {
+      background: #2f2f40;
+      border-color: #45455a;
+    }
+    .btn--l1 { border-color: rgba(229, 115, 115, 0.35); }
+    .btn--l2 {
+      border-color: rgba(100, 181, 246, 0.4);
+      font-weight: 600;
+      margin-top: 4px;
+    }
+    .btn--l3 {
+      width: 100%;
+      justify-content: center;
+      padding: 12px;
+      font-size: 0.9rem;
+      border-color: rgba(186, 104, 200, 0.45);
+      background: linear-gradient(180deg, #2a2438 0%, #1e1a28 100%);
+    }
+    .btn--primary {
+      background: #3d5a80;
+      border-color: #5a7aa8;
+      font-weight: 600;
+    }
+    .asset-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 8px;
+    }
+    .asset-grid a {
+      display: block;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--link);
+      font-size: 0.8rem;
+      text-align: center;
+      text-decoration: none;
+    }
+    .asset-grid a:hover { background: #252532; }
+    footer {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    #ver-line { color: #c5b896; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>三级彩蛋 · 预览导航</h1>
+      <p class="lead" id="wechat-hint">
+        真源 <code>docs/story-egg-three-tier-系统定稿.md</code>
+      </p>
+      <p class="lead warn" id="url-hint" hidden></p>
+      <nav class="nav-top">
+        <a href="index.html" id="link-home">学习 App</a>
+        <a href="storyboard-preview.html">分镜审阅</a>
+        <a href="story-unit-phone-real.html?tier=l2&amp;unit=1">竖屏真机排版验收</a>
+        <a href="docs/story-egg-three-tier-系统定稿.md">定稿说明</a>
+      </nav>
+      <p class="lead" style="margin-top: 0.5rem">缓存 <span id="ver-line">…</span></p>
+    </header>
+
+    <section id="sec-units" aria-labelledby="h-units">
+      <div class="tier-head">
+        <h2 id="h-units">按单元 · L1 / L2</h2>
+      </div>
+      <p class="tier-desc">
+        <span class="tier-badge tier-badge--l1">L1</span> 单课 <code>storyEggLesson=N</code> ·
+        <span class="tier-badge tier-badge--l2">L2</span> 拼图 <code>egg=unit&amp;unitId=N</code>
+      </p>
+      <div id="units-root"></div>
+    </section>
+
+    <section id="sec-l3" aria-labelledby="h-l3">
+      <div class="tier-head">
+        <span class="tier-badge tier-badge--l3">L3</span>
+        <h2 id="h-l3">终极二十四景</h2>
+      </div>
+      <p class="tier-desc">4×6 地理序 · 仅景点角标 · <code>egg=ultimate</code></p>
+      <a class="btn btn--l3" id="link-l3" href="#" target="_blank" rel="noopener">App 内预览 L3</a>
+      <p class="tier-desc" style="margin-top: 0.65rem">静态合成图</p>
+      <div class="btn-row">
+        <a class="btn" href="story-grand-preview.html" target="_blank" rel="noopener">egg-grand.webp</a>
+        <a class="btn" href="story-grand-confirmed.html" target="_blank" rel="noopener">4×6 分格标注</a>
+      </div>
+    </section>
+
+    <section aria-labelledby="h-assets">
+      <div class="tier-head">
+        <h2 id="h-assets">条带与分镜素材</h2>
+      </div>
+      <div class="asset-grid" id="asset-root"></div>
+    </section>
+
+    <footer>
+      开发：<code>StoryRewardDev.help()</code> · 链式验收：第 4 课 L1 关闭后应接 L2
+    </footer>
+  </div>
+
+  <script src="js/public-url.config.js"></script>
+  <script src="js/share-wechat.js"></script>
+  <script src="js/data/unit-strip-storyboard.js"></script>
+  <script>
+    (function () {
+      const VER =
+        typeof ShareWechat !== "undefined" && ShareWechat.CACHE_VER
+          ? ShareWechat.CACHE_VER
+          : "85";
+
+      function appOrigin() {
+        const pub =
+          typeof window.HYOUGA_PUBLIC_ORIGIN === "string" && window.HYOUGA_PUBLIC_ORIGIN
+            ? window.HYOUGA_PUBLIC_ORIGIN.replace(/\/$/, "")
+            : "";
+        const host = location.hostname || "";
+        const isLocal = host === "localhost" || host === "127.0.0.1" || host === "";
+        if (pub && isLocal) return pub;
+        if (pub && /MicroMessenger/i.test(navigator.userAgent || "")) return pub;
+        return location.origin;
+      }
+
+      function appUrl(query) {
+        const q = query.startsWith("?") ? query.slice(1) : query;
+        const base = appOrigin();
+        return `${base}/index.html?v=${VER}&${q}`;
+      }
+
+      document.getElementById("ver-line").textContent = `v=${VER}`;
+      document.getElementById("link-home").href = appUrl("");
+      document.getElementById("link-l3").href = appUrl("egg=ultimate");
+
+      const hint = document.getElementById("url-hint");
+      const origin = appOrigin();
+      const isWx = /MicroMessenger/i.test(navigator.userAgent || "");
+      const isLocal = /localhost|127\.0\.0\.1/.test(location.hostname || "");
+      if (hint && (isWx || isLocal)) {
+        hint.hidden = false;
+        hint.innerHTML = isWx
+          ? `微信内请用公网链接（localhost 无法打开）：<a href="${escapeHtml(appUrl("storyEggLesson=1"))}">${escapeHtml(appUrl("storyEggLesson=1"))}</a>`
+          : `本机开发：<a href="http://127.0.0.1:8765/index.html?v=${VER}">127.0.0.1:8765</a> · 手机/微信请用 GitHub Pages 公网地址`;
+      }
+
+      const boards =
+        typeof UNIT_STRIP_STORYBOARD !== "undefined" ? UNIT_STRIP_STORYBOARD : [];
+      const unitsRoot = document.getElementById("units-root");
+      const assetRoot = document.getElementById("asset-root");
+
+      boards.forEach((u) => {
+        const block = document.createElement("div");
+        block.className = "unit-block";
+        const title = document.createElement("h3");
+        title.innerHTML = `单元 ${u.unitId} · ${escapeHtml(u.unitZh || "")}
+          <span class="jp">${escapeHtml(u.stripTitle || "")}</span>`;
+        block.appendChild(title);
+
+        const row = document.createElement("div");
+        row.className = "btn-row";
+        (u.panels || []).forEach((p, i) => {
+          const a = document.createElement("a");
+          a.className = "btn btn--l1";
+          a.href = appUrl(`storyEggLesson=${p.lessonId}`);
+          a.target = "_blank";
+          a.rel = "noopener";
+          a.textContent = `${i + 1} · ${p.cornerZh || `第${p.lessonId}課`}`;
+          a.title = `L1 第${p.lessonId}課`;
+          row.appendChild(a);
+        });
+        block.appendChild(row);
+
+        const l2 = document.createElement("a");
+        l2.className = "btn btn--l2";
+        l2.href = appUrl(`egg=unit&unitId=${u.unitId}`);
+        l2.target = "_blank";
+        l2.rel = "noopener";
+        l2.textContent = `L2 · 单元 ${u.unitId} 四格拼图`;
+        block.appendChild(l2);
+
+        unitsRoot.appendChild(block);
+
+        const strip = document.createElement("a");
+        strip.href = `story-unit${u.unitId}-strip-preview.html`;
+        strip.textContent = `U${u.unitId} 条带 PNG`;
+        assetRoot.appendChild(strip);
+      });
+
+      [
+        ["分镜 6×4 审阅", "storyboard-preview.html"],
+        ["L1 截图参考", "index.html?v=" + VER + "&storyEggLesson=1"],
+      ].forEach(([label, href]) => {
+        const a = document.createElement("a");
+        a.href = href;
+        if (href.includes("index")) {
+          a.target = "_blank";
+          a.rel = "noopener";
+        }
+        a.textContent = label;
+        assetRoot.appendChild(a);
+      });
+
+      function escapeHtml(s) {
+        const d = document.createElement("div");
+        d.textContent = s || "";
+        return d.innerHTML;
+      }
+
+      document.querySelectorAll("#asset-root a, .btn-row a").forEach((a) => {
+        if (a.getAttribute("href")?.startsWith("index.html")) {
+          const q = a.getAttribute("href").split("?")[1] || "";
+          a.href = appUrl(q);
+          a.target = "_blank";
+          a.rel = "noopener";
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

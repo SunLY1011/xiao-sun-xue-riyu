@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SW + TTS Test</title>
+<style>
+body{font-family:-apple-system,sans-serif;padding:14px;background:#f5f5f5;color:#333;font-size:15px}
+h1{font-size:18px;color:#FF5722;text-align:center;margin:0 0 12px}
+.card{background:#fff;border-radius:10px;padding:12px;margin:10px 0;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+h2{font-size:14px;color:#FF7043;margin:0 0 10px;padding:0 0 6px;border-bottom:2px solid #FFE0B2}
+.row{padding:5px 0;border-bottom:1px solid #eee;font-size:14px}
+.row:last-child{border-bottom:none}
+.ok{color:#34C759;font-weight:700}
+.fail{color:#FF3B30;font-weight:700}
+.warn{color:#FF9500;font-weight:700}
+.btn{display:block;width:100%;padding:11px;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;margin-top:8px;background:#FF7043;color:#fff}
+.btn2{background:#ECEFF1;color:#455A64}
+.info{font-size:13px;color:#1565C0;padding:9px;background:#E3F2FD;border-left:3px solid #2196F3;border-radius:6px;margin:8px 0}
+.success{font-size:13px;color:#1B5E20;padding:9px;background:#E8F5E9;border-left:3px solid #4CAF50;border-radius:6px;margin:8px 0}
+.danger{font-size:13px;color:#B71C1C;padding:9px;background:#FFEBEE;border-left:3px solid #FF3B30;border-radius:6px;margin:8px 0}
+pre{background:#263238;color:#ECEFF1;padding:9px;border-radius:6px;font-size:11px;white-space:pre-wrap;margin-top:8px}
+.mono{font-family:monospace;font-size:12px;color:#78909C}
+</style>
+</head>
+<body>
+<h1>📱 SW + TTS 测试</h1>
+
+<div class="card">
+  <h2>🔗 环境</h2>
+  <div id="env"></div>
+</div>
+
+<div class="card">
+  <h2>🎯 第 1 步: TTS 文件可达性（不需要 SW）</h2>
+  <div id="tts">点击按钮检测</div>
+  <button class="btn" onclick="testTTS()">🔊 检测 TTS 文件</button>
+</div>
+
+<div class="card">
+  <h2>🔌 第 2 步: 注册 SW（测试 TTS 能否被缓存）</h2>
+  <div id="swreg">完成第 1 步后再点</div>
+  <button class="btn" onclick="registerSW()">🔌 注册 sw.js</button>
+  <button class="btn btn2" onclick="unregisterAll()">❌ 取消全部</button>
+  <button class="btn btn2" onclick="clearAllCaches()">🗑 清空缓存</button>
+</div>
+
+<div class="card">
+  <h2>📖 诊断结论</h2>
+  <div id="diag"><div class="info">运行测试后显示</div></div>
+</div>
+
+<div class="card">
+  <h2>📝 日志</h2>
+  <pre id="log">等待...</pre>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  const logEl = document.getElementById('log');
+  const logs = [];
+  function log(m, t){
+    const prefix = t ? '['+t.toUpperCase()+']' : '[INFO]';
+    logs.push(new Date().toLocaleTimeString()+' '+prefix+' '+m);
+    logEl.textContent = logs.join('\n');
+    console.log(m);
+  }
+
+  const p = location.protocol, h = location.hostname;
+  const isHttps = p === 'https:';
+  const ua = navigator.userAgent;
+  const vm = ua.match(/OS (\d+)_(\d+)/);
+  const iosVer = vm ? vm[1]+'.'+vm[2] : '?';
+
+  document.getElementById('env').innerHTML =
+    '<div class="row"><span class="mono">协议: </span>'+(isHttps ? '<span class="ok">HTTPS 🔒</span>' : '<span class="fail">HTTP</span>')+'</div>' +
+    '<div class="row"><span class="mono">主机: </span><span class="mono">'+h+'</span></div>' +
+    '<div class="row"><span class="mono">iOS: </span>'+iosVer+'</div>' +
+    '<div class="row"><span class="mono">SW API: </span>'+('serviceWorker' in navigator ? '<span class="ok">支持</span>' : '<span class="fail">不支持</span>')+'</div>' +
+    '<div class="row"><span class="mono">Cache API: </span>'+('caches' in window ? '<span class="ok">支持</span>' : '<span class="fail">不支持</span>')+'</div>';
+
+  log('环境: '+p+' '+h+' iOS '+iosVer);
+
+  function ft(url, ms){
+    ms = ms || 4000;
+    const ctrl = new AbortController();
+    const timer = setTimeout(function(){ ctrl.abort(); }, ms);
+    return fetch(url, { signal: ctrl.signal, cache: 'no-store' }).then(function(r){
+      clearTimeout(timer);
+      return r;
+    }).catch(function(e){
+      clearTimeout(timer);
+      throw e;
+    });
+  }
+
+  // 第 1 步: TTS 可达性测试（纯 fetch，不经过 SW）
+  async function testTTS(){
+    const out = document.getElementById('tts');
+    out.innerHTML = '<div class="info">检测中...</div>';
+    log('TTS 可达性测试');
+
+    const files = [
+      'tts-cache/1005a878.mp3',
+      'tts-cache/1009388a.mp3',
+      'tts-cache/1009ff.mp3',
+      'tts-cache/100a12.mp3',
+      'tts-cache/100a1e.mp3',
+    ];
+
+    let html = '';
+    let okCount = 0;
+    let firstOk = null;
+
+    for (const f of files) {
+      try {
+        const t0 = performance.now();
+        const r = await ft(f, 4000);
+        const t1 = performance.now();
+        if (r.ok) {
+          okCount++;
+          if (!firstOk) firstOk = f;
+          html += '<div class="row"><span class="ok">✅ '+f+'</span> <span class="mono">耗时 '+(t1-t0).toFixed(0)+'ms</span></div>';
+          log('TTS OK: '+f+' '+(t1-t0).toFixed(0)+'ms');
+        } else {
+          html += '<div class="row"><span class="fail">❌ '+f+' (HTTP '+r.status+')</span></div>';
+          log('TTS '+f+': HTTP '+r.status, 'error');
+        }
+      } catch(e) {
+        html += '<div class="row"><span class="fail">❌ '+f+' (ERR: '+e.message+')</span></div>';
+        log('TTS '+f+': '+e.message, 'error');
+      }
+    }
+
+    html += '<div class="row"><b>'+okCount+'/'+files.length+' 个文件可达</b></div>';
+
+    if (okCount > 0) {
+      html += '<div class="success">✅ TTS 文件可正常访问！现在可以进行第 2 步 SW 注册</div>';
+      html += '<div class="info">🔗 直接验证: <a href="'+firstOk+'" target="_blank" style="color:#1565C0">'+firstOk+'</a> (新窗口打开)</div>';
+    } else {
+      html += '<div class="danger">❌ 全部文件不可访问</div>';
+      html += '<div class="info">可能原因:<br>1. 目录名大小写问题 (tts-cache vs TTS-Cache)<br>2. 测试服务器配置问题<br>3. 文件权限问题</div>';
+    }
+
+    out.innerHTML = html;
+  }
+
+  // 第 2 步: 注册 SW
+  async function registerSW(){
+    const out = document.getElementById('swreg');
+    if (!('serviceWorker' in navigator)) {
+      out.innerHTML = '<div class="danger">SW API 不支持</div>';
+      return;
+    }
+    out.innerHTML = '<div class="info">正在注册 sw.js...（10 秒超时）</div>';
+    log('注册 sw.js...');
+
+    // 先清理旧注册（关键）
+    try {
+      const regs = await navigator.serviceWorker.getRegistrations();
+      for (const r of regs) { try { await r.unregister(); log('清理旧注册: '+r.scope); } catch(e){} }
+    } catch(e) { log('清理失败: '+e.message, 'error'); }
+
+    let done = false;
+    setTimeout(function(){
+      if (!done) {
+        out.innerHTML = '<div class="danger">⏱️ 超时！注册超过 10 秒无响应<br>可能: sw.js 有语法错误 / MIME 类型不对</div>';
+        log('SW 注册超时', 'error');
+      }
+    }, 10000);
+
+    try {
+      const reg = await navigator.serviceWorker.register('sw.js', { scope: './' });
+      done = true;
+      let status = '';
+      if (reg.installing) status += ' installing';
+      if (reg.waiting) status += ' waiting';
+      if (reg.active) status += ' active';
+
+      out.innerHTML = '<div class="success">✅ SW 注册成功!</div>' +
+        '<div class="mono">scope: '+reg.scope.replace(location.origin,'')+'</div>' +
+        '<div class="mono">状态: '+status+'</div>' +
+        '<div class="info">⏳ 等 3 秒检查是否激活</div>';
+      log('SW 注册成功: '+status);
+
+      setTimeout(async function(){
+        const r = await navigator.serviceWorker.getRegistration();
+        const controlled = !!(r && r.active && navigator.serviceWorker.controller);
+        if (r && r.active) {
+          out.innerHTML = '<div class="success">✅ SW 已激活！页面受控</div>' +
+            '<div class="mono">当前 fetch 请求都会经过 SW</div>' +
+            '<div class="info">📌 现在 TTS 请求会被 SW 拦截缓存</div>';
+          log('SW 已激活，页面受控');
+          updateDiag(true, true);
+        } else {
+          out.innerHTML = '<div class="success">✅ SW 已注册</div>' +
+            '<div class="info">⏳ 尚未激活。刷新页面后生效，或 SW 脚本 install 事件未正确 resolve</div>';
+          log('SW 已注册但未激活');
+          updateDiag(true, false);
+        }
+      }, 3000);
+    } catch(err) {
+      done = true;
+      out.innerHTML = '<div class="danger">❌ 注册失败</div><div class="mono">'+err.message+'</div>' +
+        '<div class="info">检查: sw.js 是否有 JS 语法错误 / 首行有无特殊字符</div>';
+      log('SW 注册失败: '+err.message, 'error');
+    }
+  }
+
+  async function unregisterAll(){
+    if (!('serviceWorker' in navigator)) return;
+    const regs = await navigator.serviceWorker.getRegistrations();
+    for (const r of regs) { try { await r.unregister(); log('取消: '+r.scope); } catch(e){} }
+    alert('已取消 '+regs.length+' 个注册');
+  }
+
+  async function clearAllCaches(){
+    if (!('caches' in window)) return;
+    if (!confirm('确定清空全部缓存？')) return;
+    const names = await caches.keys();
+    for (const n of names) try { await caches.delete(n); } catch(e) {}
+    alert('已清空 '+names.length+' 个缓存');
+    log('清空缓存: '+names.length);
+  }
+
+  function updateDiag(swOk, controlled){
+    const out = document.getElementById('diag');
+    if (isHttps && swOk) {
+      out.innerHTML = '<div class="success">✅ 结论: HTTPS + iOS '+iosVer+' Safari 完整支持 Service Worker！</div>' +
+        '<div class="row"><span class="mono">SW 注册: '+(swOk ? '<span class="ok">OK</span>' : '<span class="fail">失败</span>')+'</span></div>' +
+        '<div class="row"><span class="mono">页面受控: '+(controlled ? '<span class="ok">是</span>' : '<span class="warn">刷新后生效</span>')+'</span></div>' +
+        '<div class="info">📌 部署到 GitHub Pages 或任意 HTTPS 服务器即可正式使用</div>';
+    } else if (isHttps) {
+      out.innerHTML = '<div class="info">ℹ️ HTTPS 环境 OK，SW 尚未成功注册（可能脚本有问题）</div>';
+    } else {
+      out.innerHTML = '<div class="danger">⚠️ HTTP 局域网，iOS Safari 不允许 SW</div>';
+    }
+  }
+
+  window.testTTS = testTTS;
+  window.registerSW = registerSW;
+  window.unregisterAll = unregisterAll;
+  window.clearAllCaches = clearAllCaches;
+
+})();
+</script>
+</body>
+</html>

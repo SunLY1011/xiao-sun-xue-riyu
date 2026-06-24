@@ -1,0 +1,7 @@
+<view class="page" wx:if="{{questions.length}}">
+  <text class="q">{{questions[qi].question}}</text>
+  <view wx:if="{{questions[qi].type === 'choice'}}">
+    <button wx:for="{{questions[qi].options}}" wx:key="*this" data-i="{{index}}" bindtap="pick">{{item}}</button>
+  </view>
+  <text class="fb">{{feedback}}</text>
+</view>

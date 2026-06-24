@@ -1,0 +1,20 @@
+<view class="page">
+  <view class="hero">
+    <text class="hero-title">こんにちは！课后 10 分钟</text>
+    <text class="hero-sub">串语法 · 练对话 · 测考点</text>
+    <text class="hero-meta">本周已学 {{weekDays}} 天</text>
+  </view>
+
+  <view class="lesson-card" wx:for="{{lessons}}" wx:key="id" data-id="{{item.id}}" bindtap="goToLesson">
+    <view class="lc-head">
+      <text class="lc-title">{{item.title}}</text>
+      <text class="lc-badge" wx:if="{{item.core}}">深度语法网</text>
+    </view>
+    <text class="lc-headline">{{item.headline}}</text>
+    <text class="lc-sub">{{item.subtitle}}</text>
+    <text class="lc-gates">三关 {{item.gates}}</text>
+    <view class="lc-bar"><view class="lc-fill" style="width:{{item.progress}}%"></view></view>
+  </view>
+
+  <button class="btn-ghost" bindtap="openH5">H5 完整版说明</button>
+</view>

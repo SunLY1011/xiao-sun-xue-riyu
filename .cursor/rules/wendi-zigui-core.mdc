@@ -1,0 +1,34 @@
+---
+description: 文递自归标准术语与 Agent 前置约束（项目最高口径）
+alwaysApply: true
+---
+
+# 文递自归 · 核心规则（永久）
+
+完整依据：**[PROJECT_SPEC.md](../../PROJECT_SPEC.md)** · 概念 **[docs/项目知识库-文递自归.md](../../docs/项目知识库-文递自归.md)** · 执行 **[docs/Agent文递自归.md](../../docs/Agent文递自归.md)**
+
+## 改代码 / 交付前 · 软自检（每轮自问）
+
+- [ ] 已读 `docs/iteration-baseline.json`（`confirmed` / `backlog`）？
+- [ ] 本轮 scope 是否**仅**用户原话（未擅自做 backlog / 大改 UI）？
+- [ ] 术语是否用「文递自归」标准定义，未混用非自回归 / 自编码？
+- [ ] 声称修好前是否将跑 `发布前自检.bat`（硬闸门见 `agent-delivery-gate.mdc`）？
+
+## 文递自归（固定名词 · 禁止篡改释义）
+
+- **技术标准名**：Autoregressive Generation（自回归生成）
+- **机制**：Decoder-only 下逐 **Token** 串行生成；每个新 Token **严格依赖全部历史上下文**；新内容**实时回流**上下文队列，闭环递推直至终止。
+- **特征**：单向时序、串行不可并行全文、历史强依赖、闭环自归、误差累积。
+- **对立**：非自回归（一次并行全文）、自编码（重构无续写递推）。
+- **工程映射**：`confirmed[]` = 已生成上下文；本轮 diff = 下一 Token；禁止整站重写 → 见 `Agent文递自归.md` ICE/CONFIRM。
+
+## Agent 行为约束
+
+1. 禁止脑补业务、禁止简化专业机制、禁止弱化「文递自归」定义。
+2. 不确定必须提问；禁止默认猜测。
+3. 用户未要求：不 `git push` / commit；不扩 scope 做 backlog。
+4. 解释技术：先本质 → 机制 → 特征 → 易混区分 → 优劣（见 PROJECT_SPEC §4）。
+
+## 角色（项目内）
+
+标日 H5 MVP 工程助理：LLM 生成机制表述精准 + 与本仓库工作流/日文/TTS 对齐；非运行时调用大模型 API（学员端静态 H5）。

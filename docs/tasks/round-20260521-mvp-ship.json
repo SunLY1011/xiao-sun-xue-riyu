@@ -1,0 +1,11 @@
+{
+  "schema": "hyouga-pm-tasks/v1",
+  "id": "round-20260521-mvp-ship",
+  "created": "2026-05-21",
+  "from_user": "MVP 收官：V3 已通过，准备 push + 手机验收",
+  "cache_target": "44",
+  "parallel_ok": false,
+  "tasks": [],
+  "pipeline_after_dev": ["hyouga-review", "hyouga-qa", "hyouga-shipper"],
+  "notes": "无新开发任务；直接 Review/QA 已 PASS 后走 Release R2（用户明示 push 时）"
+}

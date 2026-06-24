@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cursor 预览 · 日语初级课后练习 H5</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, "Microsoft YaHei", sans-serif;
+      background: linear-gradient(160deg, #263238 0%, #1a1a2e 100%);
+      color: #eceff1;
+      padding: 20px 16px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.15rem;
+      text-align: center;
+      color: #ff8a80;
+    }
+    .sub {
+      margin: 0 0 20px;
+      font-size: 0.85rem;
+      color: #90a4ae;
+      text-align: center;
+      max-width: 22rem;
+      line-height: 1.5;
+    }
+    .btn {
+      display: block;
+      width: min(100%, 320px);
+      margin: 0 0 12px;
+      padding: 16px 20px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      color: #3e2723;
+      background: #ff8a80;
+      box-shadow: 0 4px 14px rgba(255, 138, 128, 0.35);
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn.secondary {
+      background: #37474f;
+      color: #fff;
+      font-size: 0.92rem;
+      font-weight: 500;
+      box-shadow: none;
+      border: 1px solid #546e7a;
+    }
+    .steps {
+      margin-top: 24px;
+      max-width: 22rem;
+      font-size: 0.8rem;
+      line-height: 1.6;
+      color: #b0bec5;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 12px 14px;
+      border-radius: 10px;
+    }
+    .steps strong { color: #ffccbc; }
+    .steps code {
+      display: block;
+      margin: 6px 0;
+      padding: 8px;
+      background: #111;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      word-break: break-all;
+      color: #81d4fa;
+    }
+    .err {
+      display: none;
+      margin-top: 12px;
+      padding: 10px;
+      background: #c62828;
+      color: #fff;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      max-width: 22rem;
+    }
+    .err.is-show { display: block; }
+  </style>
+</head>
+<body>
+  <h1>日语初级课后练习 · H5 预览</h1>
+  <p class="sub">点下面按钮会在<strong>当前窗口</strong>打开学习页（不用 iframe，Cursor 里也能看见）</p>
+
+  <button type="button" class="btn" id="btn-phone">真机尺寸 390×844（推荐）</button>
+  <button type="button" class="btn secondary" id="btn-local">全屏本机学习页</button>
+  <button type="button" class="btn secondary" id="btn-public">全屏公网学习页</button>
+
+  <div class="err" id="err-box"></div>
+
+  <div class="steps">
+    <strong>Cursor 侧边预览：</strong>
+    1. 按 <strong>Ctrl+Shift+P</strong><br />
+    2. 输入 <strong>Simple Browser: Show</strong><br />
+    3. 粘贴地址（或先点上面按钮，再把地址栏里的链接复制进去）：
+    <code id="copy-url">http://127.0.0.1:8765/cursor-miniapp-phone.html?live=1</code>
+    <br /><br />
+    <strong>或：</strong>右键本文件 → Open with Live Server（需安装 Live Server 扩展）
+  </div>
+
+  <script src="js/share-wechat.js"></script>
+  <script>
+    (function () {
+      var v =
+        typeof ShareWechat !== "undefined" ? ShareWechat.CACHE_VER : "292";
+      var local =
+        "http://127.0.0.1:8765/index.html?v=" + v + "&cursorPreview=1";
+      var pub =
+        (typeof ShareWechat !== "undefined"
+          ? ShareWechat.OFFICIAL_ORIGIN
+          : "https://saivenwang-byte.github.io/XiaoWangXueRiyu") +
+        "/index.html?v=" +
+        v +
+        "&cursorPreview=1";
+
+      if (location.protocol !== "file:") {
+        document.getElementById("copy-url").textContent =
+          location.origin + "/cursor-预览-点这个.html";
+      } else {
+        document.getElementById("err-box").textContent =
+          "不要用双击打开。请先运行「打开本地预览.bat」，再用浏览器地址栏打开本页。";
+        document.getElementById("err-box").classList.add("is-show");
+      }
+
+      function go(url, isLocal) {
+        if (isLocal && location.protocol === "file:") {
+          document.getElementById("err-box").textContent =
+            "本机预览需先启动 8765 服务：双击「打开本地预览.bat」";
+          document.getElementById("err-box").classList.add("is-show");
+          return;
+        }
+        location.replace(url);
+      }
+
+      document.getElementById("btn-phone").onclick = function () {
+        if (location.protocol === "file:") {
+          document.getElementById("err-box").textContent =
+            "请先运行「打开本地预览.bat」";
+          document.getElementById("err-box").classList.add("is-show");
+          return;
+        }
+        location.replace(
+          location.origin + "/cursor-miniapp-phone.html?live=1"
+        );
+      };
+      document.getElementById("btn-local").onclick = function () {
+        go(local, true);
+      };
+      document.getElementById("btn-public").onclick = function () {
+        go(pub, false);
+      };
+
+      var q = new URLSearchParams(location.search);
+      if (q.get("go") === "phone") {
+        document.getElementById("btn-phone").click();
+      }
+      if (q.get("go") === "local") go(local, true);
+      if (q.get("go") === "public") go(pub, false);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+/**
+ * 标日あと学習 · 全域视觉令牌 v1
+ * 真源文档：docs/DESIGN-TOKENS-v1.md
+ * 样张：mock/design-tokens-v1-sample.html
+ */
+:root {
+  /* ── 品牌 · 与封面 / 顶栏 ── */
+  --hy-brand-navy: #1e3a5f;
+  --hy-brand-navy-muted: #4a6fa5;
+  --hy-brand-coral: #ff8a80;
+  --hy-brand-coral-dark: #e57373;
+  --hy-brand-coral-press: #ffab91;
+  --hy-path-blue: #4a6fa5;
+  --hy-surface-cream: #fff8e1;
+  --hy-surface-white: #ffffff;
+  --hy-surface-muted: #faf8f5;
+  --hy-border-soft: #e8e0d0;
+  --hy-border-card: #ffccbc;
+  --hy-text-primary: #3e2723;
+  --hy-text-muted: #6d4c41;
+  --hy-zh-muted: #90a4ae;
+
+  /* 顶栏（Q2：米黄底 + 海军字 · 紧凑 48px） */
+  --hy-top-h: 48px;
+  --hy-top-bg: var(--hy-surface-cream);
+  --hy-top-fg: var(--hy-brand-navy);
+  --hy-top-border: var(--hy-border-soft);
+
+  /* ── MVP 桥接（Q1 主行动色 = 珊瑚） ── */
+  --mvp-primary: var(--hy-brand-coral);
+  --mvp-primary-dark: var(--hy-brand-coral-dark);
+  --mvp-bg: var(--hy-surface-cream);
+  --mvp-card: var(--hy-surface-white);
+  --mvp-text: var(--hy-text-primary);
+  --mvp-muted: var(--hy-text-muted);
+  --mvp-border: var(--hy-border-card);
+
+  /* ── 五关 · 功能五色（降饱和 · Q3） ── */
+  --gate-0-accent: #4a6fa5;
+  --gate-0-bg: #eef3f9;
+  --gate-0-border: #c5d4e8;
+  --gate-0-active-bg: #e3ecf6;
+  --gate-0-active-fg: #1e3a5f;
+
+  --gate-1-accent: #b86b3a;
+  --gate-1-bg: #faf3ed;
+  --gate-1-border: #e8d4c4;
+  --gate-1-active-bg: #f5ebe3;
+  --gate-1-active-fg: #5d3a1f;
+
+  --gate-2-accent: #5a8f62;
+  --gate-2-bg: #edf4ee;
+  --gate-2-border: #c5dcc8;
+  --gate-2-active-bg: #e4efe6;
+  --gate-2-active-fg: #2e5a34;
+
+  --gate-3-accent: #7d5f8f;
+  --gate-3-bg: #f4eff6;
+  --gate-3-border: #ddd0e4;
+  --gate-3-active-bg: #ebe4f0;
+  --gate-3-active-fg: #4a2d5c;
+
+  --gate-4-accent: #4a8f87;
+  --gate-4-bg: #edf5f4;
+  --gate-4-border: #c0ddd8;
+  --gate-4-active-bg: #e2f0ee;
+  --gate-4-active-fg: #1f4f49;
+
+  /* ── 语义色（修复原 mvp :root 自引用） ── */
+  --c-primary: var(--hy-brand-navy);
+  --c-primary-light: var(--hy-brand-navy-muted);
+  --c-surface: var(--hy-surface-white);
+  --c-bg: #f7f5f0;
+  --c-text: #263238;
+  --c-text2: #757575;
+  --c-text3: #90a4ae;
+  --c-border: #e0e0e0;
+  --c-border-light: #eceff1;
+  --c-accent-orange: var(--gate-1-accent);
+  --c-accent-orange-bg: var(--gate-1-bg);
+  --c-accent-green: var(--gate-2-accent);
+  --c-accent-green-bg: var(--gate-2-bg);
+  --c-accent-blue: var(--gate-0-accent);
+  --c-accent-blue-bg: var(--gate-0-bg);
+  --c-accent-purple: var(--gate-3-accent);
+  --c-accent-purple-bg: var(--gate-3-bg);
+  --c-accent-teal: var(--gate-4-accent);
+  --c-accent-teal-bg: var(--gate-4-bg);
+  --c-highlight: #e89a4a;
+  --c-highlight-bg: #fff6eb;
+  --c-danger: #f44336;
+  --c-success: #4caf50;
+  --c-link-blue: #64b5f6;
+  --c-link-red: #e57373;
+  --c-link-green: #81c784;
+  --c-tag-gray: #bdbdbd;
+
+  /* 通关星 / 课次金星（符号表 · 全 App） */
+  --hy-star-gold: #f57f17;
+  --hy-star-gold-ring: #ffc107;
+  --hy-star-gold-halo: #ffecb3;
+  --hy-star-gold-surface: #fffdf5;
+  --hy-star-tried: #ff8f00;
+  --hy-star-ghost: #cfd8dc;
+
+  /* 会話录音 / 校验 */
+  --hy-recording: #e53935;
+  --hy-recording-dark: #c62828;
+  --hy-recording-surface: rgba(229, 57, 53, 0.12);
+  --hy-success-ui: #43a047;
+  --hy-success-surface: #f1f8e9;
+
+  /* 地图 · 未启程灰 */
+  --hy-map-dormant-border: #e0e0e0;
+  --hy-map-dormant-fill: #f5f5f5;
+  --hy-map-dormant-text: #bdbdbd;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 20px;
+
+  /* 笔记 · 三维+薄弱（对齐五关色 · 规范19） */
+  --notes-dim-tb-bg: var(--gate-0-bg);
+  --notes-dim-tb-border: var(--gate-0-border);
+  --notes-dim-tb-accent: var(--gate-0-accent);
+  --notes-dim-tb-fg: var(--gate-0-active-fg);
+  --notes-dim-tc-bg: var(--gate-2-bg);
+  --notes-dim-tc-border: var(--gate-2-border);
+  --notes-dim-tc-accent: var(--gate-2-accent);
+  --notes-dim-tc-fg: var(--gate-2-active-fg);
+  --notes-dim-sc-bg: var(--gate-3-bg);
+  --notes-dim-sc-border: var(--gate-3-border);
+  --notes-dim-sc-accent: var(--gate-3-accent);
+  --notes-dim-sc-fg: var(--gate-3-active-fg);
+  --notes-dim-wk-bg: var(--gate-1-bg);
+  --notes-dim-wk-border: var(--gate-1-border);
+  --notes-dim-wk-accent: var(--gate-1-accent);
+  --notes-dim-wk-fg: var(--gate-1-active-fg);
+  --notes-dot: var(--hy-star-tried);
+
+  /* ── 字号阶梯（PR-2E · 仅视觉） ── */
+  --hy-type-micro: 9px;
+  --hy-type-caption: 10px;
+  --hy-type-label: 11px;
+  --hy-type-body-sm: 12px;
+  --hy-type-body: 14px;
+  --hy-type-body-lg: 15px;
+  --hy-type-title-sm: 16px;
+  --hy-type-title: 17px;
+
+  /* ── 图标尺寸（DESIGN-L0） ── */
+  --hy-icon-l0: 24px;
+  --hy-icon-l1: 22px;
+  --hy-icon-l2: 20px;
+  --hy-icon-l3: 18px;
+}

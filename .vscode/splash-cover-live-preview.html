@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>封面 2.0 · 实时预览 + 区域标尺</title>
+  <script>
+    (function () {
+      if (location.protocol !== "file:") return;
+      location.replace("http://127.0.0.1:8765/splash-cover-live-preview.html" + (location.search || ""));
+    })();
+  </script>
+  <link rel="stylesheet" href="css/mvp.css" id="mvp-css" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #263238;
+      color: #eceff1;
+      font-family: system-ui, "Segoe UI", "Microsoft YaHei", sans-serif;
+      padding: 12px 16px 24px;
+    }
+    h1 { margin: 0 0 6px; font-size: 1rem; }
+    .lead { margin: 0 0 10px; font-size: 0.82rem; color: #b0bec5; max-width: 52rem; line-height: 1.5; }
+    .lead code { color: #80cbc4; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+    .toolbar a, .toolbar button {
+      font-size: 0.8rem; padding: 7px 11px; border-radius: 8px;
+      border: 1px solid #546e7a; background: #455a64; color: #fff;
+      text-decoration: none; cursor: pointer;
+    }
+    .toolbar .is-primary { background: #00897b; border-color: #00695c; }
+    .ver-chip {
+      display: inline-block; margin-bottom: 10px; padding: 4px 10px;
+      border-radius: 6px; background: #37474f; font-size: 0.78rem; color: #ffcc80;
+    }
+    .layout {
+      display: grid;
+      gap: 16px;
+      align-items: start;
+    }
+    @media (min-width: 960px) {
+      .layout { grid-template-columns: auto 1fr; }
+    }
+    .stage-center { display: flex; flex-direction: column; align-items: center; }
+    .scale-wrap { transform-origin: top center; }
+    .phone-bezel {
+      padding: 14px 10px 18px; border-radius: 40px;
+      background: linear-gradient(160deg, #78909c 0%, #455a64 45%, #263238 100%);
+      box-shadow: 0 24px 56px rgba(0, 0, 0, 0.5);
+    }
+    .screen-boundary {
+      --phone-w: 390px;
+      --phone-h: 844px;
+      --safe-top: 47px;
+      --safe-bottom: 34px;
+      width: var(--phone-w);
+      height: var(--phone-h);
+      border-radius: 24px;
+      outline: 1px solid #546e7a;
+      overflow: hidden;
+      background: #fff8e1;
+      position: relative;
+    }
+    .screen-boundary .splash-root {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .scale-label { margin-top: 10px; font-size: 11px; color: #90a4ae; text-align: center; max-width: 390px; }
+    .warn {
+      display: none; margin-bottom: 10px; padding: 8px 10px;
+      background: #ff8a80; color: #3e2723; border-radius: 8px; font-size: 0.82rem;
+    }
+    .warn.is-show { display: block; }
+
+    /* —— 区域标尺（同源 mock/home-splash-v3-phone.html）—— */
+    .guide-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      pointer-events: none;
+    }
+    .guide-layer.is-hidden { display: none; }
+    .safe-band {
+      position: absolute;
+      left: 0;
+      right: 0;
+      border: 1px dashed rgba(33, 150, 243, 0.65);
+      background: rgba(33, 150, 243, 0.08);
+    }
+    .safe-band--top { top: 0; height: var(--safe-top); }
+    .safe-band--bottom { bottom: 0; height: var(--safe-bottom); }
+    .safe-tag {
+      position: absolute;
+      left: 6px;
+      font-size: 9px;
+      font-weight: 700;
+      color: #1565c0;
+    }
+    .safe-band--top .safe-tag { top: 4px; }
+    .safe-band--bottom .safe-tag { bottom: 4px; }
+
+    .row-band {
+      position: absolute;
+      left: 0;
+      right: 0;
+      border-top: 1px dashed rgba(96, 125, 139, 0.75);
+      border-bottom: 1px dashed rgba(96, 125, 139, 0.75);
+      background: rgba(96, 125, 139, 0.05);
+    }
+    .row-band-tag {
+      position: absolute;
+      right: 4px;
+      top: 2px;
+      font-size: 9px;
+      font-weight: 800;
+      color: #455a64;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 1px 5px;
+      border-radius: 3px;
+      line-height: 1.25;
+    }
+
+    .zone-box {
+      position: absolute;
+      border: 2px solid;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .zone-box--brand { border-color: rgba(255, 112, 67, 0.9); }
+    .zone-box--cover { border-color: rgba(2, 136, 209, 0.95); background: rgba(2, 136, 209, 0.06); }
+    .zone-box--map-stage { border-color: rgba(0, 137, 123, 0.9); border-style: dashed; }
+    .zone-box--cta { border-color: rgba(126, 87, 194, 0.9); }
+    .zone-box--btn { border-color: rgba(244, 81, 30, 0.95); border-width: 2px; }
+    .zone-label {
+      position: absolute;
+      top: 2px;
+      left: 4px;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #fff;
+      white-space: nowrap;
+      line-height: 1.2;
+    }
+    .zone-box--brand .zone-label { background: #ff7043; }
+    .zone-box--cover .zone-label { background: #0288d1; }
+    .zone-box--map-stage .zone-label { background: #00897b; }
+    .zone-box--cta .zone-label { background: #7e57c2; }
+    .zone-box--btn .zone-label { background: #f4511e; }
+    .zone-metrics {
+      position: absolute;
+      right: 4px;
+      bottom: 2px;
+      max-width: 96%;
+      font-size: 8px;
+      font-weight: 600;
+      color: #263238;
+      background: rgba(255, 255, 255, 0.94);
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+      line-height: 1.25;
+    }
+
+    .side {
+      font-size: 0.8rem;
+      line-height: 1.55;
+      color: #cfd8dc;
+      max-width: 36rem;
+    }
+    .side h2 { margin: 12px 0 8px; font-size: 0.92rem; color: #fff; }
+    .side h2:first-child { margin-top: 0; }
+    .side table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.76rem;
+      margin: 6px 0 10px;
+    }
+    .side th, .side td {
+      border: 1px solid #546e7a;
+      padding: 5px 7px;
+      text-align: left;
+      vertical-align: top;
+    }
+    .side th { background: #455a64; color: #b0bec5; }
+    .side .swatch {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      vertical-align: middle;
+      margin-right: 4px;
+    }
+    .side ul { margin: 0; padding-left: 1.1rem; }
+    .side li { margin: 4px 0; }
+    .side .note { color: #90a4ae; font-size: 0.75rem; }
+  </style>
+</head>
+<body>
+  <div class="warn" id="file-warn">请用 <code>http://127.0.0.1:8765/splash-cover-live-preview.html</code> 打开</div>
+
+  <h1>封面 2.0 · 实时预览 + 上/中/下分区标尺</h1>
+  <p class="lead">
+    加载真实 <code>home-splash.js</code> 叠层；彩色框为<strong>实测 DOM 占位</strong>（改 CSS 后点「重新测量」）。
+    灰虚线为三套<strong>讨论用分段</strong>（非代码写死）。同源模块：<code>mock/home-splash-v3-phone.html</code>。
+  </p>
+  <p class="ver-chip" id="ver-chip">加载中…</p>
+
+  <div class="toolbar">
+    <button type="button" class="is-primary" id="btn-reload">刷新最新</button>
+    <button type="button" id="btn-toggle-guides">隐藏/显示标尺</button>
+    <button type="button" id="btn-remeasure">重新测量</button>
+    <a href="mock/home-splash-v3-phone.html" target="_blank">旧版 v3 标尺页</a>
+    <a href="index.html" target="_blank">完整 App</a>
+  </div>
+
+  <div class="layout">
+    <div class="stage-center">
+      <div class="scale-wrap" id="scale-wrap">
+        <div class="phone-bezel">
+          <div class="screen-boundary" id="phone-screen">
+            <div id="splash-root" class="splash-root"></div>
+            <div class="guide-layer" id="guide-layer">
+              <div class="safe-band safe-band--top" aria-hidden="true">
+                <span class="safe-tag">safe-top 47px · 5.6%</span>
+              </div>
+              <div class="safe-band safe-band--bottom" aria-hidden="true">
+                <span class="safe-tag">safe-bottom 34px · 4.0%</span>
+              </div>
+              <!-- 三段主分区（讨论稿 · 844px 高） -->
+              <div class="row-band" id="band-upper" style="top: 97px; height: 136px;" aria-hidden="true">
+                <span class="row-band-tag">上部 U · 品牌带（顶 +54px）</span>
+              </div>
+              <div class="row-band" id="band-middle" style="top: 233px; height: 452px;" aria-hidden="true">
+                <span class="row-band-tag">中部 M · ~59% · 地图主视觉</span>
+              </div>
+              <div class="row-band" id="band-lower" style="top: 685px; height: 125px;" aria-hidden="true">
+                <span class="row-band-tag">下部 L · ~15% · CTA dock</span>
+              </div>
+              <!-- 实测区 -->
+              <div class="zone-box zone-box--brand" id="zone-brand" hidden>
+                <span class="zone-label">① 品牌 DOM</span>
+                <span class="zone-metrics" id="metrics-brand"></span>
+              </div>
+              <div class="zone-box zone-box--cover" id="zone-cover" hidden>
+                <span class="zone-label">② 底图 img</span>
+                <span class="zone-metrics" id="metrics-cover"></span>
+              </div>
+              <div class="zone-box zone-box--map-stage" id="zone-map-stage" hidden>
+                <span class="zone-label">②a map-stage</span>
+                <span class="zone-metrics" id="metrics-map-stage"></span>
+              </div>
+              <div class="zone-box zone-box--cta" id="zone-cta" hidden>
+                <span class="zone-label">③ CTA 整块</span>
+                <span class="zone-metrics" id="metrics-cta"></span>
+              </div>
+              <div class="zone-box zone-box--btn" id="zone-btn" hidden>
+                <span class="zone-label">③b 开始学习</span>
+                <span class="zone-metrics" id="metrics-btn"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="scale-label" id="scale-label"></p>
+    </div>
+
+    <aside class="side">
+      <h2>实测占位（相对 390×844）</h2>
+      <table>
+        <thead>
+          <tr><th>元素</th><th>top</th><th>高度 h</th><th>left → right</th><th>宽 w</th></tr>
+        </thead>
+        <tbody id="metrics-table">
+          <tr><td colspan="5">渲染后自动测量…</td></tr>
+        </tbody>
+      </table>
+
+      <h2>三段主分区（讨论用 · 可改 px）</h2>
+      <table>
+        <thead><tr><th>段</th><th>top</th><th>高度</th><th>用途</th></tr></thead>
+        <tbody>
+          <tr><td>上部 U</td><td>safe+54px 起</td><td>136px · 16%</td><td>Logo + 日语初级课后练习 + 学習の道 + 新幹線 24 駅</td></tr>
+          <tr><td>中部 M</td><td>233px · 28%</td><td>452px · 54%</td><td>列岛 + 金虚线 + 六圆（底图底锚 94%）</td></tr>
+          <tr><td>下部 L</td><td>685px · 81%</td><td>125px · 15%</td><td>轻触进入… + 开始学习（bottom 56px）+ 底注</td></tr>
+        </tbody>
+      </table>
+
+      <h2>图例</h2>
+      <p><span class="swatch" style="background:#2196f3"></span>蓝虚线：刘海 / 底栏安全区示意</p>
+      <p><span class="swatch" style="background:#90a4ae"></span>灰虚线：上 / 中 / 下 讨论分段（非最终实现）</p>
+      <p><span class="swatch" style="background:#ff7043"></span>① <code>.splash-brand</code></p>
+      <p><span class="swatch" style="background:#0288d1"></span>② <code>#splash-cover-img</code> 全屏底图</p>
+      <p><span class="swatch" style="background:#00897b"></span>②a <code>.splash-map-stage</code>（现版多为 hidden）</p>
+      <p><span class="swatch" style="background:#7e57c2"></span>③ <code>.splash-cta</code> 含引导 + 按钮 + 注音说明</p>
+      <p><span class="swatch" style="background:#f4511e"></span>③b <code>#btn-splash-start</code> 仅主按钮</p>
+      <p class="note">桌面浏览器 <code>env(safe-area-inset)</code> 常为 0；真机微信内顶底 inset 才非 0。拍板时请以紫框实测为准。</p>
+      <ul>
+        <li>改 <code>css/mvp.css</code> 的 <code>.splash-screen--complete</code> 后点「重新测量」。</li>
+        <li>地图若改「锁定框」方案，对照 <code>--splash-map-left/width</code>（kO3 回退同款）。</li>
+      </ul>
+    </aside>
+  </div>
+
+  <script>
+    (function () {
+      if (location.protocol === "file:") {
+        document.getElementById("file-warn").classList.add("is-show");
+      }
+
+      var bust = String(Date.now());
+      var screen = document.getElementById("phone-screen");
+      var guideLayer = document.getElementById("guide-layer");
+      var PHONE_W = 390;
+      var PHONE_H = 844;
+
+      function splashScriptUrl() {
+        var v = typeof HomeSplash !== "undefined" && HomeSplash.ASSET_VER ? HomeSplash.ASSET_VER : bust;
+        return "js/home-splash.js?v=" + encodeURIComponent(v) + "&_=" + bust;
+      }
+
+      function loadScript(src, cb) {
+        var s = document.createElement("script");
+        s.id = "home-splash-script";
+        s.src = src;
+        s.onload = cb;
+        s.onerror = cb;
+        document.body.appendChild(s);
+      }
+
+      function pct(n, base) {
+        return ((n / base) * 100).toFixed(1) + "%";
+      }
+      function px(n) {
+        return Math.round(n) + "px";
+      }
+
+      function rectInScreen(el) {
+        if (!el) return null;
+        var top = 0;
+        var left = 0;
+        var node = el;
+        while (node && node !== screen) {
+          top += node.offsetTop;
+          left += node.offsetLeft;
+          node = node.offsetParent;
+        }
+        return { top: top, left: left, w: el.offsetWidth, h: el.offsetHeight };
+      }
+
+      function placeZone(boxEl, metricsEl, el, label) {
+        if (!el || !boxEl) return null;
+        var r = rectInScreen(el);
+        if (!r.w && !r.h) return null;
+        boxEl.hidden = false;
+        boxEl.style.top = r.top + "px";
+        boxEl.style.left = r.left + "px";
+        boxEl.style.width = r.w + "px";
+        boxEl.style.height = r.h + "px";
+        var text =
+          "top " + pct(r.top, PHONE_H) + " (" + px(r.top) + ") · h " + pct(r.h, PHONE_H) + " (" + px(r.h) + ") · w " + pct(r.w, PHONE_W);
+        if (metricsEl) metricsEl.textContent = text;
+        return {
+          name: label || boxEl.id.replace("zone-", ""),
+          top: r.top,
+          h: r.h,
+          left: r.left,
+          w: r.w,
+        };
+      }
+
+      function updateMetricsTable(rows) {
+        var names = {
+          brand: "① 品牌",
+          cover: "② 底图 img",
+          "map-stage": "②a map-stage",
+          cta: "③ CTA 整块",
+          btn: "③b 开始学习按钮",
+        };
+        var tbody = document.getElementById("metrics-table");
+        if (!rows.length) {
+          tbody.innerHTML = '<tr><td colspan="5">未找到 splash DOM，请刷新</td></tr>';
+          return;
+        }
+        tbody.innerHTML = rows
+          .map(function (row) {
+            return (
+              "<tr><td>" +
+              (names[row.name] || row.name) +
+              "</td><td>" +
+              pct(row.top, PHONE_H) +
+              " (" +
+              px(row.top) +
+              ")</td><td>" +
+              pct(row.h, PHONE_H) +
+              " (" +
+              px(row.h) +
+              ")</td><td>" +
+              pct(row.left, PHONE_W) +
+              "–" +
+              pct(row.left + row.w, PHONE_W) +
+              "</td><td>" +
+              pct(row.w, PHONE_W) +
+              " (" +
+              px(row.w) +
+              ")</td></tr>"
+            );
+          })
+          .join("");
+      }
+
+      function measure() {
+        ["zone-brand", "zone-cover", "zone-map-stage", "zone-cta", "zone-btn"].forEach(function (id) {
+          var el = document.getElementById(id);
+          if (el) el.hidden = true;
+        });
+
+        var rows = [];
+        var b = placeZone(
+          document.getElementById("zone-brand"),
+          document.getElementById("metrics-brand"),
+          document.querySelector(".splash-brand"),
+          "brand"
+        );
+        var c = placeZone(
+          document.getElementById("zone-cover"),
+          document.getElementById("metrics-cover"),
+          document.getElementById("splash-cover-img"),
+          "cover"
+        );
+        var m = placeZone(
+          document.getElementById("zone-map-stage"),
+          document.getElementById("metrics-map-stage"),
+          document.querySelector(".splash-map-stage"),
+          "map-stage"
+        );
+        var ct = placeZone(
+          document.getElementById("zone-cta"),
+          document.getElementById("metrics-cta"),
+          document.querySelector(".splash-cta"),
+          "cta"
+        );
+        var btn = placeZone(
+          document.getElementById("zone-btn"),
+          document.getElementById("metrics-btn"),
+          document.getElementById("btn-splash-start"),
+          "btn"
+        );
+        if (b) rows.push(b);
+        if (c) rows.push(c);
+        if (m && m.h > 0) rows.push(m);
+        if (ct) rows.push(ct);
+        if (btn) rows.push(btn);
+        updateMetricsTable(rows);
+      }
+
+      function renderSplash() {
+        if (typeof HomeSplash === "undefined") return;
+        HomeSplash.render();
+        HomeSplash.bind(function () {
+          alert("预览：点击进入 · 正式 App 进 P1");
+        });
+        var chip = document.getElementById("ver-chip");
+        chip.textContent =
+          "SPLASH_ASSET_VER=" +
+          (HomeSplash.ASSET_VER || "?") +
+          " · " +
+          (HomeSplash.COVER_BASE || "") +
+          " · " +
+          new Date().toLocaleTimeString();
+
+        var img = document.getElementById("splash-cover-img");
+        if (img) {
+          if (img.complete) {
+            requestAnimationFrame(measure);
+          } else {
+            img.addEventListener("load", function () {
+              requestAnimationFrame(measure);
+            });
+          }
+        } else {
+          requestAnimationFrame(measure);
+        }
+      }
+
+      function boot() {
+        document.getElementById("mvp-css").href = "css/mvp.css?_=" + bust;
+        var old = document.getElementById("home-splash-script");
+        if (old) old.remove();
+        loadScript(splashScriptUrl(), renderSplash);
+      }
+
+      document.getElementById("btn-reload").onclick = function () {
+        location.replace("splash-cover-live-preview.html?_=" + Date.now());
+      };
+      document.getElementById("btn-toggle-guides").onclick = function () {
+        guideLayer.classList.toggle("is-hidden");
+      };
+      document.getElementById("btn-remeasure").onclick = measure;
+
+      function fitScale() {
+        var pad = 48;
+        var sideW = window.innerWidth >= 960 ? 380 : 0;
+        var s = Math.min(1, (window.innerWidth - pad - sideW) / 410, (window.innerHeight - 220) / 900);
+        document.getElementById("scale-wrap").style.transform = "scale(" + s + ")";
+        document.getElementById("scale-label").textContent =
+          "390×844 · 缩放 " + (s * 100).toFixed(0) + "% · 右侧表为实测 px/%";
+      }
+
+      boot();
+      fitScale();
+      window.addEventListener("resize", fitScale);
+    })();
+  </script>
+</body>
+</html>

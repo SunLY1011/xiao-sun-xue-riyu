@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SW Test</title>
+<style>
+body{font-family:-apple-system,sans-serif;padding:14px;background:#f5f5f5;color:#333;font-size:15px}
+h1{font-size:18px;color:#FF5722;text-align:center;margin:0 0 12px}
+.card{background:#fff;border-radius:10px;padding:12px;margin:10px 0;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+h2{font-size:14px;color:#FF7043;margin:0 0 10px;padding:0 0 6px;border-bottom:2px solid #FFE0B2}
+.row{padding:5px 0;border-bottom:1px solid #eee;font-size:14px}
+.row:last-child{border-bottom:none}
+.ok{color:#34C759;font-weight:700}
+.fail{color:#FF3B30;font-weight:700}
+.btn{display:block;width:100%;padding:11px;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;margin-top:8px;background:#FF7043;color:#fff}
+.btn2{background:#ECEFF1;color:#455A64}
+.info{font-size:13px;color:#1565C0;padding:9px;background:#E3F2FD;border-left:3px solid #2196F3;border-radius:6px;margin:8px 0}
+.success{font-size:13px;color:#1B5E20;padding:9px;background:#E8F5E9;border-left:3px solid #4CAF50;border-radius:6px;margin:8px 0}
+.danger{font-size:13px;color:#B71C1C;padding:9px;background:#FFEBEE;border-left:3px solid #FF3B30;border-radius:6px;margin:8px 0}
+pre{background:#263238;color:#ECEFF1;padding:9px;border-radius:6px;font-size:11px;white-space:pre-wrap;margin-top:8px}
+.mono{font-family:monospace;font-size:12px;color:#78909C}
+</style>
+</head>
+<body>
+<h1>📱 SW 验证</h1>
+
+<div class="card">
+  <h2>🔗 环境</h2>
+  <div id="env"></div>
+</div>
+
+<div class="card">
+  <h2>🎯 TTS 可达性</h2>
+  <div id="tts">点击按钮</div>
+  <button class="btn btn2" onclick="testTTS()">🔊 检测 TTS</button>
+</div>
+
+<div class="card">
+  <h2>🔌 SW 注册</h2>
+  <div id="sw">点击按钮</div>
+  <button class="btn btn2" onclick="clean()">❌ 清理旧注册+缓存</button>
+  <button class="btn" onclick="register()">🔌 注册 sw.js</button>
+</div>
+
+<div class="card">
+  <h2>📖 结论</h2>
+  <div id="diag"><div class="info">运行测试后显示</div></div>
+</div>
+
+<div class="card">
+  <h2>📝 日志</h2>
+  <pre id="log">等待...</pre>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var logEl = document.getElementById('log');
+  var logs = [];
+  function log(m, t){
+    var prefix = t ? '['+t.toUpperCase()+']' : '[INFO]';
+    logs.push(new Date().toLocaleTimeString()+' '+prefix+' '+m);
+    logEl.textContent = logs.join('\n');
+    console.log(m);
+  }
+
+  var p = location.protocol, h = location.hostname;
+  var isHttps = p === 'https:';
+  var ua = navigator.userAgent;
+  var vm = ua.match(/OS (\d+)_(\d+)/);
+  var iosVer = vm ? vm[1]+'.'+vm[2] : '?';
+
+  document.getElementById('env').innerHTML =
+    '<div class="row"><span class="mono">协议: </span>'+(isHttps ? '<span class="ok">HTTPS 🔒</span>' : '<span class="fail">HTTP</span>')+'</div>'+
+    '<div class="row"><span class="mono">主机: </span><span class="mono">'+h+'</span></div>'+
+    '<div class="row"><span class="mono">iOS: </span>'+iosVer+'</div>'+
+    '<div class="row"><span class="mono">SW API: </span>'+('serviceWorker' in navigator ? '<span class="ok">支持</span>' : '<span class="fail">不支持</span>')+'</div>';
+
+  log('环境: '+p+' '+h+' iOS '+iosVer);
+
+  function ft(url, ms){
+    ms = ms || 4000;
+    var ctrl = new AbortController();
+    var timer = setTimeout(function(){ ctrl.abort(); }, ms);
+    return fetch(url, { signal: ctrl.signal, cache: 'no-store' }).then(function(r){ clearTimeout(timer); return r; }).catch(function(e){ clearTimeout(timer); throw e; });
+  }
+
+  window.testTTS = function(){
+    var out = document.getElementById('tts');
+    out.innerHTML = '<div class="info">检测中...</div>';
+    var files = ['tts-cache/1005a878.mp3', 'tts-cache/1009388a.mp3', 'tts-cache/1009ff.mp3'];
+    var html = '', ok = 0;
+    var p = Promise.resolve();
+    files.forEach(function(f){
+      p = p.then(function(){ return ft(f, 3000); }).then(function(r){
+        if (r.ok) { ok++; html += '<div class="row"><span class="ok">✅ '+f+'</span></div>'; log('TTS OK: '+f); }
+        else { html += '<div class="row"><span class="fail">❌ '+f+'</span></div>'; log('TTS FAIL: '+f+' HTTP '+r.status, 'error'); }
+      }).catch(function(e){ html += '<div class="row"><span class="fail">❌ '+f+' ERR '+e.message+'</span></div>'; log('TTS ERR: '+f+' '+e.message, 'error'); });
+    });
+    p.then(function(){
+      html += '<div class="row"><b>'+ok+'/'+files.length+' 可达</b></div>';
+      if (ok === files.length) html += '<div class="success">✅ TTS 文件全部可达</div>';
+      out.innerHTML = html;
+    });
+  };
+
+  window.clean = async function(){
+    if ('serviceWorker' in navigator) {
+      var regs = await navigator.serviceWorker.getRegistrations();
+      for (var i = 0; i < regs.length; i++) { try { await regs[i].unregister(); log('取消: '+regs[i].scope); } catch(e){} }
+      log('取消 '+regs.length+' 个旧注册');
+    }
+    if ('caches' in window) {
+      var names = await caches.keys();
+      for (var i = 0; i < names.length; i++) { try { await caches.delete(names[i]); } catch(e){} }
+      log('清空 '+names.length+' 个缓存');
+    }
+    document.getElementById('sw').innerHTML = '<div class="success">✅ 已清理</div>';
+  };
+
+  window.register = async function(){
+    var out = document.getElementById('sw');
+    if (!('serviceWorker' in navigator)) { out.innerHTML = '<div class="danger">不支持 SW</div>'; return; }
+
+    // 先 HEAD 检查 sw.js 能不能拿到
+    try {
+      var r = await ft('sw.js', 3000);
+      if (!r.ok) { out.innerHTML = '<div class="danger">❌ sw.js 不可访问: HTTP '+r.status+'</div>'; return; }
+      log('sw.js 可访问 (HTTP '+r.status+')');
+    } catch(e) { out.innerHTML = '<div class="danger">❌ sw.js 不可访问: '+e.message+'</div>'; return; }
+
+    out.innerHTML = '<div class="info">注册中... (10s timeout)</div>';
+    log('注册 sw.js...');
+
+    var done = false;
+    setTimeout(function(){
+      if (!done) { out.innerHTML = '<div class="danger">⏱️ 超时！sw.js 可能有语法错误/MIME 类型问题</div>'; log('SW 注册超时', 'error'); }
+    }, 10000);
+
+    try {
+      var reg = await navigator.serviceWorker.register('sw.js', { scope: './' });
+      done = true;
+      var status = '';
+      if (reg.installing) status += ' installing';
+      if (reg.waiting) status += ' waiting';
+      if (reg.active) status += ' active';
+      out.innerHTML = '<div class="success">✅ 注册成功!</div><div class="mono">状态: '+status+'</div><div class="info">⏳ 3 秒后检查激活</div>';
+      log('SW 注册成功: '+status);
+      setTimeout(async function(){
+        var r2 = await navigator.serviceWorker.getRegistration();
+        var controlled = !!(r2 && r2.active && navigator.serviceWorker.controller);
+        if (r2 && r2.active) {
+          out.innerHTML = '<div class="success">✅ SW 已激活+页面受控!</div><div class="mono">当前 fetch 都经过 SW</div>';
+          log('SW 已激活，页面受控');
+          showDiag(true, true);
+        } else {
+          out.innerHTML = '<div class="success">✅ SW 已注册</div><div class="info">⏳ 未激活。刷新页面后生效</div>';
+          log('SW 已注册但未激活');
+          showDiag(true, false);
+        }
+      }, 3000);
+    } catch(err) {
+      done = true;
+      out.innerHTML = '<div class="danger">❌ 注册失败</div><div class="mono">'+err.message+'</div>';
+      log('SW 注册失败: '+err.message, 'error');
+    }
+  };
+
+  function showDiag(ok, controlled){
+    var out = document.getElementById('diag');
+    if (isHttps && ok) {
+      out.innerHTML = '<div class="success">✅ HTTPS + iOS '+iosVer+' Safari 完整支持 Service Worker！</div><div class="row"><span class="mono">SW 注册: '+(ok ? '<span class="ok">OK</span>' : '<span class="fail">失败</span>')+'</span></div><div class="row"><span class="mono">页面受控: '+(controlled ? '<span class="ok">是</span>' : '<span class="warn">刷新后</span>')+'</span></div><div class="info">📌 部署到 GitHub Pages 或任意 HTTPS 服务器即可正式使用</div>';
+    } else if (isHttps) {
+      out.innerHTML = '<div class="info">ℹ️ HTTPS 环境 OK，SW 尚未成功注册</div>';
+    } else {
+      out.innerHTML = '<div class="danger">⚠️ HTTP 局域网，iOS Safari 不允许 SW</div>';
+    }
+  }
+
+  // 自动测试 TTS
+  setTimeout(function(){
+    if (window.testTTS) window.testTTS();
+  }, 400);
+
+})();
+</script>
+</body>
+</html>

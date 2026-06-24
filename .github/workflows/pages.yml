@@ -1,0 +1,32 @@
+# push main → 同步 gh-pages（配合 Settings：Deploy from branch → gh-pages → /）
+# 不要选 GitHub Actions 作为 Pages 来源（否则会 configure-pages 失败、Deployments 红叉）
+#
+# 学员链接：https://saivenwang-byte.github.io/XiaoWangXueRiyu-v2/index.html?v=314
+
+name: Sync gh-pages branch
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gh-pages-sync
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: touch .nojekyll
+      - uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: .
+          clean: true
+          single-commit: true
+          commit-message: "deploy: sync gh-pages from main @ ${{ github.sha }}"

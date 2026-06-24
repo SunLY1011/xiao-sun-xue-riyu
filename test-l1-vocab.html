@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>L1 Vocab Test</title>
+<style>
+body { font-family: system-ui; padding:16px; }
+.word { display:flex; gap:8px; padding:6px; border-bottom:1px solid #eee; }
+.num { color:#999; width:24px; }
+.jp { font-weight:bold; min-width:80px; }
+.kana { color:#666; min-width:80px; }
+.pitch { color:#999; width:30px; }
+.pos { color:#d32f2f; font-size:11px; width:40px; }
+.zh { color:#999; }
+h2 { color:#d32f2f; }
+h3 { color:#e65100; margin-top:16px; }
+li { padding:3px 0; font-size:13px; }
+</style></head><body>
+<h2>L1 Vocab Test</h2>
+<div id="out"></div>
+<script src="js/data/lessons-data.js?v=203"></script>
+<script>
+var out = document.getElementById("out");
+if (typeof LESSONS_MVP === "undefined") { out.innerHTML = "<p style=color:red>LESSONS_MVP not defined</p>"; }
+else {
+  var l1 = LESSONS_MVP.find(function(l) { return l.lessonId === 1; });
+  if (!l1) { out.innerHTML = "<p style=color:red>L1 not found</p>"; }
+  else {
+    var vocab = l1.vocab || [];
+    out.innerHTML = "<p>L1: " + l1.lessonTitle + "</p><p>Vocab count: <b>" + vocab.length + "</b></p>";
+    vocab.forEach(function(v, i) {
+      out.innerHTML += '<div class=word><span class=num>'+(i+1)+'</span><span class=jp>'+v.jp+'</span><span class=kana>'+v.kana+'</span><span class=pitch>'+v.pitch+'</span><span class=pos>'+v.pos+'</span><span class=zh>'+v.meaningZh+'</span></div>';
+    });
+    // Summary blocks
+    var sb = l1.summaryBlocks || [];
+    sb.forEach(function(b) {
+      out.innerHTML += '<h3>'+b.title+'</h3><ul>' + b.lines.map(function(l) { return '<li>'+l+'</li>'; }).join('') + '</ul>';
+    });
+  }
+}
+</script>
+</body></html>

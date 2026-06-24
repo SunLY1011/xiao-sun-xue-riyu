@@ -1,0 +1,31 @@
+{
+  "description": "JapaneseStudyMiniProgram",
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "newFeature": true,
+    "coverView": true,
+    "autoAudits": false,
+    "checkInvalidKey": true,
+    "checkSiteMap": false
+  },
+  "compileType": "miniprogram",
+  "miniprogramRoot": "./",
+  "projectname": "JapaneseStudyMiniProgram",
+  "appid": "touristappid",
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "index",
+          "pathName": "pages/index/index",
+          "query": "",
+          "scene": null
+        }
+      ]
+    }
+  }
+}

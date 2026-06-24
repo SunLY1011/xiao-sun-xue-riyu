@@ -1,0 +1,24 @@
+{
+  "source": "地图/kO3mN798qr.png",
+  "sourceSize": [
+    709,
+    709
+  ],
+  "cropBox": [
+    91,
+    52,
+    638,
+    676
+  ],
+  "outputSize": [
+    548,
+    625
+  ],
+  "lock390x844": {
+    "topPct": 7.33,
+    "leftPct": 12.83,
+    "widthPct": 77.29,
+    "heightPct": 88.15,
+    "objectPosition": "right center"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "schema": "hyouga-agent-pipeline/v2",
+  "project": "标日课后巩固 H5",
+  "orchestrator_doc": "docs/Agent流水线-多角色分工.md",
+  "pm_tasks_template": "docs/pm-tasks-template.json",
+  "tasks_dir": "docs/tasks",
+  "skills_root": ".cursor/skills",
+  "role_aliases": {
+    "PM Agent": "hyouga-orchestrator",
+    "Dev Agent": "hyouga-author",
+    "Review Agent": "hyouga-review",
+    "QA Agent": "hyouga-qa",
+    "Fix Agent": "hyouga-fix",
+    "Release Agent": "hyouga-shipper",
+    "Auditor（合体）": "hyouga-auditor"
+  },
+  "roles": [
+    {
+      "id": "pm",
+      "alias": "PM Agent",
+      "name_cn": "产品经理/调度",
+      "skill": "hyouga-orchestrator",
+      "scale": "O0-O3",
+      "may_edit_code": false,
+      "outputs": ["docs/tasks/round-*.json", "派单块"],
+      "triggers": ["分工", "PM", "任务拆分", "全流程", "多 Agent", "流水线"]
+    },
+    {
+      "id": "dev",
+      "alias": "Dev Agent",
+      "name_cn": "开发",
+      "skill": "hyouga-author",
+      "scale": "ICE L0-L4",
+      "may_edit_code": true,
+      "paths_primary": ["js/data/", "js/*-gate.js", "js/sensei-tip-card.js", "css/"],
+      "triggers": ["实现", "开发", "编码", "加课", "改课文", "改单词", "P0", "P2"]
+    },
+    {
+      "id": "review",
+      "alias": "Review Agent",
+      "name_cn": "代码审查",
+      "skill": "hyouga-review",
+      "parent_skill": "hyouga-auditor",
+      "scale": "V1-V2",
+      "may_edit_code": false,
+      "triggers": ["审查", "Review", "code review", "规范", "对账"]
+    },
+    {
+      "id": "qa",
+      "alias": "QA Agent",
+      "name_cn": "测试",
+      "skill": "hyouga-qa",
+      "parent_skill": "hyouga-auditor",
+      "scale": "V3",
+      "may_edit_code": false,
+      "requires": ["review V1 PASS"],
+      "triggers": ["测试", "QA", "冒烟", "四关", "全局检查"]
+    },
+    {
+      "id": "fix",
+      "alias": "Fix Agent",
+      "name_cn": "修复",
+      "skill": "hyouga-fix",
+      "type": "sub",
+      "scale": "L1",
+      "may_edit_code": true,
+      "triggers": ["修复", "检查并修", "FAIL", "根据审查"]
+    },
+    {
+      "id": "release",
+      "alias": "Release Agent",
+      "name_cn": "发布",
+      "skill": "hyouga-shipper",
+      "type": "sub",
+      "scale": "R0-R3",
+      "may_edit_code": false,
+      "may_git_push": "only when user explicitly says push/上传/发布",
+      "requires": ["qa V3 PASS or pre-ship OK"],
+      "triggers": ["发布", "push", "发链接", "changelog", "手机验收"]
+    }
+  ],
+  "default_flow": ["pm", "dev", "review", "qa", "release"],
+  "fix_loop": {
+    "from": ["review", "qa"],
+    "to": "fix",
+    "then": ["review", "qa"]
+  },
+  "hard_gates": {
+    "before_dev": ["pm task list or explicit scope", "read iteration-baseline.json"],
+    "before_review": ["dev handoff or diff"],
+    "before_qa": ["review V1 PASS"],
+    "before_fix": ["FAIL list from review or qa"],
+    "before_release": ["python scripts/pre-ship-check.py exit 0"]
+  }
+}

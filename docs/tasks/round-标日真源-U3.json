@@ -1,0 +1,22 @@
+{
+  "round": "标日真源-U3",
+  "lessons": [9, 10, 11, 12],
+  "status": "done",
+  "updated": "2026-05-25",
+  "scripts": [
+    "scripts/patch-u3-lessons-9-12-biaori-truth.py",
+    "scripts/patch-grammar-links-biaori.py",
+    "scripts/merge-supplement-structured-into-prd.py"
+  ],
+  "structured_patches": [
+    "【标日学习资料补充】/结构化/第3单元/第3单元第09课-真源补丁.txt",
+    "【标日学习资料补充】/结构化/第3单元/第3单元第10课-真源补丁.txt",
+    "【标日学习资料补充】/结构化/第3单元/第3单元第11课-真源补丁.txt",
+    "【标日学习资料补充】/结构化/第3单元/第3单元第12课-真源补丁.txt"
+  ],
+  "reference": [
+    "参考资料/04-练习题库/练习题库模板-L9-L12.md",
+    "参考资料/03-语法补充/标日全24课语法对照表.md"
+  ],
+  "cache_after": "272"
+}

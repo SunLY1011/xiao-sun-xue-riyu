@@ -1,0 +1,12 @@
+{
+  "html.validate.scripts": false,
+  "html.validate.styles": false,
+  "javascript.validate.enable": true,
+  "files.associations": {
+    "**/发布包/index.html": "html",
+    "**/手机微信版/index.html": "html"
+  },
+  "files.exclude": {
+    "**/node_modules": true
+  }
+}

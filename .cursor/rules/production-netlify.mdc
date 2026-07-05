@@ -1,0 +1,67 @@
+---
+
+description: 正式上线：微信链接转发为主；小程序等企业主体后再上
+
+alwaysApply: true
+
+---
+
+
+
+# 正式上线 · 链接转发（现阶段）
+
+
+
+## 产品形态
+
+
+
+- **学员侧**：微信里发 **https 学习链接**，人传人转发；不是 bat、不是 localhost、不是同 WiFi。
+
+- **正式链接**：`https://saivenwang-byte.github.io/XiaoWangXueRiyu-v2/index.html?v=` + `CACHE_VER`（见 `js/public-url.config.js`）
+- **旧仓冻结**：`https://saivenwang-byte.github.io/XiaoWangXueRiyu/`（不再作为默认分享）
+
+- **作者发链接**：双击 `帮你发布好了.bat`，或首页 📤 / `share.html`
+
+
+
+## 禁止作为学员主方案
+
+
+
+- localhost、`192.168.x.x`、`file://`
+
+- 「同一 WiFi 预览」当发行方式
+
+- 未建好的 `qingjing-biaori.netlify.app`（Site not found）
+
+
+
+## 小程序与收费（以后）
+
+
+
+- 企业成立前：**不**推微信小程序上线。
+
+- 壳代码：`japanese_learning_miniapp/`（`h5-url.js` 与公网 H5 一致即可）。
+
+- 人数积累 + 企业主体后：小程序入口 + 微信支付等，见 `docs/微信小程序-发布一次.md`。
+
+
+
+## 维护
+
+
+
+- 改课 / TTS：`js/data/*`、`tts-cache/` → `git push` → GitHub Pages 自动更新。
+
+- 换公网域名时：改 `js/public-url.config.js` 的 `HYOUGA_PUBLIC_ORIGIN`，并 bump `?v=` / `share-wechat.js` 的 `CACHE_VER`。
+
+
+
+## 完整课
+
+
+
+另开新仓库；现阶段仍为 **链接 + H5**，不回到 WiFi/局域网分发。
+

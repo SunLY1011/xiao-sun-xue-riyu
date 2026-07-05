@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>P0 开机页 · 真机比例验收（390×844）</title>
+  <link rel="stylesheet" href="../css/mvp.css?v=151" />
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      background: #37474f;
+      color: #eceff1;
+      font-family: system-ui, "Segoe UI", "Microsoft YaHei", sans-serif;
+      padding: 12px 16px 20px;
+    }
+    h1 { margin: 0 0 6px; font-size: 1rem; font-weight: 700; }
+    .lead {
+      margin: 0 0 12px;
+      max-width: 52rem;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      color: #b0bec5;
+    }
+    .lead code { font-size: 0.78rem; color: #80cbc4; }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .toolbar button, .toolbar a {
+      font-size: 0.8rem;
+      padding: 7px 11px;
+      border-radius: 8px;
+      border: 1px solid #546e7a;
+      background: #455a64;
+      color: #fff;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .toolbar a.is-primary { background: #00897b; border-color: #00695c; }
+    .layout {
+      display: grid;
+      gap: 16px;
+      align-items: start;
+    }
+    @media (min-width: 920px) {
+      .layout { grid-template-columns: auto 1fr; }
+    }
+    .phone-col { display: flex; flex-direction: column; align-items: center; }
+    .phone-scale-wrap {
+      transform-origin: top center;
+    }
+    .phone-label {
+      text-align: center;
+      font-size: 11px;
+      color: #90a4ae;
+      margin-bottom: 8px;
+      letter-spacing: 0.02em;
+    }
+    .phone-bezel {
+      padding: 14px 10px 18px;
+      border-radius: 40px;
+      background: linear-gradient(160deg, #78909c 0%, #455a64 45%, #263238 100%);
+      box-shadow:
+        0 24px 56px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      position: relative;
+    }
+    .phone-bezel::before {
+      content: "";
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 108px;
+      height: 28px;
+      border-radius: 0 0 18px 18px;
+      background: #263238;
+      z-index: 5;
+      pointer-events: none;
+    }
+    .phone-dim {
+      position: absolute;
+      top: 6px;
+      right: 12px;
+      font-size: 9px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.55);
+      z-index: 6;
+      pointer-events: none;
+    }
+    /* iPhone 14 逻辑像素 · 与 index 首屏一致（无顶栏） */
+    .phone-screen {
+      --phone-w: 390px;
+      --phone-h: 844px;
+      --safe-top: 47px;
+      --safe-bottom: 34px;
+      width: var(--phone-w);
+      height: var(--phone-h);
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+      background: #fff8e1;
+      border: 2px solid #263238;
+    }
+    .phone-screen .splash-root {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+    /* 验收页：固定静态地图清晰可见（与 index 上线滤镜可对照） */
+    .phone-screen--static-map-lab .splash-map-photo {
+      opacity: 0.78;
+      filter: sepia(0.12) saturate(0.55) hue-rotate(-4deg) brightness(1.1) contrast(0.94);
+      transform: scale(1.06);
+      transform-origin: center center;
+    }
+    .phone-screen--static-map-lab .splash-map-stage {
+      outline: 1px dashed rgba(0, 137, 123, 0.45);
+      outline-offset: 2px;
+    }
+    .zone-box--asset {
+      border-color: rgba(2, 136, 209, 0.95);
+      border-style: solid;
+      background: rgba(2, 136, 209, 0.06);
+    }
+    .zone-box--asset .zone-label { background: #0288d1; }
+    .map-asset-caption {
+      position: absolute;
+      z-index: 4;
+      font-size: 8px;
+      font-weight: 700;
+      color: #01579b;
+      background: rgba(255, 255, 255, 0.94);
+      padding: 2px 5px;
+      border-radius: 3px;
+      pointer-events: none;
+      max-width: 160px;
+      line-height: 1.25;
+      word-break: break-all;
+    }
+    .guide-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+    }
+    .guide-layer.is-hidden { display: none; }
+    .safe-band {
+      position: absolute;
+      left: 0;
+      right: 0;
+      border: 1px dashed rgba(33, 150, 243, 0.65);
+      background: rgba(33, 150, 243, 0.08);
+    }
+    .safe-band--top { top: 0; height: var(--safe-top); }
+    .safe-band--bottom {
+      bottom: 0;
+      height: var(--safe-bottom);
+    }
+    .safe-tag {
+      position: absolute;
+      left: 6px;
+      font-size: 9px;
+      font-weight: 700;
+      color: #1565c0;
+      letter-spacing: 0.02em;
+    }
+    .safe-band--top .safe-tag { top: 4px; }
+    .safe-band--bottom .safe-tag { bottom: 4px; }
+    .zone-box {
+      position: absolute;
+      left: 2px;
+      right: 2px;
+      border: 2px solid;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .zone-box--brand { border-color: rgba(255, 112, 67, 0.85); }
+    .zone-box--map { border-color: rgba(77, 182, 172, 0.9); }
+    .zone-box--cta { border-color: rgba(126, 87, 194, 0.9); }
+    .zone-label {
+      position: absolute;
+      top: 2px;
+      left: 4px;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #fff;
+      white-space: nowrap;
+      line-height: 1.2;
+    }
+    .zone-box--brand .zone-label { background: #ff7043; }
+    .zone-box--map .zone-label { background: #00897b; }
+    .zone-box--cta .zone-label { background: #7e57c2; }
+    .zone-metrics {
+      position: absolute;
+      right: 4px;
+      bottom: 2px;
+      font-size: 9px;
+      font-weight: 600;
+      color: #263238;
+      background: rgba(255, 255, 255, 0.92);
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-variant-numeric: tabular-nums;
+    }
+    .home-indicator {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 4px;
+      border-radius: 4px;
+      background: rgba(38, 50, 56, 0.35);
+      z-index: 4;
+      pointer-events: none;
+    }
+    .side {
+      font-size: 0.8rem;
+      line-height: 1.55;
+      color: #cfd8dc;
+      max-width: 28rem;
+    }
+    .side h2 { margin: 0 0 8px; font-size: 0.9rem; color: #fff; }
+    .side table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+      margin: 8px 0 12px;
+    }
+    .side th, .side td {
+      border: 1px solid #546e7a;
+      padding: 6px 8px;
+      text-align: left;
+    }
+    .side th { background: #455a64; color: #b0bec5; font-weight: 600; }
+    .side .swatch {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      vertical-align: middle;
+      margin-right: 4px;
+    }
+    .side ul { margin: 0; padding-left: 1.1rem; }
+    .side li { margin: 4px 0; }
+    .warn {
+      display: none;
+      margin-bottom: 10px;
+      padding: 8px 10px;
+      background: #ff8a80;
+      color: #3e2723;
+      border-radius: 8px;
+      font-size: 0.82rem;
+    }
+    .warn.is-show { display: block; }
+  </style>
+</head>
+<body>
+  <div class="warn" id="file-warn">
+    请用 <code>http://127.0.0.1:8765/mock/home-splash-v3-phone.html</code> 打开（先运行本地服务），与微信内真机一致。
+  </div>
+
+  <h1>P0 开机页 · 真机外框与区域位置</h1>
+  <p class="lead">
+    外框为 <strong>iPhone 14 竖屏 390×844</strong>（与 <code>dev-phone-preview.html</code> 同尺寸）。
+    蓝虚线为系统安全区示意；橙/绿/紫/青框为 <strong>品牌 / 地图区 / 静态 PNG / 按钮</strong> 实测占位；
+    屏内已加载固定文件 <code>assets/splash/japan-map-splash.png</code>（验收页提高不透明度便于对位）。
+    真机首屏：<code>index.html</code> 隐藏顶栏，仅 <code>#view-splash</code>。
+  </p>
+
+  <div class="toolbar">
+    <button type="button" id="btn-toggle-guides">隐藏/显示标注</button>
+    <button type="button" id="btn-remeasure">重新测量</button>
+    <a class="is-primary" id="link-app" href="../index.html?v=151" target="_blank">新标签 · 真实 App 首屏</a>
+    <a href="home-splash-v3.html" target="_blank">无标注 · 纯画面</a>
+  </div>
+
+  <div class="layout">
+    <div class="phone-col">
+      <p class="phone-label" id="scale-label">iPhone 14 · 390 × 844 px · 比例 1∶1（可缩放适配窗口）</p>
+      <div class="phone-scale-wrap" id="phone-scale-wrap">
+        <div class="phone-bezel">
+          <span class="phone-dim">390×844</span>
+          <div class="phone-screen phone-screen--static-map-lab" id="phone-screen" aria-label="真机逻辑屏">
+            <div id="splash-root" class="splash-root"></div>
+            <div class="guide-layer" id="guide-layer">
+              <div class="safe-band safe-band--top" aria-hidden="true">
+                <span class="safe-tag">safe-top 47px</span>
+              </div>
+              <div class="safe-band safe-band--bottom" aria-hidden="true">
+                <span class="safe-tag">safe-bottom 34px</span>
+              </div>
+              <div class="zone-box zone-box--brand" id="zone-brand" hidden>
+                <span class="zone-label">① 品牌区</span>
+                <span class="zone-metrics" id="metrics-brand"></span>
+              </div>
+              <div class="zone-box zone-box--map" id="zone-map" hidden>
+                <span class="zone-label">② 地图区</span>
+                <span class="zone-metrics" id="metrics-map"></span>
+              </div>
+              <div class="zone-box zone-box--asset" id="zone-map-img" hidden>
+                <span class="zone-label">②b 静态 PNG</span>
+                <span class="zone-metrics" id="metrics-map-img"></span>
+              </div>
+              <span class="map-asset-caption" id="map-asset-caption" hidden></span>
+              <div class="zone-box zone-box--cta" id="zone-cta" hidden>
+                <span class="zone-label">③ CTA</span>
+                <span class="zone-metrics" id="metrics-cta"></span>
+              </div>
+            </div>
+            <div class="home-indicator" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="side">
+      <h2>相对位置（占整屏 844px 高）</h2>
+      <table>
+        <thead>
+          <tr><th>区域</th><th>top</th><th>高度</th><th>left→right</th></tr>
+        </thead>
+        <tbody id="metrics-table">
+          <tr><td colspan="4">测量中…</td></tr>
+        </tbody>
+      </table>
+      <p><span class="swatch" style="background:#2196f3"></span>蓝虚线：刘海/底栏安全区（示意，真机用 <code>env(safe-area-inset-*)</code>）</p>
+      <p><span class="swatch" style="background:#ff7043"></span>① 品牌：Logo + 日语初级课后练习 + 学习の道 + 副标</p>
+      <p><span class="swatch" style="background:#00897b"></span>② 地图区：flex 容器 + 轨/站点</p>
+      <p><span class="swatch" style="background:#0288d1"></span>②b 固定图层：<code>assets/splash/japan-map-splash.png</code>（240×360 逻辑比）</p>
+      <p><span class="swatch" style="background:#7e57c2"></span>③ CTA：开始学习 + 五十音底注</p>
+      <ul>
+        <li>桌面浏览器 <code>env(safe-area-inset)</code> 常为 0，真机微信内才有顶底 inset。</li>
+        <li>改 CSS 后点「重新测量」或刷新本页更新紫/绿/橙框。</li>
+      </ul>
+    </aside>
+  </div>
+
+  <script src="../js/data/curriculum-catalog.js?v=151"></script>
+  <script src="../js/home-splash.js?v=151"></script>
+  <script>
+    (function () {
+      if (location.protocol === "file:") {
+        document.getElementById("file-warn").classList.add("is-show");
+      }
+
+      var screen = document.getElementById("phone-screen");
+      var guideLayer = document.getElementById("guide-layer");
+      var scaleWrap = document.getElementById("phone-scale-wrap");
+      var PHONE_W = 390;
+      var PHONE_H = 844;
+
+      HomeSplash.render();
+
+      function pct(n, base) {
+        return ((n / base) * 100).toFixed(1) + "%";
+      }
+      function px(n) {
+        return Math.round(n) + "px";
+      }
+
+      function rectInScreen(el) {
+        var top = 0;
+        var left = 0;
+        var node = el;
+        while (node && node !== screen) {
+          top += node.offsetTop;
+          left += node.offsetLeft;
+          node = node.offsetParent;
+        }
+        return { top: top, left: left, w: el.offsetWidth, h: el.offsetHeight };
+      }
+
+      function placeZone(boxEl, metricsEl, el) {
+        if (!el || !boxEl) return null;
+        var r = rectInScreen(el);
+        var top = r.top;
+        var left = r.left;
+        var w = r.w;
+        var h = r.h;
+        boxEl.hidden = false;
+        boxEl.style.top = top + "px";
+        boxEl.style.left = left + "px";
+        boxEl.style.width = w + "px";
+        boxEl.style.height = h + "px";
+        var text =
+          "top " +
+          pct(top, PHONE_H) +
+          " · h " +
+          pct(h, PHONE_H) +
+          " · w " +
+          pct(w, PHONE_W);
+        metricsEl.textContent = text;
+        return {
+          name: boxEl.id.replace("zone-", ""),
+          top: top,
+          h: h,
+          left: left,
+          w: w,
+        };
+      }
+
+      function updateMetricsTable(rows, names) {
+        var tbody = document.getElementById("metrics-table");
+        names = names || { brand: "① 品牌", map: "② 地图", cta: "③ CTA" };
+        tbody.innerHTML = rows
+          .map(function (row) {
+            return (
+              "<tr><td>" +
+              names[row.name] +
+              "</td><td>" +
+              pct(row.top, PHONE_H) +
+              " (" +
+              px(row.top) +
+              ")</td><td>" +
+              pct(row.h, PHONE_H) +
+              " (" +
+              px(row.h) +
+              ")</td><td>" +
+              pct(row.left, PHONE_W) +
+              "–" +
+              pct(row.left + row.w, PHONE_W) +
+              "</td></tr>"
+            );
+          })
+          .join("");
+      }
+
+      function placeMapCaption(imgEl, r) {
+        var cap = document.getElementById("map-asset-caption");
+        if (!cap || !imgEl) return;
+        if (!imgEl.complete || !imgEl.naturalWidth) {
+          cap.hidden = true;
+          return;
+        }
+        cap.hidden = false;
+        cap.style.top = Math.max(0, r.top - 2) + "px";
+        cap.style.left = r.left + "px";
+        cap.textContent =
+          "japan-map-splash.png · " +
+          imgEl.naturalWidth +
+          "×" +
+          imgEl.naturalHeight;
+      }
+
+      function measure() {
+        var brand = document.querySelector(".splash-brand");
+        var map = document.querySelector(".splash-map-wrap");
+        var mapImg = document.querySelector(".splash-map-photo");
+        var cta = document.querySelector(".splash-cta");
+        var rows = [];
+        var names = {
+          brand: "① 品牌",
+          map: "② 地图区",
+          "map-img": "②b 静态PNG",
+          cta: "③ CTA",
+        };
+        var b = placeZone(
+          document.getElementById("zone-brand"),
+          document.getElementById("metrics-brand"),
+          brand
+        );
+        var m = placeZone(
+          document.getElementById("zone-map"),
+          document.getElementById("metrics-map"),
+          map
+        );
+        var mi = placeZone(
+          document.getElementById("zone-map-img"),
+          document.getElementById("metrics-map-img"),
+          mapImg
+        );
+        var c = placeZone(
+          document.getElementById("zone-cta"),
+          document.getElementById("metrics-cta"),
+          cta
+        );
+        if (b) rows.push(b);
+        if (m) rows.push(m);
+        if (mi) {
+          rows.push(mi);
+          placeMapCaption(mapImg, mi);
+        }
+        if (c) rows.push(c);
+        updateMetricsTable(rows, names);
+
+        if (mapImg && (!mapImg.complete || mapImg.naturalWidth === 0)) {
+          var tbody = document.getElementById("metrics-table");
+          tbody.innerHTML +=
+            '<tr><td colspan="4" style="color:#ff8a80">地图 PNG 未加载，请用 8765 打开本页</td></tr>';
+        }
+      }
+
+      function fitScale() {
+        var pad = 48;
+        var maxW = window.innerWidth - pad;
+        var maxH = window.innerHeight - 200;
+        var s = Math.min(1, maxW / PHONE_W, maxH / PHONE_H);
+        scaleWrap.style.transform = "scale(" + s + ")";
+        document.getElementById("scale-label").textContent =
+          "iPhone 14 · 390 × 844 · 当前缩放 " + (s * 100).toFixed(0) + "%（框内为 1∶1 逻辑像素）";
+      }
+
+      document.getElementById("btn-toggle-guides").onclick = function () {
+        guideLayer.classList.toggle("is-hidden");
+      };
+      document.getElementById("btn-remeasure").onclick = measure;
+
+      var appLink = document.getElementById("link-app");
+      if (location.protocol !== "file:") {
+        var origin = location.origin;
+        appLink.href = origin + "/index.html?v=151";
+      }
+
+      var mapImg = null;
+      function afterSplashReady() {
+        mapImg = document.querySelector(".splash-map-photo");
+        if (mapImg) {
+          mapImg.addEventListener("load", measure);
+          mapImg.addEventListener("error", function () {
+            var tbody = document.getElementById("metrics-table");
+            tbody.innerHTML =
+              '<tr><td colspan="4" style="color:#ff8a80">地图加载失败：' +
+              (mapImg.getAttribute("src") || "") +
+              "</td></tr>";
+          });
+        }
+        measure();
+        fitScale();
+      }
+      requestAnimationFrame(afterSplashReady);
+      window.addEventListener("resize", fitScale);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "日语初级课后练习",
+  "short_name": "日语初级",
+  "description": "日语初级上册课后四关练习。非人民教育出版社官方产品，与《标准日本语》为课后辅助关系。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f5f0",
+  "theme_color": "#FF8A80",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

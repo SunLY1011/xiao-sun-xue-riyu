@@ -1,0 +1,77 @@
+/**
+ * 四栏顶栏 · 注音(intro) / 课文 / 书写 / 笔记
+ * 统一：左标题 + 右 [首页·房子] [转发] [二维码]
+ * 真源：css/design-tokens.css · docs/DESIGN-L0-图标与人设全景.md
+ */
+
+/* ── 四模块同型顶栏（index SPA + intro 子页）── */
+body.mvp-app .top-bar.hyo-top-bar,
+body.intro-body .top-bar.hyo-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 12px;
+  height: var(--hy-top-h);
+  min-height: var(--hy-top-h);
+  background: var(--hy-top-bg);
+  color: var(--hy-top-fg);
+  border-bottom: 1px solid var(--hy-top-border);
+  box-shadow: none;
+}
+
+body.mvp-app .top-bar.hyo-top-bar h1,
+body.intro-body .top-bar.hyo-top-bar h1 {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: var(--hy-type-title);
+  font-weight: 700;
+  color: var(--hy-brand-navy);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+body.mvp-app .hyo-top-bar__actions,
+body.intro-body .hyo-top-bar__actions {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 6px;
+}
+
+body.mvp-app .top-bar.hyo-top-bar .icon-btn,
+body.intro-body .top-bar.hyo-top-bar .icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+  background: rgba(30, 58, 95, 0.08);
+  color: var(--hy-brand-navy);
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body.mvp-app .top-bar.hyo-top-bar .icon-btn .ui-icon,
+body.intro-body .top-bar.hyo-top-bar .icon-btn .ui-icon {
+  width: var(--hy-icon-l0);
+  height: var(--hy-icon-l0);
+}
+
+body.mvp-app .top-bar.hyo-top-bar .icon-btn--share .ui-icon--share-forward,
+body.intro-body .top-bar.hyo-top-bar .icon-btn--share .ui-icon--share-forward {
+  width: var(--hy-icon-l3);
+  height: var(--hy-icon-l3);
+}
+
+body.mvp-app .top-bar.hyo-top-bar .icon-btn--home.is-active,
+body.intro-body .top-bar.hyo-top-bar .icon-btn--home.is-active {
+  background: rgba(30, 58, 95, 0.14);
+}

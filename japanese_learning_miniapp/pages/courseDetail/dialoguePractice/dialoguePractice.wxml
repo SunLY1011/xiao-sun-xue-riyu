@@ -1,0 +1,10 @@
+<view class="page">
+  <text class="title">{{title}}</text>
+  <view class="line" wx:for="{{lines}}" wx:key="japanese">
+    <text class="sp">{{item.speaker}}</text>
+    <text class="jp">{{item.japanese}}</text>
+    <text class="zh">{{item.chinese}}</text>
+  </view>
+  <text class="hint">完整录音回听请用 H5 版第二关</text>
+  <button class="btn" bindtap="finish">完成对话练习</button>
+</view>

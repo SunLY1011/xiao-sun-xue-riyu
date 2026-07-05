@@ -1,0 +1,124 @@
+/**
+ * 微信小程序 web-view 内 H5 · 视口与真机框对齐
+ * 触发：?miniappPreview=1 或 cursor-miniapp-phone iframe（753 = 844−47−44）
+ * 真源：docs/双通道验收-浏览器与手机真机框.md
+ */
+html.hyouga-miniapp-webview {
+  --hy-miniapp-w: 390px;
+  --hy-miniapp-h: 753px;
+  /* 状态栏/胶囊已在壳外，webview 内不再叠 safe-area */
+  --safe-t: 0px;
+  --safe-b: 0px;
+}
+
+html.hyouga-miniapp-webview,
+html.hyouga-miniapp-webview body.mvp-app {
+  width: 100%;
+  max-width: var(--hy-miniapp-w);
+  margin: 0 auto;
+  min-height: var(--hy-miniapp-h);
+  height: var(--hy-miniapp-h);
+  overflow: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+html.hyouga-miniapp-webview body.mvp-app #app {
+  height: 100%;
+  min-height: 0;
+  max-height: var(--hy-miniapp-h);
+  padding-top: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+html.hyouga-miniapp-webview body.mvp-app #main-content {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  padding-bottom: calc(var(--nav-h) + 8px);
+}
+
+html.hyouga-miniapp-webview body.mvp-app .view.active {
+  height: calc(var(--hy-miniapp-h) - var(--hy-top-h) - var(--nav-h) - 8px);
+  max-height: calc(var(--hy-miniapp-h) - var(--hy-top-h) - var(--nav-h) - 8px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+html.hyouga-miniapp-webview body.mvp-app.is-splash-open .home-splash-overlay,
+html.hyouga-miniapp-webview body.mvp-app.is-splash-open .splash-root {
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
+}
+
+html.hyouga-miniapp-webview body.mvp-app .journey-board-slot,
+html.hyouga-miniapp-webview body.mvp-app #view-home.view.active {
+  max-height: calc(var(--hy-miniapp-h) - var(--hy-top-h) - var(--nav-h) - 8px);
+}
+
+/* 入門页在 web-view 内：无底栏，占满 753 */
+html.hyouga-miniapp-webview body.intro-body {
+  width: 100%;
+  max-width: var(--hy-miniapp-w);
+  min-height: var(--hy-miniapp-h);
+  height: var(--hy-miniapp-h);
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+html.hyouga-miniapp-webview body.intro-body .intro-page {
+  max-width: var(--hy-miniapp-w);
+  padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+}
+
+html.hyouga-miniapp-webview #view-write.view.active {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+html.hyouga-miniapp-webview #view-write .write-l0-root {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+html.hyouga-miniapp-webview .notes-panel-scroll,
+html.hyouga-miniapp-webview .journey-home-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+html.hyouga-miniapp-webview .journey-catalog-scroll--accordion .journey-unit-details[open] .journey-lesson-grid {
+  grid-template-columns: 1fr !important;
+  grid-template-rows: none !important;
+}
+
+/* 小程序 web-view：会話/单词全文可见，折叠条可点 */
+html.hyouga-miniapp-webview .l1-lesson-scope .dg-reply-head--abc .dg-reply-jp,
+html.hyouga-miniapp-webview .l1-lesson-scope .dg-reply-body--abc .dg-reply-zh,
+html.hyouga-miniapp-webview .l1-lesson-scope .dg-reply-body--abc .dg-reply-scene-note,
+html.hyouga-miniapp-webview .l1-lesson-scope .dg-line-content .jp,
+html.hyouga-miniapp-webview .l1-lesson-scope .hyo-fold-overview-jp,
+html.hyouga-miniapp-webview .l1-lesson-scope .l1-vocab-jp,
+html.hyouga-miniapp-webview .l1-lesson-scope .dg-zh-below-jp {
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+  word-break: break-word;
+}
+
+html.hyouga-miniapp-webview .l1-lesson-scope .hyo-fold-hint {
+  font-size: 12px;
+}
+
+html.hyouga-miniapp-webview .l1-lesson-scope .gw-group-summary,
+html.hyouga-miniapp-webview .l1-lesson-scope .dg-scene-fold-summary {
+  min-height: 44px;
+  touch-action: manipulation;
+}

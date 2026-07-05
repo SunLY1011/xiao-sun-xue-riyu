@@ -1,0 +1,7 @@
+# 已迁移 — 请以 .cursor/rules/ 为准
+#
+# 核心：.cursor/rules/wendi-zigui-core.mdc（文递自归术语 · alwaysApply）
+# 交付：.cursor/rules/agent-delivery-gate.mdc
+# 总规范：PROJECT_SPEC.md · AGENTS.md
+
+见 PROJECT_SPEC.md 与 docs/Agent文递自归.md。

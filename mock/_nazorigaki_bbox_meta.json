@@ -1,0 +1,381 @@
+[
+  {
+    "kana": "あ",
+    "examples": [
+      "あめ",
+      "あさがお"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "い",
+    "examples": [
+      "いす",
+      "いか"
+    ],
+    "techniques": [
+      "はねる"
+    ]
+  },
+  {
+    "kana": "う",
+    "examples": [
+      "うきわ",
+      "うさぎ"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "え",
+    "examples": [
+      "えだ",
+      "えんぴつ"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "お",
+    "examples": [
+      "おちゃ",
+      "おに"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "か",
+    "examples": [
+      "かお",
+      "かえる"
+    ],
+    "techniques": [
+      "はねる"
+    ]
+  },
+  {
+    "kana": "き",
+    "examples": [
+      "きのこ",
+      "きつね"
+    ],
+    "techniques": [
+      "はねる"
+    ]
+  },
+  {
+    "kana": "く",
+    "examples": [
+      "くり",
+      "くま"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "け",
+    "examples": [
+      "けん",
+      "けいと"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "こ",
+    "examples": [
+      "こけし",
+      "こま"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "さ",
+    "examples": [
+      "さくらんぼ",
+      "さいころ"
+    ],
+    "techniques": [
+      "はねる"
+    ]
+  },
+  {
+    "kana": "し",
+    "examples": [
+      "しま",
+      "しんごう"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "す",
+    "examples": [
+      "すいとう",
+      "すず"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "せ",
+    "examples": [
+      "せんべい",
+      "せんぷうき"
+    ],
+    "techniques": [
+      "はねる"
+    ]
+  },
+  {
+    "kana": "そ",
+    "examples": [
+      "そら",
+      "そり"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "た",
+    "examples": [
+      "たなばた",
+      "たいこ"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "ち",
+    "examples": [
+      "ちょうちん",
+      "ちょうちょう"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "つ",
+    "examples": [
+      "つみき",
+      "つぼ"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "て",
+    "examples": [
+      "てのひら",
+      "てがみ"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "と",
+    "examples": [
+      "とりい",
+      "とけい"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "な",
+    "examples": [
+      "なく",
+      "なす"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "に",
+    "examples": [
+      "にじ",
+      "にわとり"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "ぬ",
+    "examples": [],
+    "techniques": [
+      "とめる"
+    ]
+  },
+  {
+    "kana": "ね",
+    "examples": [
+      "ねじ",
+      "ねぎ"
+    ],
+    "techniques": [
+      "とめる"
+    ]
+  },
+  {
+    "kana": "の",
+    "examples": [
+      "のり",
+      "のこぎり"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "は",
+    "examples": [
+      "はがき",
+      "はた"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "ひ",
+    "examples": [
+      "ひよこ",
+      "ひこうき"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "ふ",
+    "examples": [
+      "ふうせん",
+      "ふえ"
+    ],
+    "techniques": [
+      "はらう"
+    ]
+  },
+  {
+    "kana": "へ",
+    "examples": [
+      "へい",
+      "へび"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "ほ",
+    "examples": [
+      "ほし",
+      "ほうれんそう"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "ま",
+    "examples": [
+      "まる",
+      "まど"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "み",
+    "examples": [
+      "みかづき",
+      "みかん"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "む",
+    "examples": [
+      "むしば",
+      "むしあみ"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "め",
+    "examples": [
+      "めがね"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "も",
+    "examples": [
+      "もっきん",
+      "ものさし"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "や",
+    "examples": [
+      "やま",
+      "やどかり"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "ゆ",
+    "examples": [
+      "ゆうれい",
+      "ゆきだるま"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "よ",
+    "examples": [
+      "ようかん",
+      "ようせい"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "ら",
+    "examples": [
+      "らっぱ",
+      "らくだ"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "り",
+    "examples": [
+      "りす",
+      "りんご"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "る",
+    "examples": [
+      "くるま",
+      "いるか"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "れ",
+    "examples": [
+      "れんこん",
+      "れんげそう"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "ろ",
+    "examples": [
+      "うろこ",
+      "ろうそく"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "わ",
+    "examples": [
+      "わに",
+      "わたあめ"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "を",
+    "examples": [
+      "てをあげる"
+    ],
+    "techniques": []
+  },
+  {
+    "kana": "ん",
+    "examples": [
+      "かばん",
+      "だいこん"
+    ],
+    "techniques": []
+  }
+]

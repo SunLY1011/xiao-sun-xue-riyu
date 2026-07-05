@@ -1,0 +1,3 @@
+# Netlify：保证分享页、主页都能打开
+/share    /share.html   200
+/         /index.html   200

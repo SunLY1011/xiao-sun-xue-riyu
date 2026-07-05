@@ -1,0 +1,19 @@
+{
+  "schema": "mvp-mapping-rules/v1",
+  "description": "复制标准 MVP 到新产品时的内容替换；复制为 docs/mvp_mapping_rules.json 后修改",
+  "replacements": [
+    { "from": "XiaoWangXueRiyu", "to": "{{PRODUCT_ID}}" },
+    { "from": "标日あと学習", "to": "{{PRODUCT_TITLE}}" },
+    { "from": "StandardMVP", "to": "{{PRODUCT_NAME}}" },
+    { "from": "242", "to": "{{CACHE_VER}}" }
+  ],
+  "file_include_extensions": [
+    ".html", ".js", ".css", ".json", ".md", ".mdc", ".bat", ".ps1", ".py", ".txt"
+  ],
+  "per_product_fields": {
+    "PRODUCT_NAME": "product_slug",
+    "PRODUCT_ID": "github_repo_slug",
+    "PRODUCT_TITLE": "display_title_zh",
+    "CACHE_VER": "1"
+  }
+}

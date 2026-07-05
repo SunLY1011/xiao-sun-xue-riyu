@@ -1,0 +1,35 @@
+{
+  "schema": "hyouga-pm-tasks/v1",
+  "instruction": "PM Agent（hyouga-orchestrator）每轮输出一份任务单，存 docs/tasks/<id>.json。Dev 只改 tasks[].files，完成后勾选 acceptance。",
+  "example_round": {
+    "id": "mvp-ship-v44",
+    "created": "2026-05-21",
+    "from_user": "用户原话摘要",
+    "cache_target": "44",
+    "parallel_ok": false,
+    "tasks": [
+      {
+        "task_id": "T1",
+        "title": "示例：第15课 depth 补丁",
+        "owner": "hyouga-author",
+        "ice": "L3",
+        "priority": "P1",
+        "files": [
+          "js/data/lessons-mvp.js",
+          "js/data/lessons-mvp-depth.js",
+          "js/data/lesson-vocab-biaori.js"
+        ],
+        "constraints": [
+          "中文仅 meaningZh/zh 字段",
+          "新日文句需 questionTts 或 ttsLine"
+        ],
+        "acceptance": [
+          "pre-ship-check 无 FAIL",
+          "第15课四关无読み込みエラー"
+        ],
+        "status": "pending"
+      }
+    ],
+    "pipeline_after_dev": ["hyouga-review", "hyouga-qa", "hyouga-shipper"]
+  }
+}

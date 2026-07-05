@@ -1,0 +1,17 @@
+---
+description: MVP 批量脚手架与十阶段回退工作流（任务启动前置）
+globs:
+alwaysApply: true
+---
+
+# MVP 脚手架 · 回退工作流（启动前置）
+
+改代码或批量操作前：
+
+1. 读 [docs/MVP-批量脚手架与回退工作流.md](../../docs/MVP-批量脚手架与回退工作流.md)
+2. 读 [docs/iteration-baseline.json](../../docs/iteration-baseline.json) 的 `current` / `confirmed` / `backlog`
+3. 批量复制标准 MVP：仅用户明确要求时跑 `python scripts/mvp_batch_generator.py`
+4. 阶段门禁：阶段 3 = `scripts/init-check.ps1` 或 `发布前自检.bat`；未全 OK 不得声称交付
+5. 工作流状态可写 `workflow_status.json`；失败回退见 `python scripts/workflow_with_rollback.py --help`
+
+禁止跳过「讨论优先」与 U1L1 五关冻结范围。

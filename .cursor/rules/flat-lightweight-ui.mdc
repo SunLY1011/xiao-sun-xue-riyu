@@ -1,0 +1,22 @@
+---
+description: 课内/UI 默认平面轻量（无渐变阴影立体图标，控包体）
+globs:
+  - css/mvp.css
+  - js/l1-ui-icons.js
+  - js/lesson-1-flow.js
+  - js/dialogue-gate.js
+  - js/grammar-network.js
+  - docs/产品设计规范-平面轻量UI.md
+---
+
+# 平面轻量 UI（默认铁律）
+
+**真源**：[docs/产品设计规范-平面轻量UI.md](../../docs/产品设计规范-平面轻量UI.md) · [L3图标全景清单](../../docs/产品设计规范-L3图标全景清单.md) · `js/hyouga-glyphs.js`
+
+## 摘要
+
+- **禁止**（用户未特批）：行/按钮 `linear-gradient`、装饰性 `box-shadow`、立体/粗线复杂 SVG、课内列表 emoji 主图标
+- **单词**：白盒细框；注意行淡黄；延伸展开 **浅灰**；折叠 **彩三角**（见 U1L1 UI 统筹母库）
+- **图标**：`l1-ui-icons.js` 细线平面 `stroke-width: 1.5`
+
+改上述 glob 前通读真源全文。

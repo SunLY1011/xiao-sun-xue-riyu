@@ -1,0 +1,9 @@
+<view class="page">
+  <text class="hint">错题在第 1、3、7 天提醒（与 H5 共用 hyouga_mvp_v1 需同域；小程序独立存储）</text>
+  <view wx:if="{{empty}}" class="empty">暂无待复习错题 🎉</view>
+  <view class="item" wx:for="{{list}}" wx:key="id">
+    <text class="q">{{item.question}}</text>
+    <text class="meta">第{{item.lessonId}}课 · 错后第{{item.day}}天</text>
+    <button size="mini" data-id="{{item.id}}" bindtap="remove">标记已掌握</button>
+  </view>
+</view>

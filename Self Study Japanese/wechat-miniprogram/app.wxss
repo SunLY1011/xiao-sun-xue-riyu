@@ -1,0 +1,234 @@
+page {
+  background: #f7f7fb;
+  color: rgba(0, 0, 0, 0.92);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans JP", "Noto Sans", Arial,
+    sans-serif;
+}
+
+.wrap {
+  padding: 14px 12px 24px;
+}
+
+.panel {
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.panelTitle {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.pill {
+  font-size: 11px;
+  padding: 5px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.62);
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.panelBody {
+  padding: 12px;
+}
+
+.label {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.62);
+  margin-bottom: 6px;
+}
+
+.input,
+.textarea,
+.picker {
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.65);
+  padding: 10px 10px;
+  font-size: 13px;
+}
+
+.textarea {
+  min-height: 88px;
+}
+
+.grid2 {
+  display: flex;
+  gap: 10px;
+}
+
+.grid2 > view {
+  flex: 1;
+}
+
+.btnRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.btn {
+  border-radius: 12px;
+  font-size: 13px;
+  padding: 10px 12px;
+  line-height: 1;
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.btnPrimary {
+  background: rgba(120, 90, 255, 0.18);
+  border-color: rgba(120, 90, 255, 0.55);
+}
+
+.btnDanger {
+  background: rgba(255, 92, 119, 0.12);
+  border-color: rgba(255, 92, 119, 0.55);
+}
+
+.btnOk {
+  background: rgba(51, 209, 122, 0.12);
+  border-color: rgba(51, 209, 122, 0.55);
+}
+
+.btnWarn {
+  background: rgba(255, 176, 32, 0.12);
+  border-color: rgba(255, 176, 32, 0.55);
+}
+
+.titleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.h1 {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.sub {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.62);
+}
+
+.statsRow {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cardItem {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 14px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.65);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cardTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.jp {
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.cn {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.62);
+  line-height: 1.4;
+}
+
+.metaRow {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.metaSmall {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.62);
+}
+
+.quizCard {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.65);
+  padding: 14px;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.quizFront {
+  font-size: 20px;
+  text-align: center;
+}
+
+.quizBack {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.62);
+  text-align: center;
+}
+
+.hint {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.62);
+}
+
+.listTop {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.searchRow {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.exportBox {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}

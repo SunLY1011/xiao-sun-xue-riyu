@@ -1,0 +1,1 @@
+self.oninstall=function(e){self.skipWaiting()};self.onactivate=function(e){e.waitUntil(self.clients.claim())};

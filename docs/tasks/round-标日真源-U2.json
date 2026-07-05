@@ -1,0 +1,39 @@
+{
+  "round": "标日真源-U2",
+  "created": "2026-05-25",
+  "scope": "第2单元第5–8课 · 不动 U1L1–4 冻结",
+  "owner": "hyouga-author",
+  "ice": "L2",
+  "parallel_ok": false,
+  "tasks": [
+    {
+      "id": "u2-supplement-merge",
+      "title": "资料补充结构化 → 合并 PRD",
+      "files": [
+        "【标日学习资料补充】/结构化/**",
+        "scripts/merge-supplement-structured-into-prd.py",
+        "【产品PRD】/新增补课文内容/第2单元/*.txt"
+      ],
+      "acceptance": "第5–8课 PRD 含【标日真源·结构化补丁】块"
+    },
+    {
+      "id": "u2-quiz-truth",
+      "title": "小测 Q1–12 对 PRD 真源",
+      "files": [
+        "scripts/patch-u2-lessons-5-8-biaori-truth.py",
+        "js/data/lessons-data.js"
+      ],
+      "acceptance": "L5–8 填空 answer/questionTts 正确；选择题 options 四项拆分"
+    },
+    {
+      "id": "u2-ship-gate",
+      "title": "门禁与发版准备",
+      "commands": ["发布前自检.bat"],
+      "acceptance": "pre-ship 全 OK · CACHE_VER +1"
+    }
+  ],
+  "smoke": {
+    "lessons": [5, 6, 7, 8],
+    "checks": ["作業 Tab 见【标日课文】", "小测 L5 Q5 填「に」", "会話 ABC 切换"]
+  }
+}

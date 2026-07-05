@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>日语初级课后练习 · 全域视觉系统 v1（设计板）</title>
+  <link rel="stylesheet" href="../css/design-tokens.css?v=288" />
+  <link rel="stylesheet" href="../css/mvp.css?v=288" />
+  <style>
+    body.board {
+      margin: 0;
+      padding: 16px;
+      max-width: 420px;
+      margin-inline: auto;
+      background: var(--hy-surface-cream);
+      font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans JP", sans-serif;
+    }
+    .board h1 { font-size: 18px; color: var(--hy-brand-navy); margin: 0 0 4px; }
+    .board .lead { font-size: 12px; color: var(--hy-zh-muted); margin-bottom: 20px; }
+    .panel {
+      margin-bottom: 20px;
+      padding: 12px;
+      border-radius: 14px;
+      background: var(--hy-surface-white);
+      border: 1px solid var(--hy-border-soft);
+    }
+    .panel h2 {
+      font-size: 13px;
+      color: var(--hy-brand-navy);
+      margin: 0 0 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--hy-border-soft);
+    }
+    .unit-swatch {
+      margin-bottom: 10px;
+      padding: 8px 10px;
+      border-left: 5px solid var(--u-accent, #ccc);
+      border-radius: 10px;
+      background: var(--u-bg, #fff);
+    }
+    .map-demo {
+      position: relative;
+      height: 120px;
+      background: linear-gradient(180deg, #faf8f5, var(--hy-surface-cream));
+      border-radius: 10px;
+      margin-bottom: 8px;
+    }
+    .map-demo .unit-station {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border: none;
+      background: transparent;
+      cursor: default;
+    }
+    .map-demo .u1 { left: 72%; top: 58%; }
+    .map-demo .u3 { left: 48%; top: 42%; }
+    .map-demo .u6 { left: 52%; top: 12%; }
+    .cockpit-mock {
+      padding: 8px;
+      border-radius: 10px;
+      background: color-mix(in srgb, var(--c-surface) 90%, var(--u-bg));
+      border: 1px solid var(--u-border, var(--hy-border-soft));
+    }
+    .cockpit-mock .cockpit-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+    .cockpit-mock .cockpit-tab {
+      flex: 1;
+      min-width: 52px;
+      padding: 8px 4px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      border-left-width: 4px;
+      text-align: center;
+    }
+    .tab-g0 { background: var(--gate-0-bg); color: var(--gate-0-accent); border-color: var(--gate-0-border); border-left-color: var(--gate-0-accent); }
+    .tab-g1 { background: var(--gate-1-bg); color: var(--gate-1-accent); border-color: var(--gate-1-border); border-left-color: var(--gate-1-accent); }
+    .tab-g2 { background: var(--gate-2-bg); color: var(--gate-2-accent); border-color: var(--gate-2-border); border-left-color: var(--gate-2-accent); }
+    .egg-row { display: flex; gap: 8px; align-items: center; }
+    .egg-row .journey-lesson-egg-btn { position: static; transform: none; }
+  </style>
+</head>
+<body class="board mvp-app">
+  <h1>全域视觉系统 v1 · 设计板</h1>
+  <p class="lead">Figma 替代样张 · 真源 <code>css/design-tokens.css</code> · cache v288</p>
+
+  <section class="panel">
+    <h2>六单元谱色（目录块）</h2>
+    <div class="unit-swatch" style="--u-accent:#e57373;--u-bg:#fff5f5">赤 · 第1单元 · 小李赴日</div>
+    <div class="unit-swatch" style="--u-accent:#ffb74d;--u-bg:#fff8f0">橙 · 第2单元</div>
+    <div class="unit-swatch" style="--u-accent:#ffd54f;--u-bg:#fffef5">黄 · 第3单元</div>
+    <div class="unit-swatch" style="--u-accent:#81c784;--u-bg:#f4faf4">绿 · 第4单元</div>
+    <div class="unit-swatch" style="--u-accent:#4dd0e1;--u-bg:#f0fcfd">青 · 第5单元</div>
+    <div class="unit-swatch" style="--u-accent:#7e57c2;--u-bg:#f5f0fa">绀 · 第6单元</div>
+  </section>
+
+  <section class="panel">
+    <h2>地图站点 · stage-accent（PR-2C）</h2>
+    <div class="map-demo journey-map-stations--units">
+      <button type="button" class="unit-station u1 is-unit-cleared" style="--stage-accent:#e57373">
+        <span class="unit-station-ring"></span><span class="unit-station-num">1</span>
+      </button>
+      <button type="button" class="unit-station u3 is-unit-active" style="--stage-accent:#ffd54f">
+        <span class="unit-station-ring"></span><span class="unit-station-num">3</span>
+      </button>
+      <button type="button" class="unit-station u6 is-unit-dormant" style="--stage-accent:#7e57c2">
+        <span class="unit-station-ring"></span><span class="unit-station-num">6</span>
+      </button>
+    </div>
+    <p style="font-size:10px;color:var(--hy-zh-muted)">灰=未启程 · 弱彩=进行中 · 金边+单元色=通关</p>
+  </section>
+
+  <section class="panel" style="--u-accent:#e57373;--u-bg:#fff5f5;--u-border:#ffcdd2">
+    <h2>课内五关 · U1 混色示意</h2>
+    <div class="cockpit-mock lesson-cockpit-view">
+      <div class="cockpit-tabs">
+        <span class="cockpit-tab tab-g0 active">単語</span>
+        <span class="cockpit-tab tab-g2">会話</span>
+        <span class="cockpit-tab tab-g1">文法</span>
+        <span class="cockpit-tab tab-g3">作業</span>
+        <span class="cockpit-tab tab-g4">拡張</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" style="--stage-accent:#e57373">
+    <h2>条带缩略 · 单元色框（PR-2C）</h2>
+    <div class="egg-row">
+      <button type="button" class="lesson-row is-lesson-cleared" style="flex:1;max-width:200px">
+        <span class="lesson-row-badge">1</span>
+        <span class="lesson-row-body">
+          <span class="lesson-row-titleline"><span class="lesson-row-title jp">李さんは中国人です</span></span>
+          <span class="lesson-row-meta"><span class="lesson-row-stars lesson-sea-stars">★★★★★</span></span>
+        </span>
+      </button>
+      <button type="button" class="journey-lesson-egg-btn is-egg-revealed">
+        <img src="../assets/story/unit-1-panel-1-clean.png" alt="" onerror="this.style.background='#eee'" />
+      </button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>顶栏 + 主按钮</h2>
+    <header class="top-bar" style="position:relative;margin:-4px -4px 10px;border-radius:8px">
+      <h1 style="font-size:16px;margin:0">日语初级课后练习</h1>
+    </header>
+    <button type="button" class="btn primary" style="padding:10px 20px;border-radius:999px;border:none">开始学习</button>
+  </section>
+</body>
+</html>

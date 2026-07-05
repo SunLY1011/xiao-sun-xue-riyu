@@ -1,0 +1,15 @@
+.picker {
+  color: rgba(0, 0, 0, 0.92);
+}
+
+button::after {
+  border: none;
+}
+
+.btnRow button {
+  margin: 0;
+}
+
+.cards button {
+  padding: 8px 10px;
+}

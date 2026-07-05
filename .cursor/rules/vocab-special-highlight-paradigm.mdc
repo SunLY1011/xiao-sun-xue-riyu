@@ -1,0 +1,25 @@
+---
+description: 改课内単語 UI/数据前必读标黄范式（对齐五十音 is-special）
+globs:
+  - js/vocab-flash.js
+  - js/lesson-1-flow.js
+  - js/data/l1-knowledge-tips.js
+  - js/data/lessons-data.js
+  - css/mvp.css
+---
+
+# 课内单词 · 标黄范式（开工前必读）
+
+**真源**：[docs/项目知识库-课内单词标黄范式.md](../../docs/项目知识库-课内单词标黄范式.md)  
+**记忆库**：[docs/Agent交付前工作流-记忆库.md](../../docs/Agent交付前工作流-记忆库.md) §11  
+**机器基线**：`docs/iteration-baseline.json` → `confirmed[]` · `vocab-special-highlight-paradigm`
+
+## 硬要求（摘要）
+
+1. 默认行：日文 + 读音 + 一条中文义；右 **🔊 🎤 ▶** 固定。
+2. 标黄：注意词=**纯白/纯黄二态**（禁渐变）；▸=黄色；见 `docs/产品设计规范-平面轻量UI.md`。
+3. 延伸：`l1-knowledge-tips.js`；**行内折叠**；禁止全屏挡朗读。
+4. MVP 先 **U1L1**；未要求不批量改 2～24 课。
+5. 禁止 `app.js` 手写第二套 `l1-vocab-wrap`；用 `lesson-1-flow.js` `mountVocab`。
+
+改上述 glob 文件前须通读真源全文中的 **§5 开工检查**。

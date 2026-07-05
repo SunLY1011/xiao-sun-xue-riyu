@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta property="og:title" content="日语初级课后练习 · 分享给好友" />
+  <meta property="og:description" content="初级上24课四关课后练习。非出版社官方产品，课后辅助。" />
+  <title>分享 · 日语初级课后练习</title>
+  <link rel="stylesheet" href="css/app.css?v=410" />
+  <link rel="stylesheet" href="css/mvp.css?v=410" />
+  <style>
+    .share-page { padding: 24px 20px; text-align: center; max-width: 420px; margin: 0 auto; }
+    .share-page h1 { font-size: 22px; color: #e57373; margin-bottom: 8px; }
+    .status-badge {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+    .status-badge.ok { background: #f0fff4; color: #276749; }
+    .status-badge.local { background: #fff3e0; color: #e65100; }
+    .link-box {
+      background: #fff;
+      border-radius: 12px;
+      padding: 12px;
+      word-break: break-all;
+      font-size: 14px;
+      text-align: left;
+      margin: 16px 0;
+      border: 1px solid #ffccbc;
+    }
+    .share-btns { display: flex; flex-direction: column; gap: 10px; }
+    .share-btns .btn { width: 100%; }
+    .wechat-tip {
+      text-align: left;
+      background: #fff8e1;
+      border: 1px solid #ffccbc;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 13px;
+      line-height: 1.65;
+      color: #3e2723;
+      margin-top: 16px;
+    }
+    .steps { text-align: left; margin: 16px 0; font-size: 14px; line-height: 1.7; }
+    .steps li { margin: 8px 0; }
+  </style>
+</head>
+<body class="mvp-app">
+  <div class="share-page">
+    <h1>日语初级课后练习</h1>
+    <p class="hint">初级上 24 课 · 四关练习 · 链接转发</p>
+    <p class="hint" style="font-size:12px;color:#78909c;margin-top:4px">非人民教育出版社官方产品，与《标准日本语》为课后辅助关系</p>
+    <p id="status-badge" class="status-badge">检测中…</p>
+
+    <div class="link-box" id="share-url">正在获取地址…</div>
+
+    <div class="share-btns">
+      <button type="button" class="btn primary" id="btn-copy">复制学习链接（发微信）</button>
+      <button type="button" class="btn secondary" id="btn-copy-wx">复制推荐话术（说明+链接）</button>
+      <a href="#" class="btn secondary" id="btn-enter" style="text-decoration:none;display:block;line-height:44px">进入学习</a>
+    </div>
+
+    <ol class="steps">
+      <li>链接须含 <strong>index.html</strong>；若白屏，用下方完整链接在浏览器打开</li>
+      <li>对方点开即可学，也可再转发给下一个人（人传人）</li>
+      <li>跟读录不上：微信右上角 <strong>···</strong> → <strong>在浏览器中打开</strong></li>
+    </ol>
+
+    <div class="wechat-tip" id="wechat-tip"></div>
+
+    <p style="margin-top:20px;font-size:12px;color:#78909c;line-height:1.7">
+      非官方教材 App ·
+      <a href="privacy.html" style="color:#78909c">隐私政策</a>
+      ·
+      <a href="legal.html" style="color:#78909c">版权说明</a>
+    </p>
+  </div>
+  <script src="js/public-url.config.js?v=410"></script>
+  <script src="js/product-brand.js?v=410"></script>
+  <script src="js/share-wechat.js?v=410"></script>
+  <script>
+    const learnUrl = ShareWechat.learnUrl();
+    const publicOk = ShareWechat.isPublicHttps();
+    const hasOrigin = !!ShareWechat.configuredOrigin();
+    const brand = window.HYOUGA_PRODUCT || {};
+
+    document.getElementById("share-url").textContent = learnUrl;
+    document.getElementById("btn-enter").href = learnUrl;
+
+    const badge = document.getElementById("status-badge");
+    if (publicOk || hasOrigin) {
+      badge.textContent = "✓ 公网链接（WiFi / 4G / 5G 均可，可人传人转发）";
+      badge.className = "status-badge ok";
+    } else {
+      badge.textContent = "⚠ 本地预览 · 请复制配置的公网链接发微信";
+      badge.className = "status-badge local";
+    }
+
+    document.getElementById("wechat-tip").innerHTML =
+      "<strong>现阶段</strong>：只发链接，不必小程序。<br>" +
+      "<strong>公司成立后</strong>：可升级为微信小程序。<br>" +
+      "作者更新：改文件夹 → push GitHub → 约 1～2 分钟后链接自动更新。";
+
+    const wxText =
+      "【" + (brand.name || "日语初级课后练习") + "】" +
+      (brand.shareBody || "课后四关练习。") + "\n" + learnUrl;
+
+    async function copyText(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        alert("已复制\n\n" + text + (ShareWechat.isWeChat() ? "\n\n跟读录音：右上角···→在浏览器中打开" : ""));
+      } catch {
+        prompt("请手动复制：", text);
+      }
+    }
+
+    document.getElementById("btn-copy").onclick = () => copyText(learnUrl);
+    document.getElementById("btn-copy-wx").onclick = () => copyText(wxText);
+  </script>
+</body>
+</html>

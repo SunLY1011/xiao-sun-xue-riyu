@@ -1,0 +1,7 @@
+<view class="page">
+  <text class="title">{{title}}</text>
+  <view class="gate" wx:for="{{gates}}" wx:key="k" data-path="{{item.path}}" bindtap="openGate">
+    <text>{{item.done ? '✅' : '⬜'}} {{item.name}}</text>
+  </view>
+  <text class="hint">小程序内为精简页；完整翻转卡片/录音/错题请用 H5（h5/index.html）</text>
+</view>

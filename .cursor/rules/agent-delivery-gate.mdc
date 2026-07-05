@@ -1,0 +1,50 @@
+---
+description: 向用户交付结果前强制工作流（项目级反复要求）
+alwaysApply: true
+---
+
+# Agent 交付闸门（发用户之前必做）
+
+总索引：**[PROJECT_SPEC.md](../../PROJECT_SPEC.md)** · 架构 **[docs/PROJECT_ARCHITECTURE.md](../../docs/PROJECT_ARCHITECTURE.md)**
+
+文递自归：**[docs/项目知识库-文递自归.md](../../docs/项目知识库-文递自归.md)**（概念）· **[docs/Agent文递自归.md](../../docs/Agent文递自归.md)**（执行）· `docs/iteration-baseline.json`  
+完整流程：**[docs/Agent交付前工作流.md](../../docs/Agent交付前工作流.md)**  
+记忆库：**[docs/Agent交付前工作流-记忆库.md](../../docs/Agent交付前工作流-记忆库.md)** · `docs/version-history.json`
+
+## 骨架（5 原则）
+
+1. 先跑自检再给结论（`发布前自检.bat`）
+2. 语音用 `audit-tts-registry.py` 编号对账，缺失 MP3 = 0
+3. 本地链接 `localhost:8765/?v=` ≠ 公网 GitHub 链接
+4. 日文按标日知识库；中文进 Zh/zh 字段
+5. 会話评语：新录音/播放/换句 → 清空，只保留当前句下方全宽反馈
+
+## 改代码前必执行（CONFIRM · C 步）
+
+1. 读 `docs/iteration-baseline.json` 的 `current` + `confirmed` + `backlog`
+2. 自评 ICE 档位（见 `docs/Agent文递自归.md`）；用户未要求则 ≤ L2
+3. 本轮 scope 仅用户原话；`backlog` 项不得擅自提前做
+4. **若改课内単語**（`vocab-flash` / `lesson-1-flow` / `l1-knowledge-tips` / 单词 CSS）：先读 `docs/项目知识库-课内单词标黄范式.md` + 记忆库 §11
+
+## 改码前必执行（铁律 · 真机预览）
+
+1. 改 UI/刷星/课内/マイ/笔记/入門：**`cursor-miniapp-phone.html?live=1`**（或 `Cursor真机持续预览.bat`）
+2. Cursor：`Ctrl+Shift+P` → **Simple Browser: Show** → 粘贴上址，侧边固定
+3. 见 `.cursor/rules/miniapp-real-device-preview-iron-law.mdc` · `docs/双通道验收-浏览器与手机真机框.md`
+4. 每一次保存后须在真机框内看到最新态；**禁止**未目视就声称修好
+5. **改 UI 收尾**：`python scripts/preview-notify-reload.py`（须 watch 服务；与文件保存监听二选一或并用）
+
+## 交付前必执行
+
+1. 读 `docs/Agent交付前工作流.md` 第二节【项目级·反复】含 **C2 双通道**
+2. 运行 `python scripts/pre-ship-check.py`（或 `发布前自检.bat`）
+3. 本地须 `start-local-server.py --probe` 为 OK，否则提示 `重启本地服务.bat`
+4. 若改会話/语音/UI：双通道目视 + 本地冒烟（评语切换、🔊、按钮对齐）
+5. 回复必须含「交付反馈块」：自检表 + **真机框已目视（live）** + 产品版 + cache v + 双链接 + **`http://127.0.0.1:8765/cursor-miniapp-phone.html?live=1`**
+
+## 禁止
+
+- 未跑自检就说「可发布 / 已修好」
+- 只给用户 GitHub 链接用于本机调试
+- 让用户手工对语音文件
+- 未要求时 `git push` / commit

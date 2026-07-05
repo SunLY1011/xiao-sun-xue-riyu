@@ -1,0 +1,18 @@
+---
+description: 发布前自检清单（与 pre-ship-check.py 对齐）
+alwaysApply: true
+---
+
+# 发布前自检（与脚本绑定）
+
+运行：`发布前自检.bat` 或 `python scripts/pre-ship-check.py`
+
+全部 `[OK]` 前不得向用户提供「最终版」公网链接或声称已发布。
+
+语音单独：`批量检查语音包.bat` → `docs/TTS-语音包编号规范.md`
+
+PRD 单词（1–24课）：`pre-ship-check.py` 内 `check_prd_vocab_all_lessons`；任一课 FAIL/缺 PRD → **阻断** · 报告 `docs/audit-lessons-biaori-prd-最新.md`
+
+双通道（前置 + 交付前终检）：`打开双通道预览.bat` · `docs/双通道验收-浏览器与手机真机框.md` — 机器 OK 后仍须在浏览器 + 390×844 真机框目视
+
+总规范：`PROJECT_SPEC.md` · 交付流程：`docs/Agent交付前工作流.md`

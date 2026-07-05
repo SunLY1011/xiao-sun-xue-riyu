@@ -1,0 +1,9 @@
+{
+  "pages": ["pages/index/index"],
+  "window": {
+    "navigationBarTitleText": "日语学习小程序",
+    "navigationStyle": "default",
+    "backgroundTextStyle": "light",
+    "backgroundColor": "#f7f7fb"
+  }
+}

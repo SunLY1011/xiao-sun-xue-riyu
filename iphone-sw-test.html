@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SW Debug</title>
+<style>
+body{font-family:-apple-system,sans-serif;padding:14px;background:#f5f5f5;color:#333;font-size:15px}
+h1{font-size:18px;color:#FF5722;text-align:center;margin:0 0 12px}
+.card{background:#fff;border-radius:10px;padding:12px;margin:10px 0;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+h2{font-size:14px;color:#FF7043;margin:0 0 10px;padding:0 0 6px;border-bottom:2px solid #FFE0B2}
+.row{padding:5px 0;border-bottom:1px solid #eee;font-size:14px}
+.row:last-child{border-bottom:none}
+.ok{color:#34C759;font-weight:700}.fail{color:#FF3B30;font-weight:700}.warn{color:#FF9500;font-weight:700}
+.btn{display:block;width:100%;padding:11px;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;margin-top:8px;background:#FF7043;color:#fff}
+.btn2{background:#ECEFF1;color:#455A64}
+.info{font-size:13px;color:#1565C0;padding:9px;background:#E3F2FD;border-left:3px solid #2196F3;border-radius:6px;margin:8px 0}
+.success{font-size:13px;color:#1B5E20;padding:9px;background:#E8F5E9;border-left:3px solid #4CAF50;border-radius:6px;margin:8px 0}
+.danger{font-size:13px;color:#B71C1C;padding:9px;background:#FFEBEE;border-left:3px solid #FF3B30;border-radius:6px;margin:8px 0}
+pre{background:#263238;color:#ECEFF1;padding:9px;border-radius:6px;font-size:11px;white-space:pre-wrap;margin-top:8px}
+.mono{font-family:monospace;font-size:12px;color:#78909C}
+</style></head><body>
+
+<h1>🔬 SW Debug - 逐个尝试</h1>
+
+<div class="card"><h2>🔗 环境</h2><div id="env"></div></div>
+
+<div class="card"><h2>🔍 先 HEAD 检测所有 SW 文件</h2>
+<div id="files">点击按钮检测</div>
+<button class="btn btn2" onclick="checkFiles()">🔍 检测 SW 文件</button>
+<button class="btn btn2" onclick="clean()">❌ 清理旧注册+缓存</button>
+</div>
+
+<div class="card"><h2>⚡ 逐个尝试注册 SW</h2>
+<div id="results">完成文件检测后点击</div>
+<button class="btn" onclick="tryAll()">⚡ 逐个尝试注册</button>
+</div>
+
+<div class="card"><h2>📖 诊断</h2><div id="diag"><div class="info">运行测试后显示</div></div></div>
+<div class="card"><h2>📝 日志</h2><pre id="log">等待...</pre></div>
+
+<script>
+(function(){
+  'use strict';
+  var logEl = document.getElementById('log');
+  var logs = [];
+  function log(m, t){
+    var prefix = t ? '['+t.toUpperCase()+']' : '[INFO]';
+    logs.push(new Date().toLocaleTimeString()+' '+prefix+' '+m);
+    logEl.textContent = logs.join('\n');
+    console.log(m);
+  }
+
+  var p = location.protocol, h = location.hostname;
+  var isHttps = p === 'https:';
+  var ua = navigator.userAgent;
+  var vm = ua.match(/OS (\d+)_(\d+)/);
+  var iosVer = vm ? vm[1]+'.'+vm[2] : '?';
+
+  document.getElementById('env').innerHTML =
+    '<div class="row"><span class="mono">协议: </span>'+(isHttps ? '<span class="ok">HTTPS 🔒</span>' : '<span class="fail">HTTP</span>')+'</div>'+
+    '<div class="row"><span class="mono">主机: </span><span class="mono">'+h+'</span></div>'+
+    '<div class="row"><span class="mono">iOS: </span>'+iosVer+'</div>'+
+    '<div class="row"><span class="mono">SW API: </span>'+('serviceWorker' in navigator ? '<span class="ok">支持</span>' : '<span class="fail">不支持</span>')+'</div>';
+
+  log('环境: '+p+' '+h+' iOS '+iosVer);
+
+  var files = ['sw.js', 'mini1-sw.js', 'mini2-sw.js', 'mini3-sw.js'];
+  var fileStatus = {};
+
+  function ft(url, ms){
+    ms = ms || 3000;
+    var ctrl = new AbortController();
+    var timer = setTimeout(function(){ ctrl.abort(); }, ms);
+    return fetch(url, { signal: ctrl.signal, cache: 'no-store', method: 'HEAD' })
+      .then(function(r){ clearTimeout(timer); return r; })
+      .catch(function(e){ clearTimeout(timer); throw e; });
+  }
+
+  window.checkFiles = async function(){
+    var out = document.getElementById('files');
+    out.innerHTML = '<div class="info">检测中...</div>';
+    var html = '';
+    for (var i = 0; i < files.length; i++) {
+      var f = files[i];
+      try {
+        var r = await ft(f, 3000);
+        var ct = r.headers.get('content-type') || '(none)';
+        if (r.ok) {
+          fileStatus[f] = true;
+          html += '<div class="row"><span class="ok">✅ '+f+'</span> <span class="mono">HTTP '+r.status+' | '+ct+'</span></div>';
+          log('FILE OK: '+f+' '+ct);
+        } else {
+          fileStatus[f] = false;
+          html += '<div class="row"><span class="fail">❌ '+f+' (HTTP '+r.status+')</span></div>';
+          log('FILE FAIL: '+f+' HTTP '+r.status, 'error');
+        }
+      } catch(e) {
+        fileStatus[f] = false;
+        html += '<div class="row"><span class="fail">❌ '+f+' ERR '+e.message+'</span></div>';
+        log('FILE ERR: '+f+' '+e.message, 'error');
+      }
+    }
+    out.innerHTML = html;
+  };
+
+  window.clean = async function(){
+    if ('serviceWorker' in navigator) {
+      var regs = await navigator.serviceWorker.getRegistrations();
+      for (var i = 0; i < regs.length; i++) {
+        try { await regs[i].unregister(); log('取消: '+regs[i].scope); }
+        catch(e) { log('取消失败: '+e.message, 'error'); }
+      }
+    }
+    if ('caches' in window) {
+      var names = await caches.keys();
+      for (var i = 0; i < names.length; i++) { try { await caches.delete(names[i]); } catch(e) {} }
+      log('清空 '+names.length+' 个缓存');
+    }
+    document.getElementById('files').innerHTML = '<div class="success">✅ 已清理</div>';
+  };
+
+  window.tryAll = async function(){
+    if (!('serviceWorker' in navigator)) {
+      document.getElementById('results').innerHTML = '<div class="danger">SW API 不支持</div>';
+      return;
+    }
+    var out = document.getElementById('results');
+    out.innerHTML = '<div class="info">开始逐个尝试...</div>';
+
+    // 先清理
+    try {
+      var regs = await navigator.serviceWorker.getRegistrations();
+      for (var i = 0; i < regs.length; i++) { try { await regs[i].unregister(); } catch(e){} }
+    } catch(e) {}
+
+    var html = '';
+    var anySuccess = false;
+
+    for (var fi = 0; fi < files.length; fi++) {
+      var f = files[fi];
+      html += '<div class="row"><b>→ 尝试: '+f+' ...</b></div>';
+      out.innerHTML = html;
+      log('===== 尝试注册: '+f+' =====');
+
+      var done = false;
+      var timeoutId = setTimeout(function(current){
+        return function(){
+          if (!done) {
+            log(current+' 超时 (8s)', 'error');
+          }
+        };
+      }(f), 8000);
+
+      try {
+        var t0 = Date.now();
+        var reg = await navigator.serviceWorker.register(f, { scope: './' });
+        var t1 = Date.now();
+        done = true;
+        clearTimeout(timeoutId);
+        var status = '';
+        if (reg.installing) status += ' installing';
+        if (reg.waiting) status += ' waiting';
+        if (reg.active) status += ' active';
+        html += '<div class="row"><span class="ok">✅ '+f+' 注册成功!</span> <span class="mono">耗时 '+(t1-t0)+'ms, 状态: '+status+'</span></div>';
+        out.innerHTML = html;
+        log(f+' SUCCESS '+(t1-t0)+'ms '+status);
+        anySuccess = true;
+
+        // 清理这个成功的注册，继续测试其他
+        try { await reg.unregister(); } catch(e) {}
+        break; // 有一个成功就停
+
+      } catch(err) {
+        done = true;
+        clearTimeout(timeoutId);
+        html += '<div class="row"><span class="fail">❌ '+f+' 失败: '+err.message+'</span></div>';
+        out.innerHTML = html;
+        log(f+' FAILED: '+err.message, 'error');
+      }
+    }
+
+    if (anySuccess) {
+      html += '<div class="success">🎉 至少有一个 SW 文件可以注册成功！</div>';
+      document.getElementById('diag').innerHTML = '<div class="success">✅ HTTPS + iOS '+iosVer+' Safari 可以注册 Service Worker！<br><span class="mono">问题在你的 sw.js 内容上（语法/结构问题），不是 iOS/Safari 不支持</span></div>';
+    } else {
+      html += '<div class="danger">⚠️ 所有 SW 文件都注册失败/超时</div>';
+      document.getElementById('diag').innerHTML = '<div class="danger">⚠️ iOS Safari 在 HTTPS 局域网下无法注册任何 SW<br><span class="mono">可能原因: 自签名证书 + iOS 信任问题 / Safari 隐私模式 / iOS 版本 SW 限制</span></div>';
+    }
+    out.innerHTML = html;
+  };
+
+})();
+</script>
+</body></html>

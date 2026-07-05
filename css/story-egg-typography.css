@@ -1,0 +1,142 @@
+/**
+ * L1 单课彩蛋 · 中日文层级与喇叭位（美工统筹）
+ * 日语 = 主信息；中文 = 辅助灰字
+ */
+.story-egg-inner--l1 {
+  --egg-jp: #263238;
+  --egg-jp-muted: #455a64;
+  --egg-zh: #90a4ae;
+  --egg-zh-muted: #b0bec5;
+  --egg-label: var(--stage-accent, #e57373);
+  --egg-jp-size: 14px;
+  --egg-jp-size-head: 1.12rem;
+  --egg-zh-size: 11px;
+  --egg-zh-size-sub: 12px;
+  --egg-line: 1.45;
+}
+
+.story-egg-inner--l1 .story-egg-block-label {
+  color: var(--egg-label);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+.story-egg-inner--l1 .story-egg-lesson-headline.jp {
+  color: var(--egg-jp);
+  font-size: var(--egg-jp-size-head);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.story-egg-inner--l1 .story-egg-lesson-theme,
+.story-egg-inner--l1 .story-egg-lesson-crumb,
+.story-egg-inner--l1 .zh-annotation,
+.story-egg-inner--l1 .story-egg-point-zh,
+.story-egg-inner--l1 .story-egg-points-empty,
+.story-egg-inner--l1 .story-egg-dialogue-zh {
+  color: var(--egg-zh);
+  font-size: var(--egg-zh-size);
+  font-weight: 400;
+  line-height: var(--egg-line);
+}
+
+.story-egg-inner--l1 .story-egg-lesson-theme {
+  font-size: var(--egg-zh-size-sub);
+}
+
+.story-egg-inner--l1 .story-egg-point-jp {
+  display: block;
+  color: var(--egg-jp);
+  font-size: var(--egg-jp-size);
+  font-weight: 600;
+  line-height: var(--egg-line);
+}
+
+.story-egg-inner--l1 .story-egg-point-zh {
+  display: block;
+  margin-top: 3px;
+}
+
+.story-egg-inner--l1 .story-egg-know-card-jp {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.story-egg-inner--l1 .story-egg-know-card-zh {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 10px;
+  font-weight: 400;
+}
+
+/* 会話 · 喇叭与主句同一行，中文折行在下 */
+.story-egg-dialogue {
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(236, 239, 241, 0.55);
+  border: 1px solid #cfd8dc;
+}
+
+.story-egg-dialogue-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.story-egg-dialogue-line {
+  margin-bottom: 10px;
+}
+
+.story-egg-dialogue-line:last-child {
+  margin-bottom: 0;
+}
+
+.story-egg-dialogue-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.story-egg-dialogue-main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.story-egg-dialogue-role {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--egg-jp-muted);
+  margin-bottom: 2px;
+}
+
+.story-egg-dialogue-jp {
+  display: block;
+  color: var(--egg-jp);
+  font-size: var(--egg-jp-size);
+  font-weight: 600;
+  line-height: var(--egg-line);
+}
+
+.story-egg-inner--l1 .story-egg-dialogue-speak.btn-speak-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid #b0bec5;
+  background: #fff;
+}
+
+.story-egg-inner--l1 .story-egg-dialogue-speak .speak-icon-svg {
+  width: 18px;
+  height: 18px;
+}
+
+.story-egg-dialogue-zh {
+  display: block;
+  margin-top: 4px;
+  padding-left: 0;
+}

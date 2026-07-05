@@ -1,0 +1,23 @@
+---
+description: 产品全局导演 — 先拆逻辑与布局，拍板后再写码；触发产品经理/全局设计/排版优化
+globs:
+  - intro.html
+  - js/intro-*.js
+  - js/data/intro-*.js
+  - js/journey-home.js
+  - js/data/curriculum-catalog.js
+  - docs/我们-产品愿景-学习の道.md
+  - 过程讨论内容/**
+alwaysApply: false
+---
+
+# 产品全局导演（hyouga-product-pm）
+
+当用户要求 **产品经理**、**全局设计**、**布局/导航优化**、**排版美工**、**Skill 拆解** 时：
+
+1. **先读** `.cursor/skills/hyouga-product-pm/SKILL.md` 与 `docs/PRODUCT-PM-全局导演手册.md`
+2. **先输出** 手册 §6 模板（逻辑拆解 + 方案 + Skill 派单 + 待拍板），**不** 直接改代码
+3. 用户明确「同意开工 / 可以开工 / 按推荐方案」后，再改代码或派 `hyouga-author`
+4. 视觉改动对照手册 §4；重大范围用 `plan-ceo-review` / `plan-design-review`
+
+与 `discuss-before-act.mdc` 叠加：两者都满足才可交付。

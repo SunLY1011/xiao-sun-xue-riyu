@@ -1,0 +1,13 @@
+# 正式上线：站点名建议 qingjing-biaori → https://qingjing-biaori.netlify.app
+[build]
+  publish = "."
+
+[[redirects]]
+  from = "/"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>日语初级课后练习 · 开机页</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; background: #cfd8dc; }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: "Hiragino Sans", "Noto Sans JP", "Microsoft YaHei", system-ui, sans-serif;
+    }
+    .device {
+      width: 390px;
+      height: 844px;
+      background: #fff8e1;
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+    .top-brand {
+      padding: 40px 20px 8px;
+      text-align: center;
+    }
+    .logo {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 12px;
+      border-radius: 16px;
+      background: linear-gradient(145deg, #ff8a80, #ff7043);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 6px 18px rgba(255,112,67,.32);
+    }
+    .logo img { width: 38px; height: 38px; }
+    .title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #37474f;
+    }
+    .subtitle {
+      margin-top: 5px;
+      font-size: 12px;
+      color: #78909c;
+      font-weight: 600;
+    }
+    .hero-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0 14px;
+      min-height: 0;
+    }
+    .kana-bar {
+      flex: 0 0 auto;
+      width: 100%;
+      max-width: 348px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 13px;
+      border-radius: 12px;
+      border: 2px solid #d1c4e9;
+      background: linear-gradient(152deg, #ede7f6 0%, #f3e5f5 50%, #faf8fc 100%);
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 3px 12px rgba(126,87,194,.14);
+    }
+    .kana-bar .ico {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: #fff;
+      border: 1px solid #b39ddb;
+      display: grid;
+      place-items: center;
+      font-size: 19px;
+      font-weight: 800;
+      color: #7e57c2;
+    }
+    .kana-bar .txt { flex: 1; text-align: left; }
+    .kana-bar .txt strong {
+      display: block;
+      font-size: 14px;
+      color: #4527a0;
+    }
+    .kana-bar .txt span {
+      display: block;
+      font-size: 11px;
+      color: #607d8b;
+      margin-top: 2px;
+    }
+    .kana-bar .tag {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 5px 9px;
+      border-radius: 8px;
+      background: #8e6ec0;
+      color: #fff;
+    }
+    .map-stage {
+      position: relative;
+      width: min(78vw, 300px);
+      aspect-ratio: 240 / 360;
+      flex: 0 1 auto;
+      margin: 4px auto 0;
+    }
+    .map-stage .map-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: grayscale(0.2) sepia(0.25) saturate(0.55) brightness(1.12);
+      opacity: 0.9;
+    }
+    .map-stage .map-overlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .map-stage .shinkansen-track {
+      fill: none;
+      stroke: #c9a227;
+      stroke-width: 2.5;
+      stroke-dasharray: 7 5;
+      stroke-linecap: round;
+      opacity: 0.72;
+    }
+    .unit-dot {
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      background: #b0bec5;
+      border: 3px solid #fff8e1;
+      box-shadow: 0 2px 8px rgba(55,71,79,.15);
+      font-size: 13px;
+      font-weight: 800;
+      color: #fff;
+      display: grid;
+      place-items: center;
+      z-index: 2;
+    }
+    .u1 { left: 78.3%; top: 47.8%; }
+    .u2 { left: 49.2%; top: 55.6%; }
+    .u3 { left: 63.3%; top: 62.2%; }
+    .u4 { left: 57.5%; top: 42.2%; }
+    .u5 { left: 67.5%; top: 28.3%; }
+    .u6 { left: 62.5%; top: 7.8%; }
+    .bottom-cta {
+      padding: 10px 28px 38px;
+      text-align: center;
+    }
+    .btn-start {
+      width: 100%;
+      max-width: 300px;
+      height: 50px;
+      border: none;
+      border-radius: 25px;
+      background: linear-gradient(180deg, #ff8a80, #ff7043);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 800;
+      box-shadow: 0 6px 18px rgba(255,112,67,.36);
+    }
+    .bottom-hint {
+      margin-top: 10px;
+      font-size: 11px;
+      color: #90a4ae;
+    }
+  </style>
+</head>
+<body>
+  <div class="device">
+    <header class="top-brand">
+      <div class="logo">
+        <img src="../icons/icon.svg" alt="" />
+      </div>
+      <h1 class="title">日语初级课后练习</h1>
+      <p class="subtitle">学习の道 · 新幹線 24 駅</p>
+    </header>
+
+    <section class="hero-center">
+      <div class="map-stage" aria-label="日本列岛学习地图">
+        <img class="map-photo" src="../assets/splash/japan-map-splash.png" alt="" />
+        <svg class="map-overlay" viewBox="0 0 240 360" aria-hidden="true">
+          <path class="shinkansen-track" d="M 200 192 L 188 172 L 118 200 L 152 224 L 138 152 L 162 102 L 150 28"/>
+        </svg>
+        <span class="unit-dot u1">1</span>
+        <span class="unit-dot u2">2</span>
+        <span class="unit-dot u3">3</span>
+        <span class="unit-dot u4">4</span>
+        <span class="unit-dot u5">5</span>
+        <span class="unit-dot u6">6</span>
+      </div>
+    </section>
+
+    <footer class="bottom-cta">
+      <button type="button" class="btn-start">开始学习</button>
+      <p class="bottom-hint">进入学习地图 · 选课续学</p>
+    </footer>
+  </div>
+</body>
+</html>

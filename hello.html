@@ -1,0 +1,14 @@
+<!DOCTYPE html><html><body style="font-family:sans-serif;padding:30px;">
+<h1 style="color:#FF7043;">HTTPS is working 🔒</h1>
+<p>如果你能看到这个页面，说明 HTTPS 服务器正常。</p>
+<p id="t"></p>
+<script>
+  document.getElementById('t').textContent = new Date().toString();
+  console.log('protocol:', location.protocol);
+  console.log('serviceWorker:', 'serviceWorker' in navigator);
+  console.log('caches:', 'caches' in window);
+  navigator.serviceWorker && navigator.serviceWorker.register('test-sw.js')
+    .then(r => console.log('SW registered:', r.scope))
+    .catch(e => console.log('SW error:', e.message));
+</script>
+</body></html>

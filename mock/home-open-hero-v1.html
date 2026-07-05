@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=390, initial-scale=1" />
+  <title>打开首屏 · 大图地图 v1（PPT/截图真源）</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      background: #455a64;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      font-family: "Hiragino Sans", "Noto Sans JP", "Microsoft YaHei", system-ui, sans-serif;
+    }
+    .caption-outside {
+      color: #b0bec5;
+      font-size: 11px;
+      line-height: 1.45;
+      text-align: center;
+      max-width: 390px;
+      margin-bottom: 8px;
+    }
+    .caption-outside strong { color: #80cbc4; }
+    /* iPhone 14 竖屏逻辑像素 */
+    .device {
+      width: 390px;
+      height: 844px;
+      border-radius: 28px;
+      overflow: hidden;
+      background: #fff8e1;
+      box-shadow: 0 20px 50px rgba(0,0,0,.45);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .status-safe {
+      flex: 0 0 auto;
+      height: env(safe-area-inset-top, 0px);
+      min-height: 0;
+      background: #fff8e1;
+    }
+    /* 用户要求：顶多 日语学习 + 图 */
+    .app-chrome {
+      flex: 0 0 auto;
+      height: 52px;
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff8e1;
+      border-bottom: 1px solid rgba(255,138,128,.25);
+    }
+    .app-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(145deg, #ff8a80, #ff7043);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 2px 8px rgba(255,112,67,.35);
+    }
+    .app-logo img {
+      width: 24px;
+      height: 24px;
+    }
+    .app-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #37474f;
+      letter-spacing: .03em;
+    }
+    .app-title small {
+      display: block;
+      font-size: 10px;
+      font-weight: 600;
+      color: #90a4ae;
+      margin-top: 1px;
+    }
+    .hero-map {
+      flex: 1 1 auto;
+      min-height: 0;
+      width: 100%;
+      padding: 10px 14px 14px;
+      background: #fff8e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-map img {
+      width: 92%;
+      height: 92%;
+      object-fit: contain;
+      object-position: center center;
+      display: block;
+      border-radius: 12px;
+      filter: grayscale(1) contrast(0.92) brightness(1.02);
+      opacity: 0.88;
+    }
+    .safe-bottom {
+      flex: 0 0 auto;
+      height: env(safe-area-inset-bottom, 0px);
+      background: #fff8e1;
+    }
+  </style>
+</head>
+<body>
+  <p class="caption-outside">
+    <strong>打开第一眼 v1</strong> · 真源：<code>探索地图.png</code> + PPT <code>日本地图框架</code><br />
+    仅顶栏「日语初级课后练习 + 图标」· 下方整屏地图 · 不含现版单元手风琴
+  </p>
+  <div class="device" role="img" aria-label="打开首屏：日语学习加大地图">
+    <div class="status-safe"></div>
+    <header class="app-chrome">
+      <div class="app-logo">
+        <img src="../icons/icon.svg" alt="" width="24" height="24" />
+      </div>
+      <div class="app-title">
+        日语初级课后练习
+        <small>あと学習 · 探索地图</small>
+      </div>
+    </header>
+    <div class="hero-map">
+      <img src="ref-explore-map.png" alt="标准日语探索型学习地图" />
+    </div>
+    <div class="safe-bottom"></div>
+  </div>
+</body>
+</html>

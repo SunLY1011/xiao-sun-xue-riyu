@@ -1,0 +1,204 @@
+{
+  "schema": "hyouga-version-history/v1",
+  "current": {
+    "product": "1.0.2",
+    "cache": "410",
+    "date": "2026-05-30",
+    "note": "v410：开机CTA下移·TTS Gitee镜像·按住录音·多渠道失败提示",
+    "git_tag": "v1.0.2-ship-v410",
+    "ship_doc": "docs/L1-24-收官报告-v410.md",
+    "checklist": "docs/L1-24-手机验收清单-v410.md",
+    "paradigm_index": "docs/范式体系/完整手册-学习型软件从开发到收官.md",
+    "baseline": "docs/iteration-baseline.json",
+    "discipline": "docs/Agent文递自归.md",
+    "paradigm": "docs/项目知识库-文递自归.md"
+  },
+  "mvp_freeze": {
+    "status": "frozen",
+    "product": "1.0.1",
+    "cache": "406",
+    "date": "2026-05-21",
+    "git_tag": "mvp-v1.0.1-biaori-141618",
+    "commit_note": "af22cac 及此前 main 上 MVP 交付链",
+    "lessons": [
+      14,
+      16,
+      18
+    ],
+    "doc": "docs/MVP-FREEZE.md",
+    "checklist": "docs/MVP收官-手机验收清单.md",
+    "public": "https://saivenwang-byte.github.io/XiaoWangXueRiyu-v2/index.html?v=410",
+    "local": "http://localhost:8765/index.html?v=410"
+  },
+  "releases": [
+    {
+      "product": "1.0.2",
+      "cache": "410",
+      "date": "2026-05-30",
+      "git": "9dc10d6",
+      "note": "收官：splash CTA·TTS Gitee镜像·按住录音·多渠道失败提示",
+      "local": "http://localhost:8765/index.html?v=410",
+      "public": "https://saivenwang-byte.github.io/XiaoWangXueRiyu-v2/index.html?v=410",
+      "gitee": "https://saivenwang-byte.gitee.io/xiao-wang-xue-riyu-v2/index.html?v=410",
+      "ship_doc": "docs/L1-24-收官报告-v410.md"
+    },
+    {
+      "product": "1.0.2",
+      "cache": "409",
+      "date": "2026-05-30",
+      "git": "16f449a",
+      "note": "splash/L21 hint-only/KanaSpeak/真机壳 probe/Gitee 发布脚本",
+      "local": "http://localhost:8765/index.html?v=409",
+      "public": "https://saivenwang-byte.github.io/XiaoWangXueRiyu-v2/index.html?v=409"
+    },
+    {
+      "product": "1.0.2",
+      "cache": "408",
+      "date": "2026-05-30",
+      "git": "c35ba1f",
+      "note": "L1–24精写：954单词+101文法黄卡+24格highlight泡+376场景ABC导出",
+      "local": "http://localhost:8765/index.html?v=408",
+      "public": "https://saivenwang-byte.github.io/XiaoWangXueRiyu-v2/index.html?v=408"
+    },
+    {
+      "product": "1.0.2",
+      "cache": "406",
+      "date": "2026-05-25",
+      "note": "书写片假名顶栏ひら对照·清音表去阿行中文列",
+      "local": "http://localhost:8765/index.html?v=404",
+      "public": "https://saivenwang-byte.github.io/XiaoWangXueRiyu-v2/index.html?v=404"
+    },
+    {
+      "product": "1.0.2",
+      "cache": "406",
+      "date": "2026-05-29",
+      "note": "底栏四格；L0 五十音书写（米字格 Canvas）；独立进度不计海星",
+      "local": "http://localhost:8765/index.html?v=404",
+      "public": "https://saivenwang-byte.github.io/XiaoWangXueRiyu-v2/index.html?v=404"
+    },
+    {
+      "product": "1.0.0",
+      "cache": "406",
+      "tag": "mvp-v1.0-wechat",
+      "date": "2025",
+      "note": "微信首发冻结版，见 VERSION-WECHAT-v1.md",
+      "local": "http://localhost:8765/index.html?v=404",
+      "public": "https://saivenwang-byte.github.io/XiaoWangXueRiyu/index.html?v=404"
+    },
+    {
+      "product": "1.0.1",
+      "cache": "406",
+      "date": "2026-05-21",
+      "note": "标日三课 MVP 小修：评语生命周期、TTS 编号对账、本地预览 bat",
+      "local": "http://localhost:8765/index.html?v=404",
+      "public": "https://saivenwang-byte.github.io/XiaoWangXueRiyu/index.html?v=404",
+      "git": "main（未 push 时公网仍为旧 cache）"
+    },
+    {
+      "product": "1.0.1",
+      "cache": "406",
+      "date": "2026-05-21",
+      "note": "MVP 收官候选：方案A四关先生卡、speech-engine递归修复、文递自归规范、pre-ship全绿；待手机验收+push后公网生效",
+      "local": "http://localhost:8765/index.html?v=404",
+      "public": "https://saivenwang-byte.github.io/XiaoWangXueRiyu/index.html?v=404",
+      "mvp_close_checklist": "docs/MVP收官-手机验收清单.md"
+    },
+    {
+      "product": "1.0.1",
+      "cache": "406",
+      "date": "2026-05-21",
+      "note": "补充完整：三课文法補足 zh 灰字、単語难词一行提示；P0/P2 入 confirmed",
+      "local": "http://localhost:8765/index.html?v=404",
+      "public": "https://saivenwang-byte.github.io/XiaoWangXueRiyu/index.html?v=404"
+    },
+    {
+      "product": "1.0.1",
+      "cache": "406",
+      "tag": "mvp-v1.0.1-biaori-141618",
+      "date": "2026-05-21",
+      "note": "MVP 阶段冻结：滚动进度+引导、难词条、四关全绿；绑定 git tag",
+      "local": "http://localhost:8765/index.html?v=404",
+      "public": "https://saivenwang-byte.github.io/XiaoWangXueRiyu/index.html?v=404",
+      "mvp_freeze_doc": "docs/MVP-FREEZE.md"
+    },
+    {
+      "product": "1.0.1",
+      "cache": "406",
+      "date": "2026-05-21",
+      "note": "阶段二种子包：第13/15/17/19/20课四关数据+depth+vocab；+139 TTS",
+      "lessons": [
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "local": "http://localhost:8765/index.html?v=404",
+      "public": "https://saivenwang-byte.github.io/XiaoWangXueRiyu/index.html?v=404"
+    },
+    {
+      "product": "1.0.1",
+      "cache": "406",
+      "date": "2026-05-21",
+      "note": "学习の道 P0：curriculum-catalog、journey-home、intro.html",
+      "local": "http://localhost:8765/index.html?v=404",
+      "public": "https://saivenwang-byte.github.io/XiaoWangXueRiyu/index.html?v=404"
+    },
+    {
+      "product": "1.0.1",
+      "cache": "406",
+      "date": "2026-05-21",
+      "note": "课程插画+三级彩蛋：L1/L2/L3、确认版24格裁切、单元1-6条带、真机排版与viewport",
+      "doc": "docs/story-egg-phase-ship.md",
+      "local": "http://localhost:8765/index.html?v=404",
+      "public": "https://saivenwang-byte.github.io/XiaoWangXueRiyu/index.html?v=404"
+    },
+    {
+      "product": "1.0.2",
+      "cache": "406",
+      "date": "2026-05-25",
+      "note": "第1单元第1課 MVP 冻结：五关课内壳、提示/传送链、分关色、知识关联阶段A",
+      "lessons": [
+        1
+      ],
+      "mvp_freeze_doc": "docs/MVP-UNIT1-LESSON1-FREEZE.md",
+      "local": "http://localhost:8765/index.html?v=404",
+      "public": "https://saivenwang-byte.github.io/XiaoWangXueRiyu/index.html?v=404"
+    },
+    {
+      "product": "1.0.2",
+      "cache": "406",
+      "date": "2026-05-25",
+      "note": "L1 五关提示统一（提示：+折叠+l1-tip-slot）、单词序号栅格、开屏地图与单元行 IA",
+      "archive": "过程讨论内容/20-20260525-L1五关提示统一与课内UI阶段归档.md",
+      "lessons": [
+        1
+      ],
+      "local": "http://localhost:8765/index.html?v=404",
+      "public": "https://saivenwang-byte.github.io/XiaoWangXueRiyu/index.html?v=404"
+    },
+    {
+      "product": "1.0.2",
+      "cache": "406",
+      "tag": "lock/notes-panel-v1-20260525",
+      "date": "2026-05-25",
+      "note": "「笔记板块V1」定稿锁：底栏笔记六块、易错红上蓝下、关联倒三角可点开",
+      "lock_doc": "docs/locks/NOTES-PANEL-V1-LOCK-20260525.md",
+      "local": "http://localhost:8765/index.html?v=404",
+      "public": "https://saivenwang-byte.github.io/XiaoWangXueRiyu/index.html?v=404"
+    }
+  ],
+  "versioning_rules": {
+    "product_semver": "1.0.0 首发 → 小改 1.0.1、1.0.2；大改 1.1.0",
+    "cache_ver": "index.html ?v= 与 js/share-wechat.js CACHE_VER，每次发版 +1，不等于产品小数",
+    "history_source": "Git 提交 + 本文件 + VERSION.md；AI 会话不自动记忆，须读仓库文件"
+  },
+  "cost_model": {
+    "student_runtime": "无 OpenAI/AI 平台按次费用；静态 HTML+MP3+浏览器录音/本地评分",
+    "author_only": "本机 build-tts-cache.py 使用 edge-tts 生成 MP3；git push GitHub Pages 免费托管",
+    "traffic": "学员打开链接消耗手机流量，非 API 账单"
+  }
+}

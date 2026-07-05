@@ -1,0 +1,975 @@
+{
+  "schema": "hyouga-iteration-baseline/v1",
+  "updated": "2026-05-30",
+  "mvp_status": {
+    "phase": "frozen",
+    "frozen_at": "2026-05-21",
+    "doc": "docs/MVP-FREEZE.md",
+    "git_tag": "mvp-v1.0.1-biaori-141618"
+  },
+  "unit1_lessons_1_4_mvp": {
+    "status": "unlocked",
+    "frozen_at": "2026-05-25",
+    "locked_at": "2026-05-25",
+    "unlocked_at": "2026-05-30",
+    "cache": "407",
+    "lesson_ids": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "unit_id": 1,
+    "doc": "docs/MVP-UNIT1-LESSONS-1-4-FREEZE.md",
+    "user_confirmed": "2026-05-30",
+    "note": "用户2026-05-30明示解锁：可改 ABC/会話黄卡/知识图；五关壳与 lesson-1-flow 仍慎改"
+  },
+  "unit1_lesson1_mvp": {
+    "status": "unlocked",
+    "frozen_at": "2026-05-25",
+    "locked_at": "2026-05-25",
+    "cache": "406",
+    "lesson_id": 1,
+    "unit_id": 1,
+    "doc": "docs/MVP-UNIT1-LESSON1-FREEZE.md",
+    "parent_lock": "unit1_lessons_1_4_mvp",
+    "archive": "过程讨论内容/20-20260525-L1五关提示统一与课内UI阶段归档.md",
+    "user_confirmed": "2026-05-25",
+    "note": "用户 2026-05-30 明示：L1–24 精写/GRAMMAR/条带高光 全量补全",
+    "unlocked_at": "2026-05-30"
+  },
+  "notes_panel_v1": {
+    "status": "locked",
+    "name": "「笔记板块V1」定稿锁",
+    "locked_at": "2026-05-25",
+    "cache": "406",
+    "git_tag": "lock/notes-panel-v1-20260525",
+    "doc": "docs/locks/NOTES-PANEL-V1-LOCK-20260525.md",
+    "spec": "过程讨论内容/19-20260525-笔记板块规范.md",
+    "note": "易错红上蓝下对照；关联倒三角可点开；单元易错汇总；不动 U1L1 五关"
+  },
+  "p0_splash_cover_design": {
+    "status": "locked",
+    "name": "P0 开机封面 · 设计阶段定稿锁",
+    "locked_at": "2026-05-25",
+    "splash_asset_ver": "21",
+    "home_splash_js": "v=287",
+    "doc": "docs/locks/P0-SPLASH-COVER-DESIGN-LOCK-20260525.md",
+    "cover_asset": "assets/splash/cover-base.png",
+    "source_art": "地图/64649377-e0e1-4239-a073-118630981bb6 (1).png",
+    "bake_script": "scripts/apply-splash-v1-style.py",
+    "preview": "splash-cover-live-preview.html",
+    "user_confirmed": "2026-05-25",
+    "note": "纯色 #FFF8E1 · 蓝虚线 #4A6FA5 · 六圆 02/04/03/01/05/06 · 无左列课表/无封面50音圆；无用户明示不得改 cover-base 构图；App 壳层（顶栏/令牌）可随 global-vi-v1 调整"
+  },
+  "paradigm": {
+    "name_cn": "文递自归",
+    "name_en": "Autoregressive Generation",
+    "doc": "docs/项目知识库-文递自归.md",
+    "discipline": "docs/Agent文递自归.md",
+    "project_spec": "PROJECT_SPEC.md",
+    "architecture": "docs/PROJECT_ARCHITECTURE.md",
+    "cursor_rules": ".cursor/rules/wendi-zigui-core.mdc",
+    "agent_pipeline": "docs/agent-pipeline.json",
+    "skills": [
+      "hyouga-orchestrator",
+      "hyouga-author",
+      "hyouga-review",
+      "hyouga-qa",
+      "hyouga-fix",
+      "hyouga-shipper",
+      "hyouga-auditor"
+    ],
+    "agent_rule": "confirmed[] = 已生成上下文；本轮改动 = 下一 token；禁止非自回归式整站重写"
+  },
+  "instruction": "每轮迭代结束且用户确认或冒烟通过后，将条目追加到 confirmed；禁止删除 confirmed 除非用户要求回滚。新会话 Agent 必须先读 current + confirmed + backlog + paradigm.doc，再改代码。",
+  "current": {
+    "product": "1.0.2",
+    "cache": "410",
+    "cache_files": [
+      "js/share-wechat.js CACHE_VER",
+      "index.html ?v=",
+      "share.html ?v=",
+      "japanese_learning_miniapp/config/h5-url.js",
+      "js/public-url.config.js HYOUGA_TTS_CACHE_VER",
+      "tts-cache/sw-manifest.json"
+    ],
+    "local": "http://localhost:8765/index.html?v=410",
+    "public": "https://saivenwang-byte.github.io/XiaoWangXueRiyu-v2/index.html?v=410",
+    "mvp_unit1_lessons_1_4_doc": "docs/MVP-UNIT1-LESSONS-1-4-FREEZE.md",
+    "mvp_unit1_lesson1_doc": "docs/MVP-UNIT1-LESSON1-FREEZE.md",
+    "mvp_unit1_lessons_1_4": "第1单元第1–4课五关+会話ABC 已锁定 v246"
+  },
+  "confirmed": [
+    {
+      "id": "write-l0-four-tab-nav",
+      "since_cache": "333",
+      "title": "底栏四格：注音·课文·书写·笔记 + L0 五十音米字格书写",
+      "files": [
+        "index.html",
+        "js/nav-icons.js",
+        "js/write-kana-l0.js",
+        "js/app.js",
+        "js/mvp-storage.js",
+        "css/write-l0.css",
+        "js/write-kana-stroke-ui.js",
+        "js/data/kana-stroke-guide.js",
+        "书写板块/P0-L0-范围锁定.md",
+        "书写板块/五十音书写-完整学习方法-v1.md"
+      ],
+      "acceptance": "P0.5：默认一览分色；起点仅数字+短箭头（无空心圆）；专注可选；米字格摹写+完成勾选；不计海星"
+    },
+    {
+      "id": "journey-catalog-unit-bubble-webkit",
+      "since_cache": "331",
+      "title": "课文目录：单元泡泡内四课完整·微信/WebKit 一致·紧凑边距",
+      "files": [
+        "css/journey-catalog-mobile-fix.css",
+        "css/mvp.css",
+        "index.html"
+      ],
+      "acceptance": "展开任意单元见 4 课均在泡泡框内；微信/手机浏览器与真机框一致；课内提示/活用区更贴边"
+    },
+    {
+      "id": "l13-dialogue-tts-mp3",
+      "since_cache": "330",
+      "title": "第13课会話朗读：补 tts-cache + 无 MP3 时快速在线兜底",
+      "files": [
+        "js/speech-engine.js",
+        "js/speak-ui.js",
+        "scripts/build-tts-dialogue-lesson.py",
+        "tts-cache/d08aec5c.mp3"
+      ],
+      "acceptance": "第13课「ノートを探しています。」首点可读；9–24 其余课按课批量生成脚本"
+    },
+    {
+      "id": "global-vi-typography-only",
+      "since_cache": "328",
+      "title": "全域字号图标配色美化（仅CSS，不改导航与课内形式）",
+      "files": [
+        "css/design-tokens.css",
+        "css/vi-typography-sweep.css",
+        "index.html",
+        "intro.html"
+      ],
+      "acceptance": "底栏24px图标；字号阶梯令牌；不改JS导航/内容/布局结构"
+    },
+    {
+      "id": "global-bottom-nav-only",
+      "since_cache": "327",
+      "title": "全 App 仅底栏三钮 · 课内无传送链/无滚动副本导航",
+      "files": [
+        "js/lesson-1-flow.js",
+        "js/journey-home.js",
+        "js/story-reward.js",
+        "js/app.js",
+        "css/mvp.css",
+        "docs/学员端显示界面要求-会议纪要汇编.md"
+      ],
+      "acceptance": "底栏课文·笔记·注音全页固定（含课内）；课内无第二底栏；?storyDev=1 才显四格验收；彩蛋逻辑不变"
+    },
+    {
+      "id": "five-gate-fold-default-collapsed",
+      "since_cache": "317",
+      "title": "五关折叠 · 进入默认全收拢 + 展开仅图例无文字",
+      "files": [
+        "js/dialogue-gate.js",
+        "js/grammar-network.js",
+        "js/lesson-1-flow.js",
+        "css/mvp.css"
+      ],
+      "acceptance": "单词/会話/文法/作業/拡張切换进入均为折叠；不自动展开第一条；summary 仅 hyo-fold-slot 图例"
+    },
+    {
+      "id": "dual-channel-preview-acceptance",
+      "since_cache": "295",
+      "title": "双通道验收 · 浏览器持续预览 + 小程序真机框 390×844",
+      "files": [
+        "docs/双通道验收-浏览器与手机真机框.md",
+        "打开双通道预览.bat",
+        "cursor-miniapp-phone.html",
+        "scripts/echo-dual-channel-reminder.bat",
+        "scripts/pre-ship-check.py"
+      ],
+      "acceptance": "铁律：每一次改 UI 须在 cursor-miniapp-phone.html?live=1 目视；Cursor真机持续预览.bat；pre-ship 校验"
+    },
+    {
+      "id": "unit1-lessons-2-4-l1-mvp-patch",
+      "since_cache": "253",
+      "title": "第1单元2–4课 · 文法例句+综合Q12+拡張5块（L1冻结不动）",
+      "files": [
+        "scripts/patch-unit1-lessons-2-4-l1-mvp.py",
+        "js/data/lessons-data.js"
+      ],
+      "acceptance": "L2–4 quiz=12 综合题；reviewExtension=5；L4 あります/います 活用；未改 lessonId=1 与 lesson-1-flow.js"
+    },
+    {
+      "id": "biaori-homework-extension-source-rule",
+      "since_cache": "254",
+      "title": "作業=标日课文 · 拡張=课文锚点+略超纲延展",
+      "files": [
+        "docs/作业与拡張-标日真源规范.md",
+        "scripts/align-homework-extension-biaori-l2-4.py"
+      ],
+      "acceptance": "全课作業题须可回溯当课标日课文；拡張区分【课文锚点】与【知识延展】"
+    },
+    {
+      "id": "unit2-u2b-grammar-l5-7",
+      "since_cache": "254",
+      "title": "第2单元 U2-B · 第5–7课文法例句（标日 basicText）",
+      "files": [
+        "scripts/patch-unit2-grammar-l5-7-biaori.py",
+        "scripts/align-homework-extension-biaori-l2-4.py",
+        "js/data/lessons-data.js",
+        "docs/标日精修进度-单元路线图.md"
+      ],
+      "acceptance": "l5_g2–g5/l6_g4–g5/l7_g2 例句+exampleZh；L5–7 作業/拡張课文锚点"
+    },
+    {
+      "id": "unit3-u3-lessons9-12",
+      "since_cache": "257",
+      "title": "第3单元 U3 · 第9–12课（イ・ナ形·好恶·比较）",
+      "files": [
+        "scripts/patch-unit3-lessons9-12-biaori.py",
+        "scripts/align-homework-extension-biaori-l2-4.py",
+        "js/data/lessons-data.js",
+        "docs/标日精修进度-单元路线图.md"
+      ],
+      "acceptance": "L9–12 文法例句来自 basicText/会話；Q12 综合题；作業/拡張课文锚点"
+    },
+    {
+      "id": "unit4-u4-lessons13-16",
+      "since_cache": "258",
+      "title": "第4单元 U4 · 第13–16课（数量·て形·ています）",
+      "files": [
+        "scripts/patch-unit4-lessons13-16-biaori.py",
+        "scripts/align-homework-extension-biaori-l2-4.py",
+        "js/data/lessons-data.js",
+        "docs/标日精修进度-单元路线图.md"
+      ],
+      "acceptance": "L13–16 文法例句+综合Q12+作業/拡張锚点；L14 quiz Q12 修复"
+    },
+    {
+      "id": "unit5-u5-lessons17-20",
+      "since_cache": "259",
+      "title": "第5单元 U5 · 第17–20课（愿望·变化·否定·可能）",
+      "files": [
+        "scripts/patch-unit5-lessons17-20-biaori.py",
+        "scripts/align-homework-extension-biaori-l2-4.py",
+        "js/data/lessons-data.js",
+        "docs/标日精修进度-单元路线图.md"
+      ],
+      "acceptance": "L17–20 文法例句+综合Q12+作業/拡張锚点；L17–20 quiz Q12 改为 choice"
+    },
+    {
+      "id": "unit6-u6-lessons21-24",
+      "since_cache": "260",
+      "title": "第6单元 U6 · 第21–24课（经验·简体·たり·转述）",
+      "files": [
+        "scripts/patch-unit6-lessons21-24-biaori.py",
+        "scripts/align-homework-extension-biaori-l2-4.py",
+        "js/data/lessons-data.js",
+        "docs/标日精修进度-单元路线图.md"
+      ],
+      "acceptance": "L21–24 文法例句+综合Q12+作業/拡張锚点；L21–24 quiz Q12 改为 choice；课2–24 标日精修主线收口"
+    },
+    {
+      "id": "vocab-knowledge-cards-l9-24",
+      "since_cache": "261",
+      "title": "第9–24课 · 逐词知识卡 + 作業/拡張侧栏提示（对齐 L1）",
+      "files": [
+        "scripts/build-lessons-9-24-knowledge-tips.py",
+        "js/data/lessons-9-24-knowledge-tips.js",
+        "js/lesson-1-flow.js"
+      ],
+      "acceptance": "Lessons924 VOCAB 全覆盖；homeworkTitle/extensionKey 按课号；audit 深度 WARN 仅 L7–8"
+    },
+    {
+      "id": "vocab-knowledge-cards-unit2-l5-8",
+      "since_cache": "262",
+      "title": "第5–8课 · 逐词知识卡精品 + L7/L8 全词（P1）",
+      "files": [
+        "scripts/build-unit2-knowledge-tips.py",
+        "scripts/vocab_tips_curated_data.py",
+        "js/data/unit2-knowledge-tips.js",
+        "js/lesson-1-flow.js"
+      ],
+      "acceptance": "L7/L8 全词 VOCAB；精品 CURATED 合并；audit 深度 WARN 0"
+    },
+    {
+      "id": "vocab-knowledge-premium-l9-24",
+      "since_cache": "262",
+      "title": "L9–24 精品 CURATED 加厚（P2）",
+      "files": [
+        "scripts/vocab_tips_curated_data.py",
+        "scripts/build-lessons-9-24-knowledge-tips.py"
+      ],
+      "acceptance": "注意词+课内核心词双行精品；与 unit2 共用 curated 真源"
+    },
+    {
+      "id": "vocab-knowledge-u4-l13-16-full",
+      "since_cache": "263",
+      "title": "U4 · L13–16 全词精品知识卡 + 作業/拡張侧栏",
+      "files": [
+        "scripts/build-u4-vocab-curated.py",
+        "scripts/vocab_tips_curated_u4.py",
+        "scripts/vocab_tips_curated_data.py",
+        "scripts/build-lessons-9-24-knowledge-tips.py",
+        "js/data/lessons-9-24-knowledge-tips.js",
+        "js/lesson-1-flow.js"
+      ],
+      "acceptance": "L13–16 共200条 CURATED；修正旧 l13_v_2 错绑冊；HW/EXT 按课；audit 深度 0"
+    },
+    {
+      "id": "vocab-knowledge-u2-l5-8-full",
+      "since_cache": "264",
+      "title": "U2 · L5–8 全词精品知识卡 + 作業/拡張侧栏",
+      "files": [
+        "scripts/build-u2-vocab-curated.py",
+        "scripts/vocab_tips_curated_u2.py",
+        "scripts/vocab_tips_curated_l78_snapshot.py",
+        "scripts/build-unit2-knowledge-tips.py",
+        "js/data/unit2-knowledge-tips.js",
+        "js/lesson-1-flow.js"
+      ],
+      "acceptance": "L5–8 共141条 CURATED；L7–8 手写快照；L5–6 时间/助词精品；audit 深度 0"
+    },
+    {
+      "id": "vocab-knowledge-u3-u6-l9-24-full",
+      "since_cache": "265",
+      "title": "U3–U6 · L9–24 全词精品知识卡 + 作業/拡張（U4 已含）",
+      "files": [
+        "scripts/build-u3-u5-u6-vocab-curated.py",
+        "scripts/vocab_tips_curated_u3.py",
+        "scripts/vocab_tips_curated_u5.py",
+        "scripts/vocab_tips_curated_u6.py",
+        "scripts/vocab_tips_curated_data.py",
+        "scripts/build-lessons-9-24-knowledge-tips.py",
+        "js/data/lessons-9-24-knowledge-tips.js"
+      ],
+      "acceptance": "U3 145 + U4 200 + U5 189 + U6 167 条；L17–24 作業/拡張加厚；audit 深度 0"
+    },
+    {
+      "id": "batch-l13-24-curated-dialogue-mt",
+      "since_cache": "253",
+      "title": "批 13–24 · curated 会話中文 + 机翻检测门禁",
+      "files": [
+        "scripts/data/curated_zh_l13_24.json",
+        "scripts/curated_dialogue_zh_l13_24.py",
+        "scripts/patch-dialogue-zh-l13-24.py",
+        "scripts/patch-batch-l13-24-data.py",
+        "scripts/dialogue_zh_mt.py",
+        "scripts/audit-dialogue-zh-mt.py",
+        "scripts/curated_zh_lookup.py",
+        "scripts/fix-dialogue-jp-md-artifacts-l13-24.py",
+        "js/data/dialogue-zh-l9-24.js",
+        "js/data/lessons-9-24-dialogue-abc.js",
+        "js/data/lessons-data.js",
+        "scripts/pre-ship-check.py"
+      ],
+      "acceptance": "L13–24 opener/reply/ABC-A 走 curated；audit-dialogue-zh-mt --from-lesson 13 为 0；发布前自检含该审计"
+    },
+    {
+      "id": "batch-a-l9-12-p1-dialogue-quiz",
+      "since_cache": "252",
+      "title": "批 A（第9–12课）P1 · 会話 ABC 中文 + 黄卡逐景 + L9 小测绑点",
+      "files": [
+        "scripts/curated_dialogue_zh_l9_12.py",
+        "scripts/patch-dialogue-zh-l9-12.py",
+        "scripts/patch-batch-a-l9-12-data.py",
+        "js/data/dialogue-zh-l9-24.js",
+        "js/data/lessons-9-24-dialogue-abc.js",
+        "js/data/lessons-data.js",
+        "scripts/generate-lessons-9-24-dialogue-abc.py"
+      ],
+      "acceptance": "L9–12 ABC 无机翻/错字；abcGuideZh 含场景名；L9 quiz grammarNodeId 与题意一致；课1–4 未改"
+    },
+    {
+      "id": "unit1-lessons-2-4-mvp-flow",
+      "since_cache": "246",
+      "title": "第1单元第2–4课 · 五关与第1课对齐（含会話 ABC）",
+      "files": [
+        "js/lesson-1-flow.js",
+        "js/app.js",
+        "js/dialogue-gate.js",
+        "js/data/unit1-dialogue-abc-l234.js",
+        "scripts/validate-unit1-mvp-lessons.py"
+      ],
+      "acceptance": "第2–4课五关壳与第1课一致；会話每句 A=课文 B/C=场景变体+黄提示；第1课冻结不变"
+    },
+    {
+      "id": "plan-a-sensei-four-gates",
+      "since_cache": "41",
+      "title": "方案A：四关「先生のひとこと」统一卡片",
+      "files": [
+        "js/sensei-tip-card.js",
+        "js/vocab-flash.js",
+        "js/grammar-network.js",
+        "js/dialogue-gate.js",
+        "js/quiz-gate.js"
+      ],
+      "acceptance": "四关顶部有先生卡片；文法为 gn-scroll 非翻面弹窗"
+    },
+    {
+      "id": "dialogue-score-single-panel",
+      "since_cache": "40",
+      "title": "会話评语单条、日文下方全宽",
+      "files": [
+        "js/shadow-speak.js",
+        "js/dialogue-gate.js"
+      ],
+      "acceptance": "L14 句①评分后点句②🎤，句①评语消失；无右侧旧版双分"
+    },
+    {
+      "id": "tts-prefer-key-warm-mp3",
+      "since_cache": "42",
+      "title": "TTS：preferTtsKey、预热 MP3、箭头句读尾部",
+      "files": [
+        "js/speech-engine.js",
+        "js/speak-ui.js"
+      ],
+      "acceptance": "audit-tts-registry 缺失 0；停播不杀全部预热实例"
+    },
+    {
+      "id": "speech-engine-no-recursion",
+      "since_cache": "44",
+      "title": "speech-engine 禁止 fallbackLines↔primaryTtsKey 互调",
+      "files": [
+        "js/speech-engine.js"
+      ],
+      "acceptance": "四关不出现「読み込みエラー」；sort 用 preferredTtsKeyFromObj"
+    },
+    {
+      "id": "quiz-tts-question-only",
+      "since_cache": "42",
+      "title": "测验🔊只读 questionTts，不读带＿题干",
+      "files": [
+        "js/quiz-gate.js",
+        "js/speech-engine.js"
+      ],
+      "acceptance": "填空题点🔊为完整日文句"
+    },
+    {
+      "id": "local-preview-bat",
+      "since_cache": "40",
+      "title": "本地预览 bat + 8765 探测",
+      "files": [
+        "打开本地预览.bat",
+        "重启本地服务.bat",
+        "scripts/start-local-server.py"
+      ],
+      "acceptance": "禁止 file:// 交付；ERR_EMPTY_RESPONSE 用重启 bat"
+    },
+    {
+      "id": "p0-grammar-dense-zh-inline",
+      "since_cache": "45",
+      "title": "文法補足 denseList/pair 中文灰字齐全",
+      "files": [
+        "js/grammar-network.js",
+        "js/data/lessons-mvp-depth.js"
+      ],
+      "acceptance": "L14/16/18 先生の補足内 ❌✅ 与列表项均有 zh（设置开时可见）"
+    },
+    {
+      "id": "p2-vocab-difficult-hints",
+      "since_cache": "45",
+      "title": "単語关难词一行灰字提示条",
+      "files": [
+        "js/vocab-flash.js",
+        "js/data/lessons-mvp-depth.js",
+        "css/mvp.css"
+      ],
+      "acceptance": "三课単語顶部 vf-difficult-strip；每课一行难词メモ"
+    },
+    {
+      "id": "gate-scroll-hint",
+      "since_cache": "46",
+      "title": "四关固定滚动区 + 进度条 + 可见滚动条",
+      "files": [
+        "js/scroll-hint.js",
+        "js/app.js",
+        "css/mvp.css"
+      ],
+      "acceptance": "単語/会話/文法/テスト 顶部 N/M 与底部↓あと；中间区域 overflow-y"
+    },
+    {
+      "id": "stage-2-lessons-data-v47",
+      "since_cache": "47",
+      "title": "阶段二：第13/15/17/19/20课种子包数据",
+      "files": [
+        "js/data/lessons-stage2-mvp.js",
+        "js/data/lessons-mvp.js",
+        "js/data/lessons-mvp-depth.js",
+        "js/data/lesson-vocab-biaori.js"
+      ],
+      "acceptance": "首页8课排序；四关可进；L14 回归不退化"
+    },
+    {
+      "id": "p0-journey-home-v48",
+      "since_cache": "48",
+      "title": "P0：学习の道首页（catalog+四岛图+单元列表+00入門）",
+      "files": [
+        "js/data/curriculum-catalog.js",
+        "js/journey-home.js",
+        "intro.html",
+        "css/mvp.css",
+        "js/app.js"
+      ],
+      "acceptance": "ホーム=单元折叠+课序；未发布準備中；00→intro.html；14/16/18 课内不变"
+    },
+    {
+      "id": "story-egg-three-tier-v93",
+      "since_cache": "93",
+      "title": "三级彩蛋：L1单课 / L2单元条带 / L3通关4×6",
+      "files": [
+        "js/story-egg.js",
+        "js/story-egg-viewport.js",
+        "js/lesson-recap.js",
+        "js/story-caption-jp.js",
+        "js/data/grand-finale-cards.js",
+        "js/data/unit-strip-storyboard.js",
+        "css/story-egg-typography.css",
+        "assets/story/unit-*-strip.webp",
+        "assets/story/grand/card-*-clean.png",
+        "assets/story/egg-grand.webp",
+        "scripts/compose-egg-grand-confirmed.py",
+        "scripts/grand_finale_layout.py",
+        "彩蛋/通关隐藏版-确认版",
+        "docs/story-egg-three-tier-系统定稿.md",
+        "docs/story-grand-confirmed-source.md"
+      ],
+      "acceptance": "四金解锁 L1；单元四金 L2 竖条；全通关 L3 4×6；card19 左对齐裁切含主人公；确认版路径锁定"
+    },
+    {
+      "id": "p5-full-rebuild-from-prd-v108",
+      "since_cache": "108",
+      "title": "完全重建：从PRD生成单一数据源 lessons-data.js",
+      "files": [
+        "js/data/lessons-data.js",
+        "scripts/generate-all-lessons.py",
+        "js/data/lessons-mvp.js",
+        "index.html"
+      ],
+      "acceptance": "全24课vocab/grammar/dialogue/quiz/homework一键生成；无patch/injection/merge；旧文件全部删除"
+    },
+    {
+      "id": "unit1-lesson1-mvp-v146",
+      "since_cache": "146",
+      "title": "第1单元第1課 MVP 定稿（五关·UI·知识关联A）",
+      "doc": "docs/MVP-UNIT1-LESSON1-FREEZE.md",
+      "files": [
+        "js/lesson-1-flow.js",
+        "js/sensei-tip-card.js",
+        "js/l1-knowledge-card.js",
+        "js/data/l1-knowledge-tips.js",
+        "js/data/l1-dialogue-abc.js",
+        "js/data/knowledge-graph.js",
+        "js/knowledge-link.js",
+        "js/dialogue-gate.js",
+        "js/grammar-network.js",
+        "js/data/lessons-data.js",
+        "js/app.js",
+        "css/mvp.css",
+        "js/nav-icons.js"
+      ],
+      "acceptance": "第1課五Tab可学完；提示/传送链/分关色序号；第2課起跨课关联chip；用户2026-05-25确认定稿"
+    },
+    {
+      "id": "vocab-special-highlight-paradigm",
+      "since_cache": "146",
+      "title": "课内单词标黄范式（项目通用·改単語前必读）",
+      "doc": "docs/项目知识库-课内单词标黄范式.md",
+      "memory": "docs/Agent交付前工作流-记忆库.md §11",
+      "scope": "编写/改版课内単語 UI 与延伸数据的通用准则；实现先 U1L1 MVP",
+      "acceptance": "默认行干净+三键；special 左黄条+角标；延伸行内折叠；对齐五十音 is-special；禁止 app.js 第二套单词表",
+      "user_confirmed": "2026-05-25"
+    },
+    {
+      "id": "l1-tip-unified-v225",
+      "since_cache": "225",
+      "title": "第1課五关提示统一：提示：+折叠 + l1-tip-slot + 单词序号栅格",
+      "doc": "过程讨论内容/20-20260525-L1五关提示统一与课内UI阶段归档.md",
+      "files": [
+        "js/sensei-tip-card.js",
+        "js/l1-knowledge-card.js",
+        "js/dialogue-gate.js",
+        "js/lesson-1-flow.js",
+        "css/mvp.css",
+        "index.html",
+        "js/share-wechat.js"
+      ],
+      "acceptance": "単語/会話/文法/作業/拡張提示交互一致；单词序号与文法关 26px 对齐；?v=404",
+      "user_confirmed": "2026-05-25"
+    },
+    {
+      "id": "unit1-lesson1-mvp-locked-v225",
+      "since_cache": "225",
+      "title": "第1单元第1課课文五关 MVP 用户锁定",
+      "doc": "docs/MVP-UNIT1-LESSON1-FREEZE.md",
+      "acceptance": "五关+提示统一+传送链；lesson-1-flow 禁改",
+      "user_confirmed": "2026-05-25"
+    },
+    {
+      "id": "notes-panel-v2",
+      "since_cache": "227",
+      "title": "笔记板块 V2：计时+课次手风琴+课本/老师/学霸/TOP3/关联/我的笔记",
+      "doc": "过程讨论内容/19-20260525-笔记板块规范.md",
+      "files": [
+        "js/notes-panel.js",
+        "js/app.js",
+        "index.html",
+        "css/mvp.css"
+      ],
+      "acceptance": "底栏笔记；单开手风琴；关联弹窗不跳课；笔记失焦保存+橙点；?v=404",
+      "user_confirmed": "2026-05-25"
+    },
+    {
+      "id": "notes-panel-v1-lock",
+      "since_cache": "242",
+      "title": "「笔记板块V1」定稿锁",
+      "doc": "docs/locks/NOTES-PANEL-V1-LOCK-20260525.md",
+      "git_tag": "lock/notes-panel-v1-20260525",
+      "files": [
+        "js/notes-panel.js",
+        "js/app.js",
+        "js/study-timer.js",
+        "js/learning-notes.js",
+        "css/mvp.css",
+        "index.html",
+        "js/share-wechat.js"
+      ],
+      "acceptance": "顶栏说明+单元易错；易错红上蓝下；关联倒三角可点开；?v=404",
+      "user_confirmed": "2026-05-25"
+    },
+    {
+      "id": "unit1-lessons-1-4-locked-v246",
+      "since_cache": "246",
+      "title": "第1单元第1–4课 · 五关+会話ABC 用户锁定",
+      "doc": "docs/MVP-UNIT1-LESSONS-1-4-FREEZE.md",
+      "files": [
+        "js/lesson-1-flow.js",
+        "js/app.js",
+        "js/dialogue-gate.js",
+        "js/grammar-network.js",
+        "js/quiz-gate.js",
+        "js/lesson-overview.js",
+        "js/data/l1-dialogue-abc.js",
+        "js/data/unit1-dialogue-abc-l234.js",
+        "js/data/lessons-data.js",
+        "scripts/validate-unit1-mvp-lessons.py"
+      ],
+      "acceptance": "课1–4 五关与课1 MVP 同壳；会話 A/B/C+提示；pre-ship OK；?v=404",
+      "user_confirmed": "2026-05-25"
+    }
+  ],
+  "roadmap": {
+    "doc": "docs/FULL-VERSION-ROADMAP.md",
+    "user_confirmed": "2026-05-21",
+    "priority": [
+      "stage-2-lessons-13-15-17-19-20",
+      "prd-lessons-21-24",
+      "part-0-intro-a",
+      "stage-3-lessons-1-12",
+      "stage-4-lessons-21-24-code"
+    ]
+  },
+  "backlog": [
+    {
+      "id": "stage-2-lessons-13-15-17-19-20",
+      "status": "done",
+      "since_cache": "47",
+      "note": "数据 v47；首页 catalog v48 按单元展示"
+    },
+    {
+      "id": "part-0-intro-a",
+      "approved": "2026-05-21",
+      "status": "planned",
+      "note": "lessonId:0 入門；不锁课；表格五十音+3会話+5测验；见 docs/Part-0-播种检查表.md",
+      "doc": "docs/Part-0-播种检查表.md"
+    },
+    {
+      "id": "part-0-gojuon-grid-ui",
+      "status": "deferred",
+      "note": "B期：五十音点阵交互，A期用 denseList 表"
+    },
+    {
+      "id": "stage-3-lessons-1-12",
+      "status": "content_done",
+      "since_cache": "408",
+      "note": "L1–12 内容层 v408 已齐（单词/文法黄卡/ABC）；五关壳 L5–12 金标深度待 wave"
+    },
+    {
+      "id": "notes-panel-v2",
+      "status": "done",
+      "since_cache": "227",
+      "doc": "过程讨论内容/19-20260525-笔记板块规范.md",
+      "start_doc": "docs/笔记板块-开工说明.md",
+      "title": "笔记板块 V2（课本/老师/学霸·手风琴）",
+      "scope": "底栏笔记；不动已锁 lesson-1-flow",
+      "note": "已升格为 notes_panel_v1 定稿锁 v242；见 docs/locks/NOTES-PANEL-V1-LOCK-20260525.md"
+    },
+    {
+      "id": "stage-4-lessons-21-24",
+      "status": "content_done",
+      "since_cache": "408",
+      "note": "L21–24 内容层 v408 已齐；L21 文法链 hint-only v409；金标深度待 wave"
+    },
+    {
+      "id": "p3-light-in-lesson-links",
+      "approved": "2026-05-21",
+      "status": "partial",
+      "since_cache": "146",
+      "note": "阶段A：knowledge-graph + 第2課起 chip；阶段B子图 deferred"
+    },
+    {
+      "id": "home-24-units-nav",
+      "status": "deferred",
+      "note": "24课分单元首页；数据齐后做"
+    },
+    {
+      "id": "parent-dashboard-full",
+      "status": "deferred",
+      "note": "24课进度+にがて Top3+热力图"
+    },
+    {
+      "id": "me-learning-notes-v104",
+      "status": "done",
+      "since_cache": "104",
+      "note": "U-01～U-04 自学笔记+从マイ返回；见 docs/执行清单-用户问题与验收.md",
+      "doc": "docs/执行清单-用户问题与验收.md"
+    },
+    {
+      "id": "tts-ship-gate-v104",
+      "status": "done",
+      "since_cache": "104",
+      "note": "U-07 发布前 TTS 强制对账+报告",
+      "doc": "docs/TTS-语音包强制审核与防复发.md"
+    },
+    {
+      "id": "cover-design-u10",
+      "status": "done",
+      "since_cache": "279",
+      "merged_into": "p0-splash-cover-design-lock-v21",
+      "note": "U-10 封面设计阶段已锁；工程发布另议 bump CACHE_VER",
+      "doc": "docs/locks/P0-SPLASH-COVER-DESIGN-LOCK-20260525.md"
+    },
+    {
+      "id": "lesson1-ui-five-tabs-extension-fold",
+      "approved": "2026-05-25",
+      "status": "done",
+      "since_cache": "146",
+      "merged_into": "unit1-lesson1-mvp-v146",
+      "title": "第1課课内：五标签+拡張 gw-group 折叠（截图定稿）",
+      "acceptance": "已并入 unit1-lesson1-mvp-v146；见 docs/MVP-UNIT1-LESSON1-FREEZE.md",
+      "scope": "第1課 MVP 真源；其他课未批量前不动",
+      "note": "用户 2026-05-25 确认定稿；cache 146"
+    },
+    {
+      "id": "u1l1-vocab-special-ui-impl",
+      "approved": "2026-05-25",
+      "status": "done",
+      "since_cache": "160",
+      "doc": "docs/项目知识库-课内单词标黄范式.md",
+      "title": "U1L1 単語关落地标黄范式（删 app.js 重复表·行内折叠）",
+      "scope": "仅第1課；不扩 24 课",
+      "note": "准则已入库；待用户「开工」后实现"
+    },
+    {
+      "id": "u2-lessons-5-8-biaori-truth",
+      "since_cache": "271",
+      "title": "U2 第5–8课 · 标日真源精修（结构化→PRD + 小测对账）",
+      "files": [
+        "【标日学习资料补充】/结构化/第2单元/*-真源补丁.txt",
+        "scripts/merge-supplement-structured-into-prd.py",
+        "scripts/patch-u2-lessons-5-8-biaori-truth.py",
+        "js/data/lessons-data.js",
+        "docs/tasks/round-标日真源-U2.json"
+      ],
+      "acceptance": "L5–8 小测12题/课与PRD一致；作業段【标日课文】；未动U1L1–4冻结"
+    },
+    {
+      "id": "u3-lessons-9-12-biaori-truth",
+      "since_cache": "272",
+      "title": "U3 第9–12课 · 标日真源精修 + 语法对照表 links",
+      "files": [
+        "【标日学习资料补充】/结构化/第3单元/*-真源补丁.txt",
+        "scripts/patch-u3-lessons-9-12-biaori-truth.py",
+        "scripts/grammar_links_biaori.py",
+        "scripts/patch-grammar-links-biaori.py",
+        "js/data/lessons-data.js",
+        "参考资料/04-练习题库/练习题库模板-L9-L12.md",
+        "docs/tasks/round-标日真源-U3.json"
+      ],
+      "acceptance": "L9–12 小测12题/课；翻译题 fill；grammarNodes.links 含对照表延展；未动U1L1–4冻结"
+    },
+    {
+      "id": "u4-u6-lessons-13-24-biaori-truth",
+      "since_cache": "273",
+      "title": "U4–U6(13–24) PRD小测 + Top20 + L13助数词 + 语法links全表",
+      "files": [
+        "scripts/patch-u4-lessons-13-16-biaori-truth.py",
+        "scripts/patch-u5-lessons-17-20-biaori-truth.py",
+        "scripts/patch-u6-lessons-21-24-biaori-truth.py",
+        "scripts/prd_quiz_canon.py",
+        "scripts/patch-top20-review-extension.py",
+        "scripts/patch-l13-counter-reference-table.py",
+        "scripts/grammar_links_biaori.py",
+        "参考资料/00-资料索引.md",
+        "docs/tasks/round-标日真源-U4-U6.json"
+      ],
+      "acceptance": "L13–24 Q1–11 PRD；Q12综合；Top20进扩展；L13助数词参考表；对照表links L2–24"
+    },
+    {
+      "id": "p0-p1-p3-l13-24-homework-top20-conj",
+      "since_cache": "275",
+      "title": "P0 L13–24 PRD作业全文 + P1 Top24每课1条 + P3 L5活用総表",
+      "files": [
+        "scripts/sync-homework-from-prd-l13-24.py",
+        "scripts/patch-review-extension-p1-p3.py",
+        "参考资料/03-语法补充/常见错误Top20.md",
+        "js/data/lessons-data.js",
+        "js/share-wechat.js"
+      ],
+      "acceptance": "作業关1–6/8–9来自PRD；段7総合保留；扩展误用首行Top20；L5参考表活用総表"
+    },
+    {
+      "id": "notes-panel-abc-v277",
+      "since_cache": "277",
+      "title": "笔记 A+B+C：模板/总结/链接/长表折叠 + 课内误用清理",
+      "files": [
+        "js/notes-panel.js",
+        "css/mvp.css",
+        "js/data/lessons-data.js",
+        "scripts/cleanup-notes-lessons-data.py"
+      ],
+      "acceptance": "老师含模板·总结·单元予告；课本 grammar links；L5/L13 参考长表折叠；L1拆行；L13+占位易错与L13参考表去重"
+    },
+    {
+      "id": "p0-splash-cover-design-lock-v21",
+      "since_cache": "279",
+      "title": "P0 开机封面设计锁 · cover-base + SPLASH v1 叠层",
+      "files": [
+        "assets/splash/cover-base.png",
+        "js/home-splash.js",
+        "css/mvp.css",
+        "scripts/apply-splash-v1-style.py",
+        "splash-cover-live-preview.html",
+        "docs/locks/P0-SPLASH-COVER-DESIGN-LOCK-20260525.md"
+      ],
+      "acceptance": "纯色米黄底；蓝虚线 #4A6FA5；六圆南→北 02/04/03/01/05/06；品牌+CTA 版式见锁文档；SPLASH_ASSET_VER=21"
+    },
+    {
+      "id": "global-vi-tokens-v1-v286",
+      "since_cache": "286",
+      "title": "全域视觉令牌 v1 · 档2首轮（顶栏/五关/首页符号/笔记token）",
+      "files": [
+        "css/design-tokens.css",
+        "docs/DESIGN-TOKENS-v1.md",
+        "mock/design-tokens-v1-sample.html",
+        "css/mvp.css",
+        "css/app.css",
+        "js/journey-home.js",
+        "js/hyouga-glyphs.js",
+        "js/share-wechat.js",
+        "index.html"
+      ],
+      "acceptance": "Q1珊瑚主按钮；Q2米黄顶栏48px海军字；Q3五关降饱和；Q4单元两行+四星无开发文案；Q5笔记chip对齐gate；Q6入門紫不动；cover-base构图未改"
+    },
+    {
+      "id": "global-vi-tier2-phase2a-v287",
+      "since_cache": "287",
+      "title": "档2 Phase2A · 符号统一 + 五关随单元混色",
+      "files": [
+        "js/data/curriculum-catalog.js",
+        "js/hyouga-glyphs.js",
+        "js/journey-home.js",
+        "js/notes-panel.js",
+        "js/app.js",
+        "css/mvp.css",
+        "docs/PR-GLOBAL-VI-TIER2-PHASE2.md"
+      ],
+      "acceptance": "笔记单元头=首页两行+四星；课内view-lesson gate vars随单元；主按钮仍珊瑚；见 PR-GLOBAL-VI-TIER2-PHASE2"
+    },
+    {
+      "id": "global-vi-tier2-phase2bc-v288",
+      "since_cache": "288",
+      "title": "档2 Phase2B+2C · 课内壳层/档案课行/地图站点/设计板",
+      "files": [
+        "js/data/curriculum-catalog.js",
+        "js/journey-home.js",
+        "js/notes-panel.js",
+        "css/mvp.css",
+        "mock/design-system-v1-board.html",
+        "docs/PR-GLOBAL-VI-TIER2-PHASE2.md"
+      ],
+      "acceptance": "课内浅单元底；笔记课次=lesson-row符号；地图站stage-accent；条带缩略单元框；设计板HTML"
+    },
+    {
+      "id": "global-vi-tier2-phase2d-sweep-v289",
+      "since_cache": "289",
+      "title": "档2 Phase2D · 硬编码色扫尾 vi-token-sweep",
+      "files": [
+        "css/design-tokens.css",
+        "css/vi-token-sweep.css",
+        "css/mvp.css",
+        "docs/PR-GLOBAL-VI-TIER2-PHASE2.md"
+      ],
+      "acceptance": "海星/ABC/链式底栏/评分/录音/me-kp 等 hex 改读 design-tokens"
+    },
+    {
+      "id": "tts-p0-p1-cdn-sw-v290",
+      "since_cache": "290",
+      "title": "TTS P0 jsDelivr + P1 SW 分批预缓存",
+      "files": [
+        "js/public-url.config.js",
+        "js/speech-engine.js",
+        "sw.js",
+        "js/tts-sw-register.js",
+        "tts-cache/sw-manifest.json",
+        "scripts/sync-tts-sw-manifest.py",
+        "docs/TTS-P0-P1-国内加速与SW.md"
+      ],
+      "acceptance": "MP3 走 HYOUGA_TTS_ORIGIN；SW 仅代际变更清理；index 不再每次 unregister"
+    },
+    {
+      "id": "l1-24-ship-v410",
+      "since_cache": "410",
+      "title": "L1–24 收官 · 内容层 v408 + 体验 v409–410",
+      "files": [
+        "docs/L1-24-收官报告-v410.md",
+        "docs/L1-24-手机验收清单-v410.md",
+        "VERSION.md",
+        "js/share-wechat.js",
+        "js/public-url.config.js",
+        "js/kana-speak.js",
+        "js/shadow-speak.js",
+        "js/grammar-network.js",
+        "css/mvp.css",
+        "scripts/ship-l1-depth-full.py"
+      ],
+      "acceptance": "pre-ship 全 OK；TTS 0 缺失；PRD 1–24 24/24；GitHub v2 + Gitee main 同 HEAD；Gitee Pages 待用户手动开通"
+    }
+  ],
+  "forbidden_without_explicit_user_request": [
+    "删除或隐藏已有 Tab/关卡",
+    "全站 giant 点读卡 / 113 词逐词大卡",
+    "重写 app.js 路由或替换 lessons 数据源",
+    "未跑四关回归即改 speech-engine.js 排序/回退链",
+    "修改 js/lesson-1-flow.js 或第1单元第1–4课课内五关/会話ABC（unit1_lessons_1_4_mvp locked）",
+    "修改 js/data/unit1-dialogue-abc-l234.js 或 lessonId 1–4 课内五关数据字段（无用户明示）",
+    "修改 P0 cover-base 构图/六圆编号/蓝线色（p0_splash_cover_design；App 壳层除外见 global-vi-tokens-v1）"
+  ],
+  "regression_smoke_lesson": 14,
+  "regression_gates": [
+    "vocab",
+    "grammar",
+    "dialogue",
+    "quiz"
+  ],
+  "all_lessons_l1_24_content": {
+    "status": "unlocked",
+    "unlocked_at": "2026-05-30",
+    "scope": "ABC/黄卡/单词/文法/条带/知识图",
+    "note": "冻结单元内容层解冻；五关壳 lesson-1-flow 仍慎改"
+  }
+}

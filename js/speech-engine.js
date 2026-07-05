@@ -12,6 +12,104 @@ const SpeechEngine = (() => {
   /** 已预热的 MP3：hash → { audio, ready, failed } */
   const mp3Warm = new Map();
 
+  /**
+   * 真正预加载到内存的 blob 缓存：hash → { blob, accessed }
+   * fetch 下载后存入，播放时零延迟（几十毫秒）
+   * 设置上限防止内存溢出（约 600 条 × 20KB ≈ 12MB）
+   */
+  const mp3BlobCache = new Map();
+  const BLOB_CACHE_MAX = 600;
+  const BLOB_CACHE_EVICT = 100;
+
+  function putBlobCache(key, blob) {
+    if (mp3BlobCache.size >= BLOB_CACHE_MAX) {
+      const entries = [...mp3BlobCache.entries()].sort((a, b) => (a[1].accessed || 0) - (b[1].accessed || 0));
+      for (let i = 0; i < BLOB_CACHE_EVICT && i < entries.length; i++) {
+        mp3BlobCache.delete(entries[i][0]);
+      }
+    }
+    mp3BlobCache.set(key, { blob, accessed: Date.now() });
+  }
+
+  /** 真正 fetch 下载一个 MP3 到内存（后台静默，不阻塞 UI） */
+  async function prefetchMp3(line) {
+    const key = ttsCacheKey(line);
+    if (mp3BlobCache.has(key)) return; // 已缓存
+    if (typeof location !== "undefined" && location.protocol === "file:") return;
+    try {
+      const urls = ttsMp3UrlCandidates(line);
+      for (const url of urls) {
+        const ctrl = typeof AbortController !== "undefined" ? new AbortController() : null;
+        const timer = ctrl ? setTimeout(() => ctrl.abort(), 4000) : null;
+        try {
+          const res = await fetch(url, { cache: "force-cache", credentials: "omit", signal: ctrl?.signal });
+          if (!res.ok) continue;
+          const blob = await res.blob();
+          if (blob.size < 200) continue;
+          putBlobCache(key, blob);
+          return; // 成功就停
+        } catch (_) {
+          /* try next */
+        } finally {
+          if (timer) clearTimeout(timer);
+        }
+      }
+    } catch (_) {}
+  }
+
+  /** 批量预加载（进入课程时调用，静默后台下载） */
+  async function prefetchMp3Batch(lines) {
+    if (!lines || !lines.length) return;
+    const tasks = [];
+    const seen = new Set();
+    for (const raw of lines) {
+      const candidates = raw && typeof raw === "object" ? fallbackLines(raw) : [prepareJaTtsLine(raw)];
+      for (const line of candidates) {
+        if (!line || seen.has(line)) continue;
+        seen.add(line);
+        tasks.push(prefetchMp3(line));
+      }
+    }
+    const CONCURRENCY = isWeChatBrowser() ? 8 : 12;
+    for (let i = 0; i < tasks.length; i += CONCURRENCY) {
+      await Promise.all(tasks.slice(i, i + CONCURRENCY));
+    }
+  }
+
+  /** 从 blob 缓存即时播放（几十毫秒） */
+  function playFromBlobCache(line, token) {
+    return new Promise((resolve) => {
+      if (token != null && token !== speakToken) { resolve(false); return; }
+      const key = ttsCacheKey(line);
+      const entry = mp3BlobCache.get(key);
+      if (!entry || !entry.blob) { resolve(false); return; }
+      entry.accessed = Date.now();
+      const url = URL.createObjectURL(entry.blob);
+      stopAllPlayback();
+      if (token != null && token !== speakToken) { resolve(false); return; }
+      const audio = new Audio(url);
+      audio.setAttribute("playsinline", "true");
+      audio.playsInline = true;
+      currentAudio = audio;
+      let settled = false;
+      const finish = (ok) => {
+        if (settled) return;
+        settled = true;
+        if (currentAudio === audio) currentAudio = null;
+        URL.revokeObjectURL(url);
+        resolve(!!ok);
+      };
+      audio.onended = () => finish(true);
+      audio.onerror = () => finish(false);
+      try {
+        const p = audio.play();
+        if (p && typeof p.catch === "function") p.catch(() => finish(false));
+      } catch (_) {
+        finish(false);
+      }
+    });
+  }
+
   const TTS_CACHE_DIR = "tts-cache/";
 
   /** P0：可与页面不同源（见 js/public-url.config.js HYOUGA_TTS_ORIGIN） */
@@ -64,23 +162,18 @@ const SpeechEngine = (() => {
     urls.push(`${ttsPublicOrigin()}/tts-cache/${file}`);
     return [...new Set(urls)];
   }
-  /** 直链 Audio 兜底等待（微信已优先 fetch，不再傻等 4.5s） */
-  const MP3_WAIT_MS = 2200;
-  const MP3_WAIT_WECHAT_MS = 3200;
-  const MP3_READY_MS = 2800;
-  const MP3_READY_WECHAT_MS = 3500;
+  /** 直链 Audio 兜底等待时间（优化后更短，快速失败降级） */
+  const MP3_WAIT_MS = 800;
+  const MP3_WAIT_WECHAT_MS = 1200;
+  const MP3_READY_MS = 600;
+  const MP3_READY_WECHAT_MS = 1000;
   /** 预热已判定无包时，不再傻等满额 MP3_READY_MS */
-  const MP3_READY_FAILED_MS = 120;
-  const MP3_DIRECT_FAILED_MS = 700;
-const FETCH_MP3_MS = 8000;
-const FETCH_MP3_MS_DESKTOP = 5000;
+  const MP3_READY_FAILED_MS = 50;
+  const MP3_DIRECT_FAILED_MS = 250;
+const FETCH_MP3_MS = 2500;
+const FETCH_MP3_MS_DESKTOP = 2000;
   let audioUnlocked = false;
-  const ONLINE_TTS_MS = 3200;
   let loadingListener = null;
-  const ONLINE_TTS_URLS = [
-    "https://translate.googleapis.com/translate_tts?ie=UTF-8&client=gtx&tl=ja&q=",
-    "https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=ja&q=",
-  ];
 
   const CHINESE_LESSON_RE =
     /动词|形容词|名词|语法|购物|百货|连接|变化|请求|进行|建议|做完|为了|现实|教材|课后|巩固|三个|关系|会话|测试|网络|上一|下一|关闭/;
@@ -204,23 +297,28 @@ const FETCH_MP3_MS_DESKTOP = 5000;
     return cachedJaVoices;
   }
 
+  let cachedPickedVoice = null;
+
   function pickJapaneseVoice() {
     const list = cachedJaVoices?.length ? cachedJaVoices : refreshJapaneseVoices();
     if (!list.length) return null;
+    if (cachedPickedVoice && list.includes(cachedPickedVoice)) return cachedPickedVoice;
     const score = (v) => {
       const n = (v.name || "").toLowerCase();
       const lang = (v.lang || "").toLowerCase();
       let s = 0;
-      if (lang.startsWith("ja-jp")) s += 12;
-      else if (lang.startsWith("ja")) s += 8;
-      if (/haruka|ichiro|ayumi|kyoko|nanami|keita|otoya|google.*japan|japanese|日本/.test(n)) s += 25;
-      if (/microsoft/.test(n) && lang.startsWith("ja")) s += 15;
-      if (/edge/.test(n) && lang.startsWith("ja")) s += 10;
-      if (v.localService) s += 2;
-      if (/chinese|中文|mandarin/.test(n)) s -= 100;
+      if (lang.startsWith("ja-jp")) s += 15;
+      else if (lang.startsWith("ja")) s += 10;
+      if (/haruka|ichiro|ayumi|kyoko|nanami|keita|otoya|sayaka|rina|yuki|sakura|hikari|taro|jiro|google.*japan|japanese|日本語|日本/.test(n)) s += 25;
+      if (/microsoft/.test(n) && lang.startsWith("ja")) s += 18;
+      if (/edge/.test(n) && lang.startsWith("ja")) s += 12;
+      if (v.localService) s += 8;
+      if (/neural/.test(n)) s += 10;
+      if (/chinese|中文|mandarin|cantonese/.test(n)) s -= 100;
       return s;
     };
-    return list.slice().sort((a, b) => score(b) - score(a))[0];
+    cachedPickedVoice = list.slice().sort((a, b) => score(b) - score(a))[0];
+    return cachedPickedVoice;
   }
 
   function hasReliableLocalJaVoice() {
@@ -234,7 +332,10 @@ const FETCH_MP3_MS_DESKTOP = 5000;
 
   if (typeof window !== "undefined" && window.speechSynthesis) {
     refreshJapaneseVoices();
-    window.speechSynthesis.addEventListener("voiceschanged", refreshJapaneseVoices);
+    window.speechSynthesis.addEventListener("voiceschanged", () => {
+      cachedPickedVoice = null;
+      refreshJapaneseVoices();
+    });
   }
 
   function getRecognition() {
@@ -532,17 +633,13 @@ const FETCH_MP3_MS_DESKTOP = 5000;
     })();
   }
 
-  /** ① 嵌入语音包：预热 → 同元素播放 → fetch → 直链（无包时快速让给在线/本机） */
+  /** ① 嵌入语音包：预热 → 同元素播放 → fetch/直链并行（无包时快速让给本机） */
   async function playBundledMp3(line, token) {
     const entry = warmPhrase(line);
     if (entry.failed) {
       return false;
     }
-    const readyMs = entry.failed
-      ? MP3_READY_FAILED_MS
-      : preferFetchMp3()
-        ? MP3_READY_WECHAT_MS
-        : MP3_READY_MS;
+    const readyMs = preferFetchMp3() ? MP3_READY_WECHAT_MS : MP3_READY_MS;
     if (await waitForMp3Ready(entry, readyMs)) {
       const ok = await playWarmMp3Entry(entry, token);
       if (ok) return true;
@@ -550,23 +647,12 @@ const FETCH_MP3_MS_DESKTOP = 5000;
     if (entry.failed) {
       return false;
     }
-    const directWait = entry.failed
-      ? MP3_DIRECT_FAILED_MS
-      : preferFetchMp3()
-        ? isWeChatBrowser()
-          ? MP3_WAIT_WECHAT_MS
-          : MP3_WAIT_MS
-        : MP3_WAIT_MS;
-    if (preferFetchMp3()) {
-      const ok = await playBundledMp3Fetch(line, token);
-      if (ok) return true;
-      if (entry.failed) return false;
-      return playBundledMp3Direct(line, token, directWait);
-    }
-    const okDirect = await playBundledMp3Direct(line, token, directWait);
-    if (okDirect) return true;
-    if (entry.failed) return false;
-    return playBundledMp3Fetch(line, token);
+    const directWait = preferFetchMp3() ? MP3_WAIT_WECHAT_MS : MP3_WAIT_MS;
+    const [fetchOk, directOk] = await Promise.all([
+      playBundledMp3Fetch(line, token),
+      playBundledMp3Direct(line, token, directWait),
+    ]);
+    return fetchOk || directOk;
   }
 
   function isMostlyKana(line) {
@@ -676,7 +762,7 @@ const FETCH_MP3_MS_DESKTOP = 5000;
     });
   }
 
-  /** ③ 本机日语（宽松：有 ja 就用） */
+  /** ② 本机日语（宽松：有 ja 就用） */
   function playLocalSynthesis(line, rate = 0.85, strict = true, token) {
     return new Promise((resolve) => {
       if (token != null && token !== speakToken) {
@@ -696,7 +782,6 @@ const FETCH_MP3_MS_DESKTOP = 5000;
         resolve(false);
         return;
       }
-      refreshJapaneseVoices();
       const voice = pickJapaneseVoice();
       let started = false;
       let done = false;
@@ -717,6 +802,8 @@ const FETCH_MP3_MS_DESKTOP = 5000;
         u.lang = "ja-JP";
       }
       u.rate = rate;
+      u.pitch = 1;
+      u.volume = 1;
       u.onstart = () => {
         started = true;
       };
@@ -732,13 +819,14 @@ const FETCH_MP3_MS_DESKTOP = 5000;
         finish(false);
         return;
       }
+      const LOCAL_TTS_TIMEOUT = 600;
       setTimeout(() => {
         if (token != null && token !== speakToken) {
           finish(false);
           return;
         }
         if (!started && !done && !window.speechSynthesis.speaking) finish(false);
-      }, 900);
+      }, LOCAL_TTS_TIMEOUT);
     });
   }
 
@@ -763,17 +851,22 @@ const FETCH_MP3_MS_DESKTOP = 5000;
     if (!line) return false;
     if (token != null && token !== speakToken) return false;
     unlockAudioOnce();
+
+    // ★ P0：优先从 blob 内存缓存即时播放（几十毫秒）
+    if (await playFromBlobCache(line, token)) {
+      if (token != null && token !== speakToken) return false;
+      return true;
+    }
+    if (token != null && token !== speakToken) return false;
+
+    // P1：预热过的 Audio 元素
     if (await playBundledMp3(line, token)) {
       if (token != null && token !== speakToken) return false;
       return true;
     }
     if (token != null && token !== speakToken) return false;
-    if (await playOnlineJapaneseWithTimeout(line, token)) {
-      if (token != null && token !== speakToken) return false;
-      return true;
-    }
-    if (token != null && token !== speakToken) return false;
-    /* 中文 Windows 上无日语包时会把汉字读成中文，禁止宽松本机 TTS */
+
+    // P2：本机 TTS 兜底
     if (hasReliableLocalJaVoice() && (await playLocalSynthesis(line, rate, true, token))) {
       if (token != null && token !== speakToken) return false;
       return true;
@@ -1397,5 +1490,7 @@ const FETCH_MP3_MS_DESKTOP = 5000;
     isWeChatBrowser,
     stopAllPlayback,
     setLoadingListener,
+    prefetchMp3,
+    prefetchMp3Batch,
   };
 })();

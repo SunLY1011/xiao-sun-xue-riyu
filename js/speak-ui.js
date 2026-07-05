@@ -81,8 +81,13 @@ const SpeakUI = (() => {
   }
 
   function prefetchRoot(root) {
-    if (typeof SpeechEngine === "undefined" || !SpeechEngine.warmPhrases) return;
-    SpeechEngine.warmPhrases(collectLines(root));
+    if (typeof SpeechEngine === "undefined") return;
+    const lines = collectLines(root);
+    if (!lines.length) return;
+    // 原有预热（轻量，仅设 audio.preload）
+    if (SpeechEngine.warmPhrases) SpeechEngine.warmPhrases(lines);
+    // ★ 真正预加载：后台 fetch 下载到内存，点击时几十毫秒播放
+    if (SpeechEngine.prefetchMp3Batch) SpeechEngine.prefetchMp3Batch(lines);
   }
 
   /**
